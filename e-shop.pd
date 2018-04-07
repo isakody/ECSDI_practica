@@ -2089,6 +2089,7 @@
 								    <object type="Actor" id="297">
 									<base type="Entity">
 									    <field name="name">Usuario</field>
+									    <field name="description"></field>
 									    <field name="uniqueId">84</field>
 									    <field name="connectTo"><list>
 										<object ref="294"/>
@@ -2229,6 +2230,7 @@
 								    <object type="Actor" id="304">
 									<base type="Entity">
 									    <field name="name">Proveedores de sistema de pago</field>
+									    <field name="description">Entidad que suministra una forma de pago.</field>
 									    <field name="uniqueId">88</field>
 									    <field name="connectTo"><list>
 										<object type="Percept" id="305">
@@ -2373,7 +2375,7 @@
 								    <object type="Actor" id="312">
 									<base type="Entity">
 									    <field name="name">Centro logistico</field>
-									    <field name="description"></field>
+									    <field name="description">Centro de distribución de mercancías de la tienda electronica.</field>
 									    <field name="uniqueId">108</field>
 									    <field name="connectTo"><list>
 										<object type="Action" id="313">
@@ -2385,7 +2387,7 @@
 												<object type="Actor" id="314">
 												    <base type="Entity">
 													<field name="name">Transportista</field>
-													<field name="description"></field>
+													<field name="description">Empresa encargada de gestionar el transporte de productos.</field>
 													<field name="uniqueId">87</field>
 												    </base>
 
@@ -2516,6 +2518,7 @@
 			<object type="Actor" id="322">
 			    <base type="Entity">
 				<field name="name">Representante exterior</field>
+				<field name="description">Encargado de ir acutalizando los productos externos que se quiren vender en la tienda.</field>
 				<field name="uniqueId">85</field>
 				<field name="connectTo"><list>
 				    <object type="Percept" id="323">
