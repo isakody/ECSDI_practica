@@ -10219,8 +10219,8 @@ Si el producto devuelto es de un vendedor externo, después de solicitar el reint
 		    </field>
 		    <field name="location">
 			<object type="Coordinate" id="1126">
-			    <field name="x">10</field>
-			    <field name="y">141</field>
+			    <field name="x">15</field>
+			    <field name="y">167</field>
 			</object>
 		    </field>
 		</object>
@@ -10231,8 +10231,8 @@ Si el producto devuelto es de un vendedor externo, después de solicitar el reint
 		    </field>
 		    <field name="location">
 			<object type="Coordinate" id="1128">
-			    <field name="x">31</field>
-			    <field name="y">76</field>
+			    <field name="x">340</field>
+			    <field name="y">120</field>
 			</object>
 		    </field>
 		</object>
@@ -10244,7 +10244,7 @@ Si el producto devuelto es de un vendedor externo, después de solicitar el reint
 		    <field name="location">
 			<object type="Coordinate" id="1130">
 			    <field name="x">310</field>
-			    <field name="y">88</field>
+			    <field name="y">35</field>
 			</object>
 		    </field>
 		</object>
@@ -10255,8 +10255,8 @@ Si el producto devuelto es de un vendedor externo, después de solicitar el reint
 		    </field>
 		    <field name="location">
 			<object type="Coordinate" id="1132">
-			    <field name="x">163</field>
-			    <field name="y">45</field>
+			    <field name="x">173</field>
+			    <field name="y">23</field>
 			</object>
 		    </field>
 		</object>
@@ -10267,8 +10267,8 @@ Si el producto devuelto es de un vendedor externo, después de solicitar el reint
 		    </field>
 		    <field name="location">
 			<object type="Coordinate" id="1134">
-			    <field name="x">138</field>
-			    <field name="y">192</field>
+			    <field name="x">181</field>
+			    <field name="y">113</field>
 			</object>
 		    </field>
 		</object>
@@ -10279,8 +10279,8 @@ Si el producto devuelto es de un vendedor externo, después de solicitar el reint
 		    </field>
 		    <field name="location">
 			<object type="Coordinate" id="1136">
-			    <field name="x">269</field>
-			    <field name="y">204</field>
+			    <field name="x">241</field>
+			    <field name="y">185</field>
 			</object>
 		    </field>
 		</object>
@@ -10291,8 +10291,8 @@ Si el producto devuelto es de un vendedor externo, después de solicitar el reint
 		    </field>
 		    <field name="location">
 			<object type="Coordinate" id="1138">
-			    <field name="x">279</field>
-			    <field name="y">142</field>
+			    <field name="x">22</field>
+			    <field name="y">70</field>
 			</object>
 		    </field>
 		</object>
