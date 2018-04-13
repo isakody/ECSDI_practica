@@ -1836,11 +1836,17 @@ finish</field>
 																													    <base type="Interaction">
 																														<base type="Entity">
 																														    <field name="name">Ac. Decidir productos a enviar</field>
+																														    <field name="description">El centro logístico decide que productos de la petición puede enviar</field>
 																														    <field name="uniqueId">354</field>
 																														</base>
 
 																													    </base>
 
+																													    <field name="parameters"></field>
+																													    <field name="durationDescription"></field>
+																													    <field name="failureNotificationDescription"></field>
+																													    <field name="partialChange"></field>
+																													    <field name="sideEffects"></field>
 																													</object>
 																													</list>
 																												    </field>
