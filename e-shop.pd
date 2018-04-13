@@ -9277,8 +9277,8 @@ Este escenario trata el proceso de elección de los centros logísticos que se enc
 		    </field>
 		    <field name="location">
 			<object type="Coordinate" id="1020">
-			    <field name="x">29</field>
-			    <field name="y">202</field>
+			    <field name="x">93</field>
+			    <field name="y">213</field>
 			</object>
 		    </field>
 		</object>
