@@ -8,8 +8,8 @@
 	    <field name="name">e-shop</field>
 	    <field name="description">Tienda electronica basanda en sistemas distribuidos.	</field>
 	    <field name="fileNameLastSavedAs">e-shop.pd</field>
-	    <field name="filePathLastSavedIn">C:\Users\borja\Desktop\ECSDI_practica</field>
-	    <field name="openedAs">C:\Users\borja\Desktop\ECSDI_practica\e-shop.pd</field>
+	    <field name="filePathLastSavedIn">C:\Users\ISA\Documents\GitHub\ECSDI_practica</field>
+	    <field name="openedAs">C:\Users\ISA\Documents\GitHub\ECSDI_practica\e-shop.pd</field>
 	    <field name="author">Borja Fernández, Isabel Codina, Nuria Bruch</field>
 	    <field name="applicationVersion">3.3b_internal</field>
 	</object>
@@ -8541,313 +8541,24 @@ finish</field>
 	<object type="DiagramSettings" id="936">
 	    <field name="diagramId">
 		<object type="DiagramId" id="937">
-		    <field name="stringId">Agent-Role Coupling</field>
+		    <field name="stringId">Scenarios</field>
 		</object>
 	    </field>
 	    <field name="entitySettings"><list>
 		<object type="DiagramEntitySetting" id="938">
 		    <field name="entity">
-			<object ref="74"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="939">
-			    <field name="x">234</field>
-			    <field name="y">202</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="940">
-		    <field name="entity">
-			<object ref="163"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="941">
-			    <field name="x">320</field>
-			    <field name="y">379</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="942">
-		    <field name="entity">
-			<object ref="42"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="943">
-			    <field name="x">273</field>
-			    <field name="y">89</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="944">
-		    <field name="entity">
-			<object ref="172"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="945">
-			    <field name="x">402</field>
-			    <field name="y">89</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="946">
-		    <field name="entity">
-			<object ref="117"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="947">
-			    <field name="x">343</field>
-			    <field name="y">286</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="948">
-		    <field name="entity">
-			<object ref="17"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="949">
-			    <field name="x">78</field>
-			    <field name="y">264</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="950">
-		    <field name="entity">
-			<object ref="11"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="951">
-			    <field name="x">164</field>
-			    <field name="y">409</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="952">
-		    <field name="entity">
-			<object ref="144"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="953">
-			    <field name="x">37</field>
-			    <field name="y">25</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="954">
-		    <field name="entity">
-			<object ref="32"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="955">
-			    <field name="x">319</field>
-			    <field name="y">29</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="956">
-		    <field name="entity">
-			<object ref="124"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="957">
-			    <field name="x">463</field>
-			    <field name="y">286</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="958">
-		    <field name="entity">
-			<object ref="190"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="959">
-			    <field name="y">338</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="960">
-		    <field name="entity">
-			<object type="Notes" id="961">
-			    <base type="Entity">
-				<field name="uniqueId">213</field>
-				<field name="includeInReport">:false</field>
-			    </base>
-
-			</object>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="962">
-			    <field name="x">386</field>
-			    <field name="y">219</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="963">
-		    <field name="entity">
-			<object ref="189"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="964">
-			    <field name="x">58</field>
-			    <field name="y">339</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="965">
-		    <field name="entity">
-			<object ref="48"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="966">
-			    <field name="x">354</field>
-			    <field name="y">444</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="967">
-		    <field name="entity">
-			<object ref="188"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="968">
-			    <field name="x">127</field>
-			    <field name="y">340</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="969">
-		    <field name="entity">
-			<object ref="54"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="970">
-			    <field name="x">227</field>
-			    <field name="y">142</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="971">
-		    <field name="entity">
-			<object ref="191"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="972">
-			    <field name="x">91</field>
-			    <field name="y">193</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="973">
-		    <field name="entity">
-			<object ref="196"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="974">
-			    <field name="x">4</field>
-			    <field name="y">422</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="975">
-		    <field name="entity">
-			<object ref="125"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="976">
-			    <field name="x">524</field>
-			    <field name="y">224</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="977">
-		    <field name="entity">
-			<object ref="198"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="978">
-			    <field name="x">37</field>
-			    <field name="y">462</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="979">
-		    <field name="entity">
-			<object ref="199"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="980">
-			    <field name="x">116</field>
-			    <field name="y">499</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="981">
-		    <field name="entity">
-			<object ref="164"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="982">
-			    <field name="x">408</field>
-			    <field name="y">387</field>
-			</object>
-		    </field>
-		</object>
-
-		<object type="DiagramEntitySetting" id="983">
-		    <field name="entity">
-			<object ref="158"/>
-		    </field>
-		    <field name="location">
-			<object type="Coordinate" id="984">
-			    <field name="x">19</field>
-			    <field name="y">89</field>
-			</object>
-		    </field>
-		</object>
-		</list>
-	    </field>
-	</object>
-
-	<object type="DiagramSettings" id="985">
-	    <field name="diagramId">
-		<object type="DiagramId" id="986">
-		    <field name="stringId">Scenarios</field>
-		</object>
-	    </field>
-	    <field name="entitySettings"><list>
-		<object type="DiagramEntitySetting" id="987">
-		    <field name="entity">
-			<object type="Scenario" id="988">
+			<object type="Scenario" id="939">
 			    <base type="Entity">
 				<field name="name">Enviar productos scenario</field>
-				<field name="description"></field>
+				<field name="description">
+
+Este escenario trata el proceso de elección de los centros logísticos que se encargaran de gestionar el envío de los productos comprados por el usuario, al final de este proceso se notificará al usuario si se ha escogido más de un centro logístico. A continuación, cuando el envío de un producto ya ha sido asignado a un centro logístico y es este centro y en este escenario donde se da la negociación con los transportistas.</field>
 				<field name="uniqueId">145</field>
 			    </base>
 
 			    <field name="context"></field>
 			    <field name="steps"><list>
-				<object type="Step" id="989">
+				<object type="Step" id="940">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=289&gt;</field>
 					<field name="description">Se debe encontrar el centro logístico para enviar los productos</field>
@@ -8859,7 +8570,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="990">
+				<object type="Step" id="941">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=290&gt;</field>
 					<field name="description">Se debe informar de los productos a enviar al centro logístico</field>
@@ -8871,7 +8582,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="991">
+				<object type="Step" id="942">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=291&gt;</field>
 					<field name="description">El centro nos responde si tiene todos los productos disponibles</field>
@@ -8883,7 +8594,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="992">
+				<object type="Step" id="943">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=306&gt;</field>
 					<field name="description">Se debe notificar si se envían los productos desde más de un centro logístico</field>
@@ -8895,7 +8606,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="993">
+				<object type="Step" id="944">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=307&gt;</field>
 					<field name="description">Se notifica si se envían los productos desde más de un centro logístico</field>
@@ -8907,7 +8618,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="994">
+				<object type="Step" id="945">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=292&gt;</field>
 					<field name="description">Se deben organizar los productos a enviar en lotes</field>
@@ -8919,7 +8630,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="995">
+				<object type="Step" id="946">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=293&gt;</field>
 					<field name="description">Se organizan los productos en lotes</field>
@@ -8931,7 +8642,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="996">
+				<object type="Step" id="947">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=294&gt;</field>
 					<field name="description">Se deben escoger los lotes a enviar</field>
@@ -8943,7 +8654,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="997">
+				<object type="Step" id="948">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=295&gt;</field>
 					<field name="description">Se escogen los lotes a enviar</field>
@@ -8955,7 +8666,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="998">
+				<object type="Step" id="949">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=296&gt;</field>
 					<field name="description">Se reciben los lotes a enviar</field>
@@ -8967,7 +8678,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="999">
+				<object type="Step" id="950">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=297&gt;</field>
 					<field name="description">Se debe negociar con los transportistas para que envíen el lote</field>
@@ -8979,7 +8690,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1000">
+				<object type="Step" id="951">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=298&gt;</field>
 					<field name="description">Se envía a las empresas transportistas la información del lote</field>
@@ -8991,7 +8702,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1001">
+				<object type="Step" id="952">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=299&gt;</field>
 					<field name="description">Recibimos las ofertas de las empresas transportistas</field>
@@ -9003,7 +8714,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1002">
+				<object type="Step" id="953">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=300&gt;</field>
 					<field name="description">Se debe escoger el transportista con la mejor oferta</field>
@@ -9015,7 +8726,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1003">
+				<object type="Step" id="954">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=301&gt;</field>
 					<field name="description">Escogemos el transportista que vaya mejor</field>
@@ -9027,7 +8738,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1004">
+				<object type="Step" id="955">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=302&gt;</field>
 					<field name="description">Pedimos que el transportista envíe el lote</field>
@@ -9039,7 +8750,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1005">
+				<object type="Step" id="956">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=303&gt;</field>
 					<field name="description">Recibimos por cada producto la fecha de entrega y el transportista que se encarga del envío</field>
@@ -9051,7 +8762,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1006">
+				<object type="Step" id="957">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=304&gt;</field>
 					<field name="description">Se debe registrar la información del envío</field>
@@ -9063,7 +8774,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1007">
+				<object type="Step" id="958">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=305&gt;</field>
 					<field name="description">Se guarda la información del envío</field>
@@ -9075,7 +8786,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1008">
+				<object type="Step" id="959">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=308&gt;</field>
 					<field name="description">Se debe notificar al usuario de la fecha de entrega final y del transportista que realiza la entrega</field>
@@ -9087,7 +8798,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1009">
+				<object type="Step" id="960">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=309&gt;</field>
 					<field name="description">Se notifica al cliente sobre la fecha de entrega y el transportista que la realiza</field>
@@ -9122,16 +8833,16 @@ finish</field>
 			</object>
 		    </field>
 		    <field name="location">
-			<object type="Coordinate" id="1010">
+			<object type="Coordinate" id="961">
 			    <field name="x">29</field>
 			    <field name="y">202</field>
 			</object>
 		    </field>
 		</object>
 
-		<object type="DiagramEntitySetting" id="1011">
+		<object type="DiagramEntitySetting" id="962">
 		    <field name="entity">
-			<object type="Scenario" id="1012">
+			<object type="Scenario" id="963">
 			    <base type="Entity">
 				<field name="name">Buscar producto scenario</field>
 				<field name="description">Este escenario ocurre cuando un usuario hace una petición de búsqueda al sistema. El objetivo del sistema es mostrar al usuario los productos que coinciden con su petición. La percepción de este escenario es la petición de búsqueda del usuario.</field>
@@ -9141,7 +8852,7 @@ finish</field>
 			    <field name="scope">:optional</field>
 			    <field name="context"></field>
 			    <field name="steps"><list>
-				<object type="Step" id="1013">
+				<object type="Step" id="964">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=150&gt;</field>
 					<field name="description">El cliente envía sus criterios de búsqueda</field>
@@ -9153,7 +8864,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1014">
+				<object type="Step" id="965">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=152&gt;</field>
 					<field name="description">Se ha de filtrar los productos según los criterios</field>
@@ -9165,7 +8876,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1015">
+				<object type="Step" id="966">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=151&gt;</field>
 					<field name="description">Se filtran los productos según las condiciones de búsqueda</field>
@@ -9181,7 +8892,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1016">
+				<object type="Step" id="967">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=155&gt;</field>
 					<field name="description">Se deben guardar los filtros de búsqueda del cliente</field>
@@ -9193,7 +8904,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1017">
+				<object type="Step" id="968">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=154&gt;</field>
 					<field name="description">Se guardan los criterios de búsqueda del cliente</field>
@@ -9205,7 +8916,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1018">
+				<object type="Step" id="969">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=158&gt;</field>
 					<field name="description">Se obtienen los productos filtrados</field>
@@ -9217,7 +8928,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1019">
+				<object type="Step" id="970">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=156&gt;</field>
 					<field name="description">Se deben devolver los productos que coinciden con los criterios de búsqueda</field>
@@ -9229,7 +8940,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1020">
+				<object type="Step" id="971">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=157&gt;</field>
 					<field name="description">Se muestran los productos resultantes de la búsqueda</field>
@@ -9256,16 +8967,16 @@ finish</field>
 			</object>
 		    </field>
 		    <field name="location">
-			<object type="Coordinate" id="1021">
+			<object type="Coordinate" id="972">
 			    <field name="x">104</field>
 			    <field name="y">48</field>
 			</object>
 		    </field>
 		</object>
 
-		<object type="DiagramEntitySetting" id="1022">
+		<object type="DiagramEntitySetting" id="973">
 		    <field name="entity">
-			<object type="Scenario" id="1023">
+			<object type="Scenario" id="974">
 			    <base type="Entity">
 				<field name="name">Obtener valoración producto scenario</field>
 				<field name="description">Este escenario trata de gestionar el  feedback de usuario sobre un producto comprado. Se puede llegar a este escenario por dos motivos: El usuario ha decidido dar la valoración o por la percepción de valorar que se genera automáticamente cada dia y se notifica a los usuarios que hace un tiempo compraron algún producto.</field>
@@ -9275,7 +8986,7 @@ finish</field>
 			    <field name="scope">:optional</field>
 			    <field name="context"></field>
 			    <field name="steps"><list>
-				<object type="Step" id="1024">
+				<object type="Step" id="975">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=162&gt;</field>
 					<field name="description">Hora de pedir valoraciones a los clientes que han comprado productos</field>
@@ -9287,7 +8998,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1025">
+				<object type="Step" id="976">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=163&gt;</field>
 					<field name="description">Se debe recibir valoraciones de los clientes para mejorar las recomendaciones</field>
@@ -9299,7 +9010,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1026">
+				<object type="Step" id="977">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=164&gt;</field>
 					<field name="description">Se pide al cliente la valoración de productos que haya comprado</field>
@@ -9311,7 +9022,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1027">
+				<object type="Step" id="978">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=165&gt;</field>
 					<field name="description">El cliente valora un producto</field>
@@ -9323,7 +9034,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1028">
+				<object type="Step" id="979">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=166&gt;</field>
 					<field name="description">Se debe procesar la valoración del cliente para mejorar las recomendaciones</field>
@@ -9335,7 +9046,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1029">
+				<object type="Step" id="980">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=167&gt;</field>
 					<field name="description">Se guarda la valoración</field>
@@ -9360,16 +9071,16 @@ finish</field>
 			</object>
 		    </field>
 		    <field name="location">
-			<object type="Coordinate" id="1030">
+			<object type="Coordinate" id="981">
 			    <field name="x">332</field>
 			    <field name="y">47</field>
 			</object>
 		    </field>
 		</object>
 
-		<object type="DiagramEntitySetting" id="1031">
+		<object type="DiagramEntitySetting" id="982">
 		    <field name="entity">
-			<object type="Scenario" id="1032">
+			<object type="Scenario" id="983">
 			    <base type="Entity">
 				<field name="name">Venta productos scenario</field>
 				<field name="description">El escenario de venta de productos se produce cuando un usuario quiere comprar uno o más productos del sistema. La percepción de este escenario es la petición de compra por parte del usuario. El objetivo principal del sistema es vender los productos.</field>
@@ -9379,7 +9090,7 @@ finish</field>
 			    <field name="scope">:optional</field>
 			    <field name="context"></field>
 			    <field name="steps"><list>
-				<object type="Step" id="1033">
+				<object type="Step" id="984">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=184&gt;</field>
 					<field name="description">Se recibe la lista de productos que el cliente desea</field>
@@ -9391,7 +9102,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1034">
+				<object type="Step" id="985">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=185&gt;</field>
 					<field name="description">Se debe obtener la información de pago y de envío del cliente</field>
@@ -9403,7 +9114,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1035">
+				<object type="Step" id="986">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=186&gt;</field>
 					<field name="description">Se pide la información de pago y envío al cliente</field>
@@ -9415,7 +9126,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1036">
+				<object type="Step" id="987">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=187&gt;</field>
 					<field name="description">El cliente informa de sus datos e información de pago y envío</field>
@@ -9427,7 +9138,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1037">
+				<object type="Step" id="988">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=188&gt;</field>
 					<field name="description">Se debe enviar la factura al cliente</field>
@@ -9439,7 +9150,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1038">
+				<object type="Step" id="989">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=189&gt;</field>
 					<field name="description">Se envía la factura al cliente</field>
@@ -9451,7 +9162,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1039">
+				<object type="Step" id="990">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=190&gt;</field>
 					<field name="description">Se debe guardar el historial de compra del cliente </field>
@@ -9463,7 +9174,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1040">
+				<object type="Step" id="991">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=191&gt;</field>
 					<field name="description">Se guarda el historial de compra del cliente</field>
@@ -9475,7 +9186,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1041">
+				<object type="Step" id="992">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=192&gt;</field>
 					<field name="description">Se deben enviar los productos vendidos</field>
@@ -9487,7 +9198,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1042">
+				<object type="Step" id="993">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=148&gt;</field>
 					<field name="description">Se escoge el/los centro/s logístico/s desde donde se envían los productos y se envían </field>
@@ -9495,11 +9206,11 @@ finish</field>
 				    </base>
 
 				    <field name="step">
-					<object ref="988"/>
+					<object ref="939"/>
 				    </field>
 				</object>
 
-				<object type="Step" id="1043">
+				<object type="Step" id="994">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=195&gt;</field>
 					<field name="description">Se recibe confirmación de que el o los productos han sido enviados</field>
@@ -9511,7 +9222,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1044">
+				<object type="Step" id="995">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=193&gt;</field>
 					<field name="description">Se debe realizar el cobro al cliente del importe de los productos</field>
@@ -9523,7 +9234,7 @@ finish</field>
 				    </field>
 				</object>
 
-				<object type="Step" id="1045">
+				<object type="Step" id="996">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=194&gt;</field>
 					<field name="description">Se cobra al cliente el importe de los productos</field>
@@ -9551,16 +9262,16 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 			</object>
 		    </field>
 		    <field name="location">
-			<object type="Coordinate" id="1046">
+			<object type="Coordinate" id="997">
 			    <field name="x">96</field>
 			    <field name="y">143</field>
 			</object>
 		    </field>
 		</object>
 
-		<object type="DiagramEntitySetting" id="1047">
+		<object type="DiagramEntitySetting" id="998">
 		    <field name="entity">
-			<object type="Scenario" id="1048">
+			<object type="Scenario" id="999">
 			    <base type="Entity">
 				<field name="name">Recomendar productos scenario</field>
 				<field name="description">El objetivo principal de este escenario es el de recomendar un producto al usuario en función de su historial de búsqueda, compra y las valoraciones de los diferentes usuarios.</field>
@@ -9570,7 +9281,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 			    <field name="scope">:optional</field>
 			    <field name="context"></field>
 			    <field name="steps"><list>
-				<object type="Step" id="1049">
+				<object type="Step" id="1000">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=159&gt;</field>
 					<field name="description">El cliente se encuentra buscando productos </field>
@@ -9582,7 +9293,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1050">
+				<object type="Step" id="1001">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=160&gt;</field>
 					<field name="description">Se deben recomendar productos que puedan interesar al cliente</field>
@@ -9594,7 +9305,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1051">
+				<object type="Step" id="1002">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=161&gt;</field>
 					<field name="description">Se recomiendan productos al cliente según sus intereses</field>
@@ -9619,16 +9330,16 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 			</object>
 		    </field>
 		    <field name="location">
-			<object type="Coordinate" id="1052">
+			<object type="Coordinate" id="1003">
 			    <field name="x">72</field>
 			    <field name="y">102</field>
 			</object>
 		    </field>
 		</object>
 
-		<object type="DiagramEntitySetting" id="1053">
+		<object type="DiagramEntitySetting" id="1004">
 		    <field name="entity">
-			<object type="Scenario" id="1054">
+			<object type="Scenario" id="1005">
 			    <base type="Entity">
 				<field name="name">Añadir producto tienda externa scenario</field>
 				<field name="description">Este escenario trata el proceso de añadir un producto externo a la lista de productos ofrecidos por la tienda. La percepción de este escenario es la petición de un agente externo y su objetivo principal es el de ofrecer un producto externo.</field>
@@ -9638,7 +9349,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 			    <field name="scope">:optional</field>
 			    <field name="context"></field>
 			    <field name="steps"><list>
-				<object type="Step" id="1055">
+				<object type="Step" id="1006">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=168&gt;</field>
 					<field name="description">Una tienda externa nos envía la información de un producto suyo que quiere que se muestre en nuestra tienda</field>
@@ -9650,7 +9361,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1056">
+				<object type="Step" id="1007">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=169&gt;</field>
 					<field name="description">Se debe obtener la información del producto de la tienda externa</field>
@@ -9662,7 +9373,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1057">
+				<object type="Step" id="1008">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=170&gt;</field>
 					<field name="description">Se debe añadir el producto a la tienda registrando toda su información</field>
@@ -9674,7 +9385,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1058">
+				<object type="Step" id="1009">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=171&gt;</field>
 					<field name="description">Se añade a la tienda el producto del vendedor externo</field>
@@ -9699,16 +9410,16 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 			</object>
 		    </field>
 		    <field name="location">
-			<object type="Coordinate" id="1059">
+			<object type="Coordinate" id="1010">
 			    <field name="x">331</field>
 			    <field name="y">95</field>
 			</object>
 		    </field>
 		</object>
 
-		<object type="DiagramEntitySetting" id="1060">
+		<object type="DiagramEntitySetting" id="1011">
 		    <field name="entity">
-			<object type="Scenario" id="1061">
+			<object type="Scenario" id="1012">
 			    <base type="Entity">
 				<field name="name">Devolver producto scenario</field>
 				<field name="description">En este escenario se trata la devolución de un producto por parte de un cliente y su correspondiente devolución del dinero por parte del sistema. La percepción de este escenario es la petición de devolución del producto que contiene la razón de la devolución. El sistema procesa la petición para decidir si se acepta o no y notifica al usuario la información necesaria para que pueda devolver el producto.</field>
@@ -9718,7 +9429,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 			    <field name="scope">:optional</field>
 			    <field name="context"></field>
 			    <field name="steps"><list>
-				<object type="Step" id="1062">
+				<object type="Step" id="1013">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=172&gt;</field>
 					<field name="description">El cliente solicita devolver un producto</field>
@@ -9730,7 +9441,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1063">
+				<object type="Step" id="1014">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=173&gt;</field>
 					<field name="description">Se debe procesar la solicitud de devolución del cliente</field>
@@ -9742,7 +9453,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1064">
+				<object type="Step" id="1015">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=174&gt;</field>
 					<field name="description">Se procesa la solicitud de devolución</field>
@@ -9754,7 +9465,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1065">
+				<object type="Step" id="1016">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=175&gt;</field>
 					<field name="description">Se debe informar al transportista encargado de recoger devoluciones del producto a recoger y donde</field>
@@ -9766,7 +9477,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1066">
+				<object type="Step" id="1017">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=177&gt;</field>
 					<field name="description">Se informa al transportista encargado de recoger devoluciones del paquete y dirección del cliente</field>
@@ -9778,7 +9489,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1067">
+				<object type="Step" id="1018">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=176&gt;</field>
 					<field name="description">El transportista nos informa de la fecha de recogida de la devolución</field>
@@ -9790,7 +9501,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1068">
+				<object type="Step" id="1019">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=178&gt;</field>
 					<field name="description">Se informa al cliente sobre la fecha de recogida del paquete</field>
@@ -9802,7 +9513,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1069">
+				<object type="Step" id="1020">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=179&gt;</field>
 					<field name="description">El transportista nos informa de que ya ha recogido el paquete</field>
@@ -9814,7 +9525,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1070">
+				<object type="Step" id="1021">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=180&gt;</field>
 					<field name="description">Se debe registrar la información de la devolución</field>
@@ -9826,7 +9537,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1071">
+				<object type="Step" id="1022">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=181&gt;</field>
 					<field name="description">Se registran los datos de la devolución </field>
@@ -9838,7 +9549,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1072">
+				<object type="Step" id="1023">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=182&gt;</field>
 					<field name="description">Se debe devolver el importe del producto al cliente</field>
@@ -9850,7 +9561,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 				    </field>
 				</object>
 
-				<object type="Step" id="1073">
+				<object type="Step" id="1024">
 				    <base type="Entity">
 					<field name="name">&lt;Prometheus unique entity name au.edu.rmit.cs.prometheus.datamodel.jacob.Step ID=183&gt;</field>
 					<field name="description">Se reintegra el importe del producto al cliente</field>
@@ -9875,9 +9586,300 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 			</object>
 		    </field>
 		    <field name="location">
-			<object type="Coordinate" id="1074">
+			<object type="Coordinate" id="1025">
 			    <field name="x">334</field>
 			    <field name="y">143</field>
+			</object>
+		    </field>
+		</object>
+		</list>
+	    </field>
+	</object>
+
+	<object type="DiagramSettings" id="1026">
+	    <field name="diagramId">
+		<object type="DiagramId" id="1027">
+		    <field name="stringId">Agent-Role Coupling</field>
+		</object>
+	    </field>
+	    <field name="entitySettings"><list>
+		<object type="DiagramEntitySetting" id="1028">
+		    <field name="entity">
+			<object ref="74"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1029">
+			    <field name="x">234</field>
+			    <field name="y">202</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1030">
+		    <field name="entity">
+			<object ref="163"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1031">
+			    <field name="x">320</field>
+			    <field name="y">379</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1032">
+		    <field name="entity">
+			<object ref="42"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1033">
+			    <field name="x">273</field>
+			    <field name="y">89</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1034">
+		    <field name="entity">
+			<object ref="172"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1035">
+			    <field name="x">402</field>
+			    <field name="y">89</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1036">
+		    <field name="entity">
+			<object ref="117"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1037">
+			    <field name="x">343</field>
+			    <field name="y">286</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1038">
+		    <field name="entity">
+			<object ref="17"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1039">
+			    <field name="x">78</field>
+			    <field name="y">264</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1040">
+		    <field name="entity">
+			<object ref="11"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1041">
+			    <field name="x">164</field>
+			    <field name="y">409</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1042">
+		    <field name="entity">
+			<object ref="144"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1043">
+			    <field name="x">37</field>
+			    <field name="y">25</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1044">
+		    <field name="entity">
+			<object ref="32"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1045">
+			    <field name="x">319</field>
+			    <field name="y">29</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1046">
+		    <field name="entity">
+			<object ref="124"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1047">
+			    <field name="x">463</field>
+			    <field name="y">286</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1048">
+		    <field name="entity">
+			<object ref="190"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1049">
+			    <field name="y">338</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1050">
+		    <field name="entity">
+			<object type="Notes" id="1051">
+			    <base type="Entity">
+				<field name="uniqueId">213</field>
+				<field name="includeInReport">:false</field>
+			    </base>
+
+			</object>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1052">
+			    <field name="x">386</field>
+			    <field name="y">219</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1053">
+		    <field name="entity">
+			<object ref="189"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1054">
+			    <field name="x">58</field>
+			    <field name="y">339</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1055">
+		    <field name="entity">
+			<object ref="48"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1056">
+			    <field name="x">354</field>
+			    <field name="y">444</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1057">
+		    <field name="entity">
+			<object ref="188"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1058">
+			    <field name="x">127</field>
+			    <field name="y">340</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1059">
+		    <field name="entity">
+			<object ref="54"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1060">
+			    <field name="x">227</field>
+			    <field name="y">142</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1061">
+		    <field name="entity">
+			<object ref="191"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1062">
+			    <field name="x">91</field>
+			    <field name="y">193</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1063">
+		    <field name="entity">
+			<object ref="196"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1064">
+			    <field name="x">4</field>
+			    <field name="y">422</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1065">
+		    <field name="entity">
+			<object ref="125"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1066">
+			    <field name="x">524</field>
+			    <field name="y">224</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1067">
+		    <field name="entity">
+			<object ref="198"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1068">
+			    <field name="x">37</field>
+			    <field name="y">462</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1069">
+		    <field name="entity">
+			<object ref="199"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1070">
+			    <field name="x">116</field>
+			    <field name="y">499</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1071">
+		    <field name="entity">
+			<object ref="164"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1072">
+			    <field name="x">408</field>
+			    <field name="y">387</field>
+			</object>
+		    </field>
+		</object>
+
+		<object type="DiagramEntitySetting" id="1073">
+		    <field name="entity">
+			<object ref="158"/>
+		    </field>
+		    <field name="location">
+			<object type="Coordinate" id="1074">
+			    <field name="x">19</field>
+			    <field name="y">89</field>
 			</object>
 		    </field>
 		</object>
@@ -10597,19 +10599,19 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 		</list>
 	    </field>
 	    <field name="scenarios"><list>
+		<object ref="963"/>
+
+		<object ref="983"/>
+
 		<object ref="1012"/>
 
-		<object ref="1032"/>
+		<object ref="974"/>
 
-		<object ref="1061"/>
+		<object ref="999"/>
 
-		<object ref="1023"/>
+		<object ref="1005"/>
 
-		<object ref="1048"/>
-
-		<object ref="1054"/>
-
-		<object ref="988"/>
+		<object ref="939"/>
 		</list>
 	    </field>
 	    <field name="actors"><list>
@@ -10681,7 +10683,7 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 
 		</object>
 
-		<object ref="1042"/>
+		<object ref="993"/>
 
 		<object type="Step" id="1145">
 		    <base type="Entity">
@@ -10692,113 +10694,21 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 
 		</object>
 
-		<object ref="1013"/>
+		<object ref="964"/>
 
-		<object ref="1015"/>
+		<object ref="966"/>
 
-		<object ref="1014"/>
+		<object ref="965"/>
 
-		<object ref="1017"/>
+		<object ref="968"/>
 
-		<object ref="1016"/>
+		<object ref="967"/>
 
-		<object ref="1019"/>
+		<object ref="970"/>
 
-		<object ref="1020"/>
+		<object ref="971"/>
 
-		<object ref="1018"/>
-
-		<object ref="1049"/>
-
-		<object ref="1050"/>
-
-		<object ref="1051"/>
-
-		<object ref="1024"/>
-
-		<object ref="1025"/>
-
-		<object ref="1026"/>
-
-		<object ref="1027"/>
-
-		<object ref="1028"/>
-
-		<object ref="1029"/>
-
-		<object ref="1055"/>
-
-		<object ref="1056"/>
-
-		<object ref="1057"/>
-
-		<object ref="1058"/>
-
-		<object ref="1062"/>
-
-		<object ref="1063"/>
-
-		<object ref="1064"/>
-
-		<object ref="1065"/>
-
-		<object ref="1067"/>
-
-		<object ref="1066"/>
-
-		<object ref="1068"/>
-
-		<object ref="1069"/>
-
-		<object ref="1070"/>
-
-		<object ref="1071"/>
-
-		<object ref="1072"/>
-
-		<object ref="1073"/>
-
-		<object ref="1033"/>
-
-		<object ref="1034"/>
-
-		<object ref="1035"/>
-
-		<object ref="1036"/>
-
-		<object ref="1037"/>
-
-		<object ref="1038"/>
-
-		<object ref="1039"/>
-
-		<object ref="1040"/>
-
-		<object ref="1041"/>
-
-		<object ref="1044"/>
-
-		<object ref="1045"/>
-
-		<object ref="1043"/>
-
-		<object ref="989"/>
-
-		<object ref="990"/>
-
-		<object ref="991"/>
-
-		<object ref="994"/>
-
-		<object ref="995"/>
-
-		<object ref="996"/>
-
-		<object ref="997"/>
-
-		<object ref="998"/>
-
-		<object ref="999"/>
+		<object ref="969"/>
 
 		<object ref="1000"/>
 
@@ -10806,23 +10716,115 @@ Si hay productos externos en la lista de compra, el importe de éstos se deberá p
 
 		<object ref="1002"/>
 
-		<object ref="1003"/>
+		<object ref="975"/>
 
-		<object ref="1004"/>
+		<object ref="976"/>
 
-		<object ref="1005"/>
+		<object ref="977"/>
+
+		<object ref="978"/>
+
+		<object ref="979"/>
+
+		<object ref="980"/>
 
 		<object ref="1006"/>
 
 		<object ref="1007"/>
 
-		<object ref="992"/>
-
-		<object ref="993"/>
-
 		<object ref="1008"/>
 
 		<object ref="1009"/>
+
+		<object ref="1013"/>
+
+		<object ref="1014"/>
+
+		<object ref="1015"/>
+
+		<object ref="1016"/>
+
+		<object ref="1018"/>
+
+		<object ref="1017"/>
+
+		<object ref="1019"/>
+
+		<object ref="1020"/>
+
+		<object ref="1021"/>
+
+		<object ref="1022"/>
+
+		<object ref="1023"/>
+
+		<object ref="1024"/>
+
+		<object ref="984"/>
+
+		<object ref="985"/>
+
+		<object ref="986"/>
+
+		<object ref="987"/>
+
+		<object ref="988"/>
+
+		<object ref="989"/>
+
+		<object ref="990"/>
+
+		<object ref="991"/>
+
+		<object ref="992"/>
+
+		<object ref="995"/>
+
+		<object ref="996"/>
+
+		<object ref="994"/>
+
+		<object ref="940"/>
+
+		<object ref="941"/>
+
+		<object ref="942"/>
+
+		<object ref="945"/>
+
+		<object ref="946"/>
+
+		<object ref="947"/>
+
+		<object ref="948"/>
+
+		<object ref="949"/>
+
+		<object ref="950"/>
+
+		<object ref="951"/>
+
+		<object ref="952"/>
+
+		<object ref="953"/>
+
+		<object ref="954"/>
+
+		<object ref="955"/>
+
+		<object ref="956"/>
+
+		<object ref="957"/>
+
+		<object ref="958"/>
+
+		<object ref="943"/>
+
+		<object ref="944"/>
+
+		<object ref="959"/>
+
+		<object ref="960"/>
 		</list>
 	    </field>
 	    <field name="protocolDistributionPairs"><list>
