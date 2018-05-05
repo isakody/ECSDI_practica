@@ -497,6 +497,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CasaPepe -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CasaPepe">
+        <rdf:type rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaDeCasaFelix -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaDeCasaFelix">
