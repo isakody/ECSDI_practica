@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador de productos</title>
+</head>
+<body>
+     <h1>Busqueda de productos</h1>
+    {% if not products %}
+        <form method="post">
+            <input type="text" name="nombre" placeholder="Nombre..."/><br>
+            <input type="number" name="maxPrecio" step="0.01" min="0.0" placeholder="Precio máximo..."/><br>
+            <input type="number" name="minPrecio" step="0.01" min="0.0" placeholder="Precio mínimo..."/><br>
+            <input type="submit" name="submit" value="Busca">
+        </form>
+    {% else %}
+
+    {% endif %}
+     <br>
+     <a href="javascript:history.back()">Volver</a>
+</body>
+</html>
