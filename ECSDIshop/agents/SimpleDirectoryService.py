@@ -27,7 +27,7 @@ from utils.FlaskServer import shutdown_server
 from utils.Logging import config_logger
 from utils.OntologyNamespaces import ACL, DSO
 
-__author__ = 'amazdonde'
+__author__ = 'ECSDIstore'
 
 # Definimos los parametros de la linea de comandos
 parser = argparse.ArgumentParser()
@@ -127,7 +127,7 @@ def register():
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
         rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
         if rsearch is not None:
-            agn_uri = rsearch.next()[0]
+            agn_uri = rsearch.__next__()[0]
             agn_add = dsgraph.value(subject=agn_uri, predicate=DSO.Address)
             agn_name = dsgraph.value(subject=agn_uri, predicate=FOAF.name)
             gr = Graph()

@@ -86,6 +86,7 @@ dsgraph = Graph()
 # Productos enconctrados
 productosEncontrados = []
 
+# Función que lleva y devuelve la cuenta de mensajes
 def getMessageCount():
     global mss_cnt
     if mss_cnt is None:
@@ -93,10 +94,13 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
+# Función que devuelve la página principal de ECSDIstore
 @app.route("/")
 def index():
     return render_template('indexAgentePersonal.html')
 
+# Función que atiende a peticiones GET Y POST de busqueda, GET para coger la página que nos permite ver el filtro
+# y post para procesar las peticiones de filtrado
 @app.route("/search", methods=['GET', 'POST'])
 def search():
     if request.method == 'GET':
@@ -105,40 +109,46 @@ def search():
         if request.form['submit'] == 'Busca':
             logger.info("Enviando petición de busqueda")
             contenido = ECSDI['BuscarProducto'+ str(getMessageCount())]
-            gr = Graph()
-            gr.add((contenido,RDF.type,ECSDI.BuscarProducto))
+            grafoDeContenido = Graph()
+            grafoDeContenido.add((contenido,RDF.type,ECSDI.BuscarProducto))
             nombreProducto = request.form['nombre']
+
+            # Añadimos el nombre del producto por el que filtraremos
             if nombreProducto :
                 print(nombreProducto)
                 nombreSujeto = ECSDI['RestriccionDeNombre' + str(getMessageCount())]
-                gr.add((nombreSujeto, RDF.type, ECSDI.RestriccionDeNombre))
-                gr.add((nombreSujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
-                gr.add((nombreSujeto, ECSDI.RestringidaPor, URIRef(nombreSujeto)))
+                grafoDeContenido.add((nombreSujeto, RDF.type, ECSDI.RestriccionDeNombre))
+                grafoDeContenido.add((nombreSujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
+                grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(nombreSujeto)))
 
             precioMin = request.form['minPrecio']
             precioMax = request.form['maxPrecio']
-
+            # Añadimos el rango de precios por el que buscaremos
             if precioMax or precioMin:
                 print(precioMax)
                 print(precioMin)
                 precioSujeto = ECSDI['RestriccionDePrecio' + str(getMessageCount())]
-                gr.add((precioSujeto, RDF.type, ECSDI.RestriccionDePrecio))
+                grafoDeContenido.add((precioSujeto, RDF.type, ECSDI.RestriccionDePrecio))
                 if precioMin:
-                    gr.add((precioSujeto, ECSDI.PrecioMinimo, Literal(precioMin)))
+                    grafoDeContenido.add((precioSujeto, ECSDI.PrecioMinimo, Literal(precioMin)))
                 if precioMax:
-                    gr.add((precioSujeto, ECSDI.PrecioMaximo, Literal(precioMax)))
-                gr.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
+                    grafoDeContenido.add((precioSujeto, ECSDI.PrecioMaximo, Literal(precioMax)))
+                    grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
 
+            # Pedimos que nos se nos busque la información del agente filtrador
             agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, UserPersonalAgent, getMessageCount())
-            print(agente.address)
+            # Enviamos petición de filtrado al agente filtrador
             gr2 = send_message(
-                build_message(gr, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
                               msgcnt=getMessageCount(),
                               content=contenido), agente.address)
+            # Falta mostrar el restultado de busqueda en el html
+
+    # Renderizamos este html para que no salgan errores de momento
     return render_template('search.html', products = None)
 
 
-
+# Función de parado del agente
 @app.route("/Stop")
 def stop():
     """
@@ -150,6 +160,7 @@ def stop():
     shutdown_server()
     return "Parando Servidor"
 
+# Función llamada antes de parar el servidor
 def tidyup():
     """
     Acciones previas a parar el agente
@@ -157,6 +168,7 @@ def tidyup():
     """
     pass
 
+# Funcion para la comunicación
 @app.route("/comm")
 def comunicacion():
     """
@@ -164,14 +176,13 @@ def comunicacion():
     """
     return "Ruta de comunicación"
 
+# Comportamiento del agente
 def agentbehavior1():
     """
     Un comportamiento del agente
 
     :return:
     """
-
-
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors

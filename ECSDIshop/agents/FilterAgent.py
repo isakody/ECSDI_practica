@@ -88,18 +88,63 @@ queue = Queue()
 # Flask app
 app = Flask(__name__)
 
-
+#función inclremental de numero de mensajes
 def getMessageCount():
     global mss_cnt
     mss_cnt += 1
     return mss_cnt
 
+#funcion llamada en /comm
 @app.route("/comm")
 def communication():
-    print(request)
+    message = request.args['content']
+    grafoEntrada = Graph()
+    grafoEntrada.parse(data=message)
+
+    messageProperties = get_message_properties(grafoEntrada)
+
+    resultadoComunicacion = None
+
+    if messageProperties is None:
+        # Respondemos que no hemos entendido el mensaje
+        resultadoComunicacion = build_message(Graph(), ACL['not-understood'], sender=FilterAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProperties['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            resultadoComunicacion = build_message(Graph(),
+                               ACL['not-understood'],
+                               sender=DirectoryAgent.uri,
+                               msgcnt=getMessageCount())
+        else:
+            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
+            content = messageProperties['content']
+            accion = resultadoComunicacion.value(subject=content, predicate=RDF.type)
+
+            # Si la acción es de tipo busqueda emprendemos las acciones consequentes
+            if accion == ECSDI.BuscarProducto:
+                #Extraemos las restricciones de busqueda que se nos pasan y creamos un contenedor de las restriciones
+                # para su posterior procesamiento
+                restricciones = resultadoComunicacion.objects(content, ECSDI.RestringidaPor)
+                directivasRestrictivas = {}
+                for restriccion in restricciones:
+                    if resultadoComunicacion.value(subject=restriccion, predicate=RDF.type) == ECSDI.RestriccionDeNombre:
+                        nombre = resultadoComunicacion.value(subject=restriccion, predicate=ECSDI.Nombre)
+                        directivasRestrictivas['Nombre'] = nombre;
+                    elif resultadoComunicacion.value(subject=restriccion, predicate=RDF.type) == ECSDI.RestriccionDePrecio:
+                        precioMax = resultadoComunicacion.value(subject=restriccion, predicate=ECSDI.PrecioMaximo)
+                        precioMin = resultadoComunicacion.value(subject=restriccion, predicate=ECSDI.PrecioMinimo)
+                        directivasRestrictivas['PrecioMax'] = precioMax;
+                        directivasRestrictivas['PrecioMin'] = precioMin;
+
+                #llamamos a una funcion que nos retorna un grafo con la información acorde al filtro establecido por el usuario
+                resultadoBusqueda = findProductsByFilter(**directivasRestrictivas)
+
+            logger.info('Respondemos a la petición de busqueda')
+            serialize = resultadoComunicacion.serialize(format='xml')
+            return serialize, 200
 
 @app.route("/Stop")
-
 def stop():
     """
     Entrypoint to the agent
@@ -110,6 +155,23 @@ def stop():
     shutdown_server()
     return "Stopping server"
 
+#función para registro de agente en el servicio de directorios
+def register_message():
+    """
+    Envia un mensaje de registro al servicio de registro
+    usando una performativa Request y una accion Register del
+    servicio de directorio
+
+    :param gmess:
+    :return:
+    """
+
+    logger.info('Nos registramos')
+
+    gr = registerAgent(FilterAgent, DirectoryAgent, FilterAgent.uri, getMessageCount())
+    return gr
+
+#función llamada antes de cerrar el servidor
 def tidyUp():
     """
     Previous actions for the agent.
@@ -120,6 +182,7 @@ def tidyUp():
 
     pass
 
+#funcion llamada al principio de un agente
 def sellerBehavior(queue):
 
     """
@@ -127,7 +190,13 @@ def sellerBehavior(queue):
     :param queue: the queue
     :return: something
     """
+    gr = register_message();
 
+# TODO implementar este metodo y base de datos tipo RDF acorde a la ontologia de Protege
+# Función que busca productos en la base de datos acorde a los filtros establecidos con anterioriad
+def findProductsByFilter(Nombre=None,PrecioMin=None,PrecioMax=sys.float_info.max):
+    emptyGrapth = Graph()
+    return emptyGrapth
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
