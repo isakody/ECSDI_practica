@@ -10,7 +10,7 @@ Agente que interactua con el usuario.
 import random
 
 import sys
-from utils.ACLMessages import send_message, build_message, get_message_properties
+from utils.ACLMessages import getAgentInfo, build_message, send_message, get_message_properties
 from utils.OntologyNamespaces import ECSDI
 import argparse
 import socket
@@ -20,6 +20,8 @@ from rdflib import Graph, Namespace, RDF, URIRef, Literal, XSD
 from utils.Agent import Agent
 from utils.FlaskServer import shutdown_server
 from utils.Logging import config_logger
+from rdflib.namespace import RDF
+from utils.OntologyNamespaces import ACL
 
 __author__ = 'ECSDIstore'
 
@@ -72,7 +74,6 @@ UserPersonalAgent = Agent('UserPersonalAgent',
                           agn.UserPersonalAgent,
                           'http://%s:%d/comm' % (hostname, port),
                           'http://%s:%d/Stop' % (hostname, port))
-
 # Directory agent address
 DirectoryAgent = Agent('DirectoryAgent',
                        agn.Directory,
@@ -127,7 +128,13 @@ def search():
                 if precioMax:
                     gr.add((precioSujeto, ECSDI.PrecioMaximo, Literal(precioMax)))
                 gr.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
-    #falta pasar el mensaje a los correspondiente agentes y esperar su respuesta
+
+            agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, UserPersonalAgent, getMessageCount())
+            print(agente.address)
+            gr2 = send_message(
+                build_message(gr, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                              msgcnt=getMessageCount(),
+                              content=contenido), agente.address)
     return render_template('search.html', products = None)
 
 
@@ -163,6 +170,7 @@ def agentbehavior1():
 
     :return:
     """
+
 
 
 if __name__ == '__main__':

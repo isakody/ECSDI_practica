@@ -1,0 +1,538 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#"
+     xml:base="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore">
+        <owl:versionInfo>Primera versión</owl:versionInfo>
+        <rdfs:comment>Ontología para la practica de ECSDI
+</rdfs:comment>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TieneDireccion -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TieneDireccion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Compra"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendidoPor -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendidoPor">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ProductoExterno"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#enviadoDesde -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#enviadoDesde">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Envio"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CentroLogistico"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#perteneceA -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#perteneceA">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#situadoEn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#situadoEn">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CentroLogistico"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneAsignadoMetodoDePago -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneAsignadoMetodoDePago">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#MetodoPago"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneCompra -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneCompra">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Envio"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Compra"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneEnStock -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneEnStock">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CentroLogistico"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ProductoInterno"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneMetodoDePago -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneMetodoDePago">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Compra"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#MetodoPago"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneProducto -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneProducto">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#LoteDeProductos"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneProductos -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneProductos">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Compra"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneTransportista -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#tieneTransportista">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Envio"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Transportista"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Calle -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Calle">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Ciudad -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Ciudad">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CodigoPostal -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CodigoPostal">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#DNI -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#DNI">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Cliente"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Identificador legal de una persona.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#DescripcionDeProducto -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#DescripcionDeProducto">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Pequeña referencia sobre como es un producto.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#IBAN -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#IBAN">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaBacaria"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Número de cuenta bancaria</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ID -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ID">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Busqueda"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CentroLogistico"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Compra"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Envio"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#LoteDeProductos"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#InfoTransportista -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#InfoTransportista">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Transportista"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Nombre -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Nombre">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Cliente"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#NombreDeTransportista -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#NombreDeTransportista">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#InfoTransportista"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#NumTarjeta -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#NumTarjeta">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Tarjeta"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Pais -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Pais">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#PrecioProducto -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#PrecioProducto">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Busqueda"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#PrioridadDeTransporte -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#PrioridadDeTransporte">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#InfoTransportista"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Titular -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Titular">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#MetodoPago"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Nombre de la persona a la que pertenece una targeta de crédito.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Busqueda -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Busqueda">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+        <rdfs:comment>Parametros por los cuales el cliente puede ver el catalogo de productos dentro de la tienda electónica.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CentroLogistico -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CentroLogistico">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+        <rdfs:comment>Centro logístico en el cual se almacenan productos de la tienda en una localidad determinada.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Cliente -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Cliente">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+        <rdfs:comment>Persona registrada en la tienda.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Compra -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Compra">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+        <rdfs:comment>Conjunto de productos enviados por la tienda mediante un transportista a una zona determinada.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaBacaria -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaBacaria">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#MetodoPago"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Envio -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Envio">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+        <rdfs:comment>Compra enviada por la tienda mediante un transportista.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#LoteDeProductos -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#LoteDeProductos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+        <rdfs:comment>Conjunto de productos que no tienen por que ser de la misma compra.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#MetodoPago -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#MetodoPago">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ProductoExterno -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ProductoExterno">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ProductoInterno -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ProductoInterno">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Producto"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Tarjeta -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Tarjeta">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#MetodoPago"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica">
+        <rdfs:comment>Superclase representativa de una tienda electrónica.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Transportista -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Transportista">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#TiendaElectronica"/>
+        <rdfs:comment>Empresa agena a la tienda que vende los productos dentro de ella.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#BolisCasaFelix -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#BolisCasaFelix">
+        <rdf:type rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#ProductoExterno"/>
+        <VendidoPor rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CasaFelix"/>
+        <ID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</ID>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CasaFelix -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CasaFelix">
+        <rdf:type rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno"/>
+        <tieneAsignadoMetodoDePago rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaDeCasaFelix"/>
+        <ID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</ID>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CasaPepe -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CasaPepe">
+        <rdf:type rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#VendedorExterno"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaDeCasaFelix -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaDeCasaFelix">
+        <rdf:type rdf:resource="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#CuentaBacaria"/>
+        <IBAN>ES00880088</IBAN>
+        <Titular>CASA FELIX</Titular>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Direccion">
+        <rdfs:comment>Clase que representa una dirección cualquiera.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/borja/ontologies/2018/4/WebSore#Valoracion">
+        <rdfs:comment>Valoración sobre los dversos productos de la tienda
+</rdfs:comment>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+

@@ -2,7 +2,7 @@
 
 from flask import request
 
-__author__ = 'amazadonde'
+__author__ = 'ECSDIstore'
 
 
 def shutdown_server():
