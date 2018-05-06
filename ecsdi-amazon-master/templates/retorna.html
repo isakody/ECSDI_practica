@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://lh3.googleusercontent.com/-c9bKgaRfC3Q/AAAAAAAAAAI/AAAAAAAAJUE/Eo2MLCqyiZs/s0-c-k-no-ns/photo.jpg">
+    <title>Amazdonde | Retorn de productes</title>
+</head>
+<body>
+    <h1>Retorn de productes</h1>
+    <a href="javascript:history.back()">< Volver</a>
+    <form method="post">
+        <table cellpadding="5px">
+            <tr>
+                <th></th>
+                <th><b>PRODUCTES</b></th>
+                {% for _ in range(count-1) %}
+                    <th></th>
+                {% endfor %}
+                <th><b>PRECIO TOTAL</b></th>
+                <th></th>
+            </tr>
+            {% for item in compres %}
+                <tr>
+                    <td><b>{{ compres.index(item) + 1 }}.</b></td>
+                    {% for item2 in item[1] %}
+                        <td>{{ item2 }}</td>
+                    {% endfor %}
+                    {% for _ in range(count - sizes[compres.index(item)]) %}
+                        <td></td>
+                    {% endfor %}
+                    <td>{{ item[2] }}</td>
+                    <td><input type="checkbox" name="checkbox" value="{{ compres.index(item) }}"></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" name="submit" value="Retornar">
+    </form>
+</body>
+</html>

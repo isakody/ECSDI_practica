@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://lh3.googleusercontent.com/-c9bKgaRfC3Q/AAAAAAAAAAI/AAAAAAAAJUE/Eo2MLCqyiZs/s0-c-k-no-ns/photo.jpg">
+    <title>Amazdonde | Cerca de productes</title>
+</head>
+<body>
+    <h1>Cerca de productes</h1>
+    <a href="javascript:history.back()">< Volver</a>
+    {% if not products %}
+        <form method="post">
+            <input type="text" name="nom" placeholder="Nom..."/><br>
+            <input type="text" name="marca" placeholder="Marca..."/><br>
+            <input type="number" name="max_price" step="0.01" min="0.0" placeholder="Preu màxim..."/><br>
+            <input type="number" name="min_price" step="0.01" min="0.0" placeholder="Preu minim..."/><br>
+            <input type="submit" name="submit" value="Cerca">
+        </form>
+    {% else %}
+        <form method="post">
+            <table cellpadding="5px">
+                <tr>
+                    <th><b>NOMBRE</b></th>
+                    <th><b>MARCA</b></th>
+                    <th><b>MODELO</b></th>
+                    <th><b>PRECIO</b></th>
+                </tr>
+                {% for item in products %}
+                    <tr>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.marca }}</td>
+                        <td>{{ item.modelo }}</td>
+                        <td>{{ item.precio }}</td>
+                        <td><input type="checkbox" name="checkbox" value="{{ products.index(item) }}"></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <input type="submit" name="submit" value="Comprar">
+        </form>
+    {% endif %}
+</body>
+</html>
