@@ -84,7 +84,7 @@ DirectoryAgent = Agent('DirectoryAgent',
 dsgraph = Graph()
 
 # Productos enconctrados
-productosEncontrados = []
+listaDeProductos = []
 
 # Función que lleva y devuelve la cuenta de mensajes
 def getMessageCount():
@@ -103,6 +103,7 @@ def index():
 # y post para procesar las peticiones de filtrado
 @app.route("/search", methods=['GET', 'POST'])
 def search():
+    global listaDeProductos
     if request.method == 'GET':
         return render_template('search.html', products = None)
     elif request.method == 'POST':
@@ -143,7 +144,7 @@ def search():
                               msgcnt=getMessageCount(),
                               content=contenido), agente.address)
             # Falta mostrar el restultado de busqueda en el html
-            listaProductos = []
+            listaDeProductos = []
             posicionDeSujetos = {}
             indice = 0
             for s, p, o in grafoBusqueda:
@@ -151,24 +152,28 @@ def search():
                 if s not in posicionDeSujetos:
                     posicionDeSujetos[s] = indice
                     indice += 1
-                    listaProductos.append({})
+                    listaDeProductos.append({})
                 if s in posicionDeSujetos :
-                    producto = listaProductos[posicionDeSujetos[s]]
+                    producto = listaDeProductos[posicionDeSujetos[s]]
                     if p == ECSDI.Nombre:
                         producto["Nombre"] = o
                     elif p == ECSDI.Precio:
                         producto["Precio"] = o
                     elif p == ECSDI.Descripcion:
                         producto["Descripcion"] = o
+                    elif p == ECSDI.Id:
+                        producto["Id"] = o
                     elif p == RDF.type:
                         producto["Sujeto"] = s
-                    listaProductos[posicionDeSujetos[s]] = producto
-            return render_template('search.html', products = listaProductos)
+                    listaDeProductos[posicionDeSujetos[s]] = producto
+            return render_template('search.html', products = listaDeProductos)
+
         elif request.form['submit'] == 'Buy':
             listaDeCompra = []
             for producto in request.form.getlist("checkbox"):
-                prod = []
-                prod.append(producto[0])
+                listaDeCompra.append(int(producto))
+                print(producto)
+            
 
 
 
