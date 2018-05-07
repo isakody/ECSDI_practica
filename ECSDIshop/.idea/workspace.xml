@@ -10,28 +10,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/ECSDIshop$SimpleDirectoryService.coverage" NAME="SimpleDirectoryService Coverage Results" MODIFIED="1525641803456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/agents" />
-    <SUITE FILE_PATH="coverage/ECSDIshop$personalUserAgent.coverage" NAME="personalUserAgent Coverage Results" MODIFIED="1525641807058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/agents" />
-    <SUITE FILE_PATH="coverage/ECSDIshop$FilterAgent.coverage" NAME="FilterAgent Coverage Results" MODIFIED="1525641805146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/agents" />
+    <SUITE FILE_PATH="coverage/ECSDIshop$SimpleDirectoryService.coverage" NAME="SimpleDirectoryService Coverage Results" MODIFIED="1525674800021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/agents" />
+    <SUITE FILE_PATH="coverage/ECSDIshop$FilterAgent.coverage" NAME="FilterAgent Coverage Results" MODIFIED="1525674802490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/agents" />
+    <SUITE FILE_PATH="coverage/ECSDIshop$personalUserAgent.coverage" NAME="personalUserAgent Coverage Results" MODIFIED="1525674809291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/agents" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="personalUserAgent.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/agents/personalUserAgent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="684">
-              <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+            <state relative-caret-position="421">
+              <caret line="185" selection-start-line="185" selection-end-line="185" />
               <folding>
                 <element signature="e#126#139#0" expanded="true" />
-                <element signature="e#2396#2490#0" />
-                <element signature="e#2471#2521#0" />
-                <element signature="e#3163#3527#0" />
-                <element signature="e#3685#4173#0" />
-                <element signature="e#2504#2628#0" />
-                <element signature="e#2648#2708#0" />
-                <element signature="e#2675#2746#0" />
-                <element signature="e#2496#2554#0" />
-                <element signature="e#2558#2821#0" />
               </folding>
             </state>
           </provider>
@@ -40,43 +31,12 @@
       <file leaf-file-name="ACLMessages.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/ACLMessages.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="22" column="83" selection-start-line="22" selection-start-column="83" selection-end-line="22" selection-end-column="83" />
+            <state relative-caret-position="238">
+              <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
               <folding>
                 <element signature="e#477#1441#0" />
                 <element signature="e#1482#1797#0" />
                 <element signature="e#1837#2757#0" />
-                <element signature="e#2822#3571#0" />
-                <element signature="e#4677#5458#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SellerAgent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ecsdi-amazon-master/agents/SellerAgent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="222" column="17" selection-start-line="222" selection-start-column="17" selection-end-line="222" selection-end-column="42" />
-              <folding>
-                <element signature="e#1646#1753#0" />
-                <element signature="e#10579#11772#0" />
-                <element signature="e#11916#12239#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ACLMessages.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/AgentUtil/ACLMessages.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="62" column="32" selection-start-line="62" selection-start-column="32" selection-end-line="62" selection-end-column="32" />
-              <folding>
-                <element signature="e#163#187#0" expanded="true" />
-                <element signature="e#371#1332#0" />
-                <element signature="e#1373#1688#0" />
-                <element signature="e#1728#2647#0" />
               </folding>
             </state>
           </provider>
@@ -85,7 +45,7 @@
       <file leaf-file-name="SimpleInfoAgent.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/Examples/AgentExamples/SimpleInfoAgent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
+            <state relative-caret-position="17">
               <caret line="22" column="39" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="39" />
             </state>
           </provider>
@@ -94,8 +54,11 @@
       <file leaf-file-name="SimpleDirectoryService.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/agents/SimpleDirectoryService.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1543">
-              <caret line="124" column="14" selection-start-line="124" selection-start-column="8" selection-end-line="124" selection-end-column="14" />
+            <state relative-caret-position="141">
+              <caret line="129" selection-start-line="129" selection-end-line="129" />
+              <folding>
+                <element signature="e#352#367#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -103,17 +66,10 @@
       <file leaf-file-name="FilterAgent.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/agents/FilterAgent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="88" column="21" lean-forward="true" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+            <state relative-caret-position="151">
+              <caret line="140" column="37" selection-start-line="140" selection-start-column="37" selection-end-line="140" selection-end-column="37" />
               <folding>
                 <element signature="e#2488#2538#0" />
-                <element signature="e#2611#4863#0" />
-                <element signature="e#3967#4091#0" />
-                <element signature="e#4184#4513#0" />
-                <element signature="e#4578#4670#0" />
-                <element signature="e#4747#4882#0" />
-                <element signature="e#5735#5779#0" />
-                <element signature="e#4916#5238#0" />
               </folding>
             </state>
           </provider>
@@ -151,10 +107,10 @@
         <option value="$PROJECT_DIR$/utils/OntologyNamespaces.py" />
         <option value="$PROJECT_DIR$/utils/FlaskServer.py" />
         <option value="$PROJECT_DIR$/templates/info.html" />
-        <option value="$PROJECT_DIR$/agents/SimpleDirectoryService.py" />
         <option value="$PROJECT_DIR$/../ecsdi-amazon-master/agents/SellerAgent.py" />
         <option value="$PROJECT_DIR$/agents/personalUserAgent.py" />
         <option value="$PROJECT_DIR$/utils/ACLMessages.py" />
+        <option value="$PROJECT_DIR$/agents/SimpleDirectoryService.py" />
         <option value="$PROJECT_DIR$/agents/FilterAgent.py" />
       </list>
     </option>
@@ -169,16 +125,15 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="953" />
-    <option name="width" value="974" />
-    <option name="height" value="1047" />
+    <option name="x" value="952" />
+    <option name="width" value="975" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -190,6 +145,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -302,52 +258,53 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" sideWeight="0.5005208" side_tool="true" weight="0.32946146" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" weight="0.32996634" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.30728617" />
-      <window_info anchor="bottom" id="Terminal" sideWeight="0.49947917" weight="0.32946146" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15416667" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32946146" />
-      <window_info anchor="right" id="SciView" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5005208" side_tool="true" weight="0.32946146" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32996634" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30779755" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49947917" weight="0.32946146" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15364583" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32946146" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="1" show_stripe_button="false" />
-      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.30728617" />
+      <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.15416667" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="12" />
-      <window_info anchor="bottom" id="Database Changes" order="2" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.30728617" />
-      <window_info anchor="bottom" id="Python Console" order="3" weight="0.32996634" />
+      <window_info anchor="bottom" id="Version Control" order="1" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.32946146" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.32996634" />
       <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="Database Changes" order="2" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
       <window_info anchor="right" id="SciView" order="1" />
-      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="6" />
-      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Python Console" order="3" weight="0.32996634" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,19 +326,81 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/agents/userPersonalAgent.py">
+    <entry file="file://$PROJECT_DIR$/agents/personalUserAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1853">
-          <caret line="109" selection-start-line="109" selection-end-line="109" />
+        <state relative-caret-position="2907">
+          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
           <folding>
             <element signature="e#126#139#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/utils/ACLMessages.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="83" selection-start-line="22" selection-start-column="83" selection-end-line="22" selection-end-column="83" />
+          <folding>
+            <element signature="e#477#1441#0" />
+            <element signature="e#1482#1797#0" />
+            <element signature="e#1837#2757#0" />
+          </folding>
+        </state>
+      </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../ecsdi-amazon-master/agents/SellerAgent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3536">
+          <caret line="222" column="17" selection-start-line="222" selection-start-column="17" selection-end-line="222" selection-end-column="42" />
+          <folding>
+            <element signature="e#1646#1753#0" />
+            <element signature="e#10579#11772#0" />
+            <element signature="e#11916#12239#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/AgentUtil/ACLMessages.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="62" column="32" selection-start-line="62" selection-start-column="32" selection-end-line="62" selection-end-column="32" />
+          <folding>
+            <element signature="e#163#187#0" expanded="true" />
+            <element signature="e#371#1332#0" />
+            <element signature="e#1373#1688#0" />
+            <element signature="e#1728#2647#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/Examples/AgentExamples/SimpleInfoAgent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/SimpleDirectoryService.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1938">
+          <caret line="124" column="14" selection-start-line="124" selection-start-column="8" selection-end-line="124" selection-end-column="14" />
+          <folding>
+            <element signature="e#352#367#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/FilterAgent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1292">
+          <caret line="88" column="21" lean-forward="true" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+          <folding>
+            <element signature="e#2488#2538#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/userPersonalAgent.py" />
     <entry file="file://$PROJECT_DIR$/../ecsdi-amazon-master/templates/rootUserPersonalAgent.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -407,9 +426,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2533">
           <caret line="29" column="43" lean-forward="true" selection-start-line="29" selection-start-column="43" selection-end-line="29" selection-end-column="43" />
-          <folding>
-            <element signature="e#280#315#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -418,30 +434,13 @@
         <state relative-caret-position="-102" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/ExternalTransportAgent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/AgentTypes.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/ExternalTransportAgent.py" />
     <entry file="file://$PROJECT_DIR$/templates/search.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/SPARQLPoints.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/Agent.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/Examples/RDFLib/Example1.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -487,9 +486,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="155" column="31" lean-forward="true" selection-start-line="155" selection-start-column="31" selection-end-line="155" selection-end-column="31" />
-          <folding>
-            <element signature="e#128#141#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -507,20 +503,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/agents/SimpleDirectoryService.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1543">
-          <caret line="124" column="14" selection-start-line="124" selection-start-column="8" selection-end-line="124" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/Examples/AgentExamples/SimpleInfoAgent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="22" column="39" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/AgentUtil/ACLMessages.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -534,9 +516,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../ECSDI2017-master/Examples/AgentExamples/SimpleInfoAgent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../ecsdi-amazon-master/agents/SellerAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
+        <state relative-caret-position="1693">
           <caret line="222" column="17" selection-start-line="222" selection-start-column="17" selection-end-line="222" selection-end-column="42" />
           <folding>
             <element signature="e#1646#1753#0" />
@@ -546,52 +535,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/ACLMessages.py">
+    <entry file="file://$PROJECT_DIR$/agents/personalUserAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="22" column="83" selection-start-line="22" selection-start-column="83" selection-end-line="22" selection-end-column="83" />
+        <state relative-caret-position="421">
+          <caret line="185" selection-start-line="185" selection-end-line="185" />
           <folding>
-            <element signature="e#477#1441#0" />
-            <element signature="e#1482#1797#0" />
-            <element signature="e#1837#2757#0" />
-            <element signature="e#2822#3571#0" />
-            <element signature="e#4677#5458#0" />
+            <element signature="e#126#139#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/agents/personalUserAgent.py">
+    <entry file="file://$PROJECT_DIR$/utils/ACLMessages.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+        <state relative-caret-position="238">
+          <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
           <folding>
-            <element signature="e#126#139#0" expanded="true" />
-            <element signature="e#2396#2490#0" />
-            <element signature="e#2471#2521#0" />
-            <element signature="e#3163#3527#0" />
-            <element signature="e#3685#4173#0" />
-            <element signature="e#2504#2628#0" />
-            <element signature="e#2648#2708#0" />
-            <element signature="e#2675#2746#0" />
-            <element signature="e#2496#2554#0" />
-            <element signature="e#2558#2821#0" />
+            <element signature="e#477#1441#0" />
+            <element signature="e#1482#1797#0" />
+            <element signature="e#1837#2757#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/SimpleDirectoryService.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="129" selection-start-line="129" selection-end-line="129" />
+          <folding>
+            <element signature="e#352#367#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/agents/FilterAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="88" column="21" lean-forward="true" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+        <state relative-caret-position="151">
+          <caret line="140" column="37" selection-start-line="140" selection-start-column="37" selection-end-line="140" selection-end-column="37" />
           <folding>
             <element signature="e#2488#2538#0" />
-            <element signature="e#2611#4863#0" />
-            <element signature="e#3967#4091#0" />
-            <element signature="e#4184#4513#0" />
-            <element signature="e#4578#4670#0" />
-            <element signature="e#4747#4882#0" />
-            <element signature="e#5735#5779#0" />
-            <element signature="e#4916#5238#0" />
           </folding>
         </state>
       </provider>

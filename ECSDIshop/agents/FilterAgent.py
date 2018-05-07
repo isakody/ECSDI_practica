@@ -119,26 +119,26 @@ def communication():
         else:
             # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
             content = messageProperties['content']
-            accion = resultadoComunicacion.value(subject=content, predicate=RDF.type)
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
 
             # Si la acción es de tipo busqueda emprendemos las acciones consequentes
             if accion == ECSDI.BuscarProducto:
                 #Extraemos las restricciones de busqueda que se nos pasan y creamos un contenedor de las restriciones
                 # para su posterior procesamiento
-                restricciones = resultadoComunicacion.objects(content, ECSDI.RestringidaPor)
+                restricciones = grafoEntrada.objects(content, ECSDI.RestringidaPor)
                 directivasRestrictivas = {}
                 for restriccion in restricciones:
-                    if resultadoComunicacion.value(subject=restriccion, predicate=RDF.type) == ECSDI.RestriccionDeNombre:
-                        nombre = resultadoComunicacion.value(subject=restriccion, predicate=ECSDI.Nombre)
+                    if grafoEntrada.value(subject=restriccion, predicate=RDF.type) == ECSDI.RestriccionDeNombre:
+                        nombre = grafoEntrada.value(subject=restriccion, predicate=ECSDI.Nombre)
                         directivasRestrictivas['Nombre'] = nombre;
-                    elif resultadoComunicacion.value(subject=restriccion, predicate=RDF.type) == ECSDI.RestriccionDePrecio:
-                        precioMax = resultadoComunicacion.value(subject=restriccion, predicate=ECSDI.PrecioMaximo)
-                        precioMin = resultadoComunicacion.value(subject=restriccion, predicate=ECSDI.PrecioMinimo)
+                    elif grafoEntrada.value(subject=restriccion, predicate=RDF.type) == ECSDI.RestriccionDePrecio:
+                        precioMax = grafoEntrada.value(subject=restriccion, predicate=ECSDI.PrecioMaximo)
+                        precioMin = grafoEntrada.value(subject=restriccion, predicate=ECSDI.PrecioMinimo)
                         directivasRestrictivas['PrecioMax'] = precioMax;
                         directivasRestrictivas['PrecioMin'] = precioMin;
 
                 #llamamos a una funcion que nos retorna un grafo con la información acorde al filtro establecido por el usuario
-                resultadoBusqueda = findProductsByFilter(**directivasRestrictivas)
+                resultadoComunicacion = findProductsByFilter(**directivasRestrictivas)
 
             logger.info('Respondemos a la petición de busqueda')
             serialize = resultadoComunicacion.serialize(format='xml')
