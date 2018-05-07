@@ -182,7 +182,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
     grafoCompra = Graph()
 
     content = ECSDI['PeticionCompra' + str(getMessageCount())]
-
+    #TODO revisar ontología donde poner el atributo de la prioridad y la tarjeta
     grafoCompra.add((content,RDF.type,ECSDI.PeticionCompra))
     grafoCompra.add((content,ECSDI.Prioridad,Literal(prioridad, datatype=XSD.int)))
     grafoCompra.add((content,ECSDI.Tarjeta,Literal(numTarjeta, datatype=XSD.int)))
