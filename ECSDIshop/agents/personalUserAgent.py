@@ -106,7 +106,7 @@ def search():
     if request.method == 'GET':
         return render_template('search.html', products = None)
     elif request.method == 'POST':
-        if request.form['submit'] == 'Busca':
+        if request.form['submit'] == 'Search':
             logger.info("Enviando petición de busqueda")
             contenido = ECSDI['BuscarProducto'+ str(getMessageCount())]
             grafoDeContenido = Graph()
@@ -133,19 +133,37 @@ def search():
                     grafoDeContenido.add((precioSujeto, ECSDI.PrecioMinimo, Literal(precioMin)))
                 if precioMax:
                     grafoDeContenido.add((precioSujeto, ECSDI.PrecioMaximo, Literal(precioMax)))
-                    grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
+                grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
 
             # Pedimos que nos se nos busque la información del agente filtrador
             agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, UserPersonalAgent, getMessageCount())
             # Enviamos petición de filtrado al agente filtrador
-            gr2 = send_message(
+            grafoBusqueda = send_message(
                 build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
                               msgcnt=getMessageCount(),
                               content=contenido), agente.address)
             # Falta mostrar el restultado de busqueda en el html
+    listaProductos = []
+    posicionDeSujetos = {}
+    indice = 0
+    for s, p, o in grafoBusqueda:
+        if s not in posicionDeSujetos:
+            posicionDeSujetos[s] = indice
+            indice += 1
+            listaProductos.append({})
+        else :
+            producto = listaProductos[posicionDeSujetos[s]]
+            if p == ECSDI.Nombre:
+                producto["Nombre"] = o
+            elif p == ECSDI.Precio:
+                producto["Precio"] = o
+            elif p == ECSDI.Descripcion:
+                producto["Descripcion"] = o
+            elif p == RDF.type:
+                producto["Sujeto"] = s
+            listaProductos[posicionDeSujetos[s]] = producto
 
-    # Renderizamos este html para que no salgan errores de momento
-    return render_template('search.html', products = None)
+    return render_template('search.html', products = listaProductos)
 
 
 # Función de parado del agente

@@ -11,11 +11,28 @@
             <input type="text" name="nombre" placeholder="Nombre..."/><br>
             <input type="number" name="maxPrecio" step="0.01" min="0.0" placeholder="Precio máximo..."/><br>
             <input type="number" name="minPrecio" step="0.01" min="0.0" placeholder="Precio mínimo..."/><br>
-            <input type="submit" name="submit" value="Busca">
+            <input type="submit" name="submit" value="Search">
         </form>
     {% else %}
-
-    {% endif %}
+         <form method="post">
+                <table style="width:100%">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Descripción</th>
+                  </tr>
+                  {% for product in products %}
+                    <tr>
+                        <td>product.Nombre</td>
+                        <td>product.Precio</td>
+                        <td>product.Descripcion</td>
+                        <td><input type="checkbox" name="checkbox" value="{{ products.index(product) }}"></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+                <input type="submit" name="submit" value="Buy">
+         </form>
+     {% endif %}
      <br>
      <a href="javascript:history.back()">Volver</a>
 </body>
