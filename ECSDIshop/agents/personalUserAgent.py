@@ -152,7 +152,7 @@ def search():
                     posicionDeSujetos[s] = indice
                     indice += 1
                     listaProductos.append({})
-                else :
+                if s in posicionDeSujetos :
                     producto = listaProductos[posicionDeSujetos[s]]
                     if p == ECSDI.Nombre:
                         producto["Nombre"] = o
