@@ -148,7 +148,6 @@ def search():
             posicionDeSujetos = {}
             indice = 0
             for s, p, o in grafoBusqueda:
-                print(s,p,o)
                 if s not in posicionDeSujetos:
                     posicionDeSujetos[s] = indice
                     indice += 1
@@ -171,9 +170,9 @@ def search():
         elif request.form['submit'] == 'Buy':
             listaDeCompra = []
             for producto in request.form.getlist("checkbox"):
-                listaDeCompra.append(int(producto))
-                print(producto)
-            
+                listaDeCompra.append(listaDeProductos[int(producto)])
+                print(listaDeProductos[int(producto)])
+
 
 
 
