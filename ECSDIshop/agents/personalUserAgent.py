@@ -143,27 +143,34 @@ def search():
                               msgcnt=getMessageCount(),
                               content=contenido), agente.address)
             # Falta mostrar el restultado de busqueda en el html
-    listaProductos = []
-    posicionDeSujetos = {}
-    indice = 0
-    for s, p, o in grafoBusqueda:
-        if s not in posicionDeSujetos:
-            posicionDeSujetos[s] = indice
-            indice += 1
-            listaProductos.append({})
-        else :
-            producto = listaProductos[posicionDeSujetos[s]]
-            if p == ECSDI.Nombre:
-                producto["Nombre"] = o
-            elif p == ECSDI.Precio:
-                producto["Precio"] = o
-            elif p == ECSDI.Descripcion:
-                producto["Descripcion"] = o
-            elif p == RDF.type:
-                producto["Sujeto"] = s
-            listaProductos[posicionDeSujetos[s]] = producto
+            listaProductos = []
+            posicionDeSujetos = {}
+            indice = 0
+            for s, p, o in grafoBusqueda:
+                print(s,p,o)
+                if s not in posicionDeSujetos:
+                    posicionDeSujetos[s] = indice
+                    indice += 1
+                    listaProductos.append({})
+                else :
+                    producto = listaProductos[posicionDeSujetos[s]]
+                    if p == ECSDI.Nombre:
+                        producto["Nombre"] = o
+                    elif p == ECSDI.Precio:
+                        producto["Precio"] = o
+                    elif p == ECSDI.Descripcion:
+                        producto["Descripcion"] = o
+                    elif p == RDF.type:
+                        producto["Sujeto"] = s
+                    listaProductos[posicionDeSujetos[s]] = producto
+            return render_template('search.html', products = listaProductos)
+        elif request.form['submit'] == 'Buy':
+            listaDeCompra = []
+            for producto in request.form.getlist("checkbox"):
+                prod = []
+                prod.append(producto[0])
 
-    return render_template('search.html', products = listaProductos)
+
 
 
 # Función de parado del agente
