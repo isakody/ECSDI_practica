@@ -1,20 +1,10 @@
 <?xml version="1.0"?>
-
-
-<!DOCTYPE Ontology [
-    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
-    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-]>
-
-
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
      xml:base="http://www.owl-ontologies.com/ECSDIstore"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="http://www.owl-ontologies.com/ECSDIstore">
     <Prefix name="" IRI="http://www.owl-ontologies.com/ECSDIstore#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
@@ -23,220 +13,217 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
-        <Class IRI="http://www.owl-ontologies.com/ECSDIAmazon.owl#Producto"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="http://www.owl-ontologies.com/ECSDIAmazon.owl#Vendedor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Accion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#BuscarProducto"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CentroLogistico"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Compra"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Direccion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#EnviarUnLote"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Envio"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IntervaloDeEntrega"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#LoteProductos"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#OfertaDeTransporte"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionCompra"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionEnvioDesdeCentroLogistico"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionOfertaTransporte"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionRegistroProductos"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionRetorno"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionTransferencia"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#PeticionTransporte"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Producto"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ProductoExterno"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Respuesta"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaDeBusqueda"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaEnvioDesdeCentroLogistico"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaOfertaTransporte"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaTransferencia"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RestriccionDeNombre"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RestriccionDePrecio"/>
     </Declaration>
     <Declaration>
         <Class IRI="#RestriccionDeValoracion"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Restricciones"/>
+        <Class IRI="#RespuestaEnvioDesdeCentroLogistico"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Stock"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Transportista"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Valoracion"/>
+        <Class IRI="#Producto"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Vendedor"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#Compra"/>
+        <DataProperty IRI="#Puntuacion"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#CompuestoPor"/>
+        <Class IRI="#RespuestaTransferencia"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#ConstaDe"/>
+        <Class IRI="#Compra"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#Contiene"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#De"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#DestinadaA"/>
+        <Class IRI="#OfertaDeTransporte"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#Destino"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#EnvioDe"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Ofrece"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Para"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#ParaLa"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#PendienteDeSerEnviado"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#PerteneceA"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Productos"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#ProximoA"/>
+        <Class IRI="#Envio"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#RestringidaPor"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#Direccion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProductoExterno"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#RetornaUn"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#Tiene"/>
+        <ObjectProperty IRI="#Contiene"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#TieneProductos"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#TieneUn"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#VendidoPor"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Ciudad"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#CodigoPostal"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Descripcion"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#FechaEntrega"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#FechaEntregaMaxima"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#FechaEntregaMinima"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Id"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Nombre"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Precio"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PrecioMaximo"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PrecioMinimo"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Puntuacion"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PuntuacionMaxima"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PuntuacionMinima"/>
+        <Class IRI="#CentroLogistico"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#UnidadesEnStok"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#IntervaloDeEntrega"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#CodigoPostal"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Nombre"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Ciudad"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RestriccionDePrecio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaOfertaTransporte"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Stock"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#TieneUn"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Restricciones"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Ofrece"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Productos"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaDeBusqueda"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Valoracion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Transportista"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Precio"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#FechaEntrega"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.owl-ontologies.com/ECSDIAmazon.owl#Vendedor"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PuntuacionMaxima"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#DestinadaA"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#Producto1"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#BuscarProducto"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionRegistroProductos"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionTransferencia"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RestriccionDeNombre"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionRetorno"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#FechaEntregaMaxima"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Respuesta"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PrecioMinimo"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LoteProductos"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Para"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#PendienteDeSerEnviado"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#TieneProductos"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Descripcion"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PrecioMaximo"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionEnvioDesdeCentroLogistico"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EnviarUnLote"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#EnvioDe"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#CompuestoPor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#PerteneceA"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#Producto2"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PuntuacionMinima"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Accion"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Tiene"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ConstaDe"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Compra"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionOfertaTransporte"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ProximoA"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#De"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionCompra"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#FechaEntregaMinima"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#VendidoPor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ParaLa"/>
     </Declaration>
     <SubClassOf>
         <Class IRI="#BuscarProducto"/>
@@ -317,32 +304,32 @@
     <DataPropertyAssertion>
         <DataProperty IRI="#Id"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;integer">1</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Nombre"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;string">Patatas</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Patatas</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Precio"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;float">308.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">308.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Id"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;integer">2</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">2</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Nombre"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;string">Mouse</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Mouse</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Precio"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;float">32.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">32.0</Literal>
     </DataPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#PerteneceA"/>
@@ -544,14 +531,6 @@
         <Class IRI="#IntervaloDeEntrega"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="#Nombre"/>
-        <ObjectUnionOf>
-            <Class IRI="http://www.owl-ontologies.com/ECSDIAmazon.owl#Producto"/>
-            <Class IRI="http://www.owl-ontologies.com/ECSDIAmazon.owl#Vendedor"/>
-            <Class IRI="#RestriccionDeNombre"/>
-        </ObjectUnionOf>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
         <DataProperty IRI="#Precio"/>
         <Class IRI="#Producto"/>
     </DataPropertyDomain>
@@ -643,5 +622,5 @@
 
 
 
-<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
 
