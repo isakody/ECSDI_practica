@@ -171,10 +171,49 @@ def search():
             listaDeCompra = []
             for producto in request.form.getlist("checkbox"):
                 listaDeCompra.append(listaDeProductos[int(producto)])
-                print(listaDeProductos[int(producto)])
+
+            procesarVenta(listaDeCompra,prioridad=1,numTarjeta=101010,direccion="DolorsMasferrer",codigoPostal=8028)
 
 
 
+
+def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal):
+    logger.info("Procesando compra")
+    grafoCompra = Graph()
+
+    content = ECSDI['PeticionCompra' + str(getMessageCount())]
+
+    grafoCompra.add((content,RDF.type,ECSDI.PeticionCompra))
+    grafoCompra.add((content,ECSDI.Prioridad,Literal(prioridad, datatype=XSD.int)))
+    grafoCompra.add((content,ECSDI.Tarjeta,Literal(numTarjeta, datatype=XSD.int)))
+
+    sujetoDireccion = ECSDI['Direccion'+ str(getMessageCount())]
+    grafoCompra.add((sujetoDireccion,RDF.type,ECSDI.Direccion))
+    grafoCompra.add((sujetoDireccion,ECSDI.Direccion,Literal(direccion,datatype=XSD.string)))
+    grafoCompra.add((sujetoDireccion,ECSDI.CoigoPostal,Literal(codigoPostal,datatype=XSD.int)))
+
+    sujetoCompra = ECSDI['Compra'+str(getMessageCount())]
+    grafoCompra.add((sujetoCompra, RDF.type, ECSDI.Compra))
+    grafoCompra.add((sujetoCompra, ECSDI.Destino, URIRef(sujetoDireccion)))
+
+
+    for producto in listaDeCompra:
+        sujetoProducto = producto['Sujeto']
+        grafoCompra.add((sujetoProducto, RDF.type, ECSDI.Producto))
+        grafoCompra.add((sujetoProducto,ECSDI.Descripcion,producto['Descripcion']))
+        grafoCompra.add((sujetoProducto,ECSDI.Nombre,producto['Nombre']))
+        grafoCompra.add((sujetoProducto,ECSDI.Precio,producto['Precio']))
+
+    grafoCompra.add((content,ECSDI.De,URIRef(sujetoCompra)))
+
+    vendedor = getAgentInfo(agn.VendedorAgent, DirectoryAgent, UserPersonalAgent,getMessageCount())
+
+    respuestaVenta = send_message(
+        build_message(grafoCompra, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=vendedor.uri,
+                      msgcnt=getMessageCount(),
+                      content=content), vendedor.address)
+
+    render_template('ventaRealizada.html')
 
 
 # Función de parado del agente
@@ -204,6 +243,17 @@ def comunicacion():
     Entrypoint de comunicacion del agente
     """
     return "Ruta de comunicación"
+
+#función llamada antes de cerrar el servidor
+def tidyUp():
+    """
+    Previous actions for the agent.
+    """
+
+    global queue
+    queue.put(0)
+
+    pass
 
 # Comportamiento del agente
 def agentbehavior1():

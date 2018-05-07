@@ -185,13 +185,13 @@
         <ObjectProperty IRI="#VendidoPor"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#Ciudad"/>
-    </Declaration>
-    <Declaration>
         <DataProperty IRI="#CodigoPostal"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#Descripcion"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Direccion"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#FechaEntrega"/>
@@ -218,6 +218,9 @@
         <DataProperty IRI="#PrecioMinimo"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="#Prioridad"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#Puntuacion"/>
     </Declaration>
     <Declaration>
@@ -225,6 +228,9 @@
     </Declaration>
     <Declaration>
         <DataProperty IRI="#PuntuacionMinima"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Tarjeta"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#UnidadesEnStok"/>
@@ -385,7 +391,7 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Destino"/>
-        <Class IRI="#Compra"/>
+        <Class IRI="#PeticionCompra"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#EnvioDe"/>
@@ -531,16 +537,16 @@
         <Class IRI="#Vendedor"/>
     </ObjectPropertyRange>
     <DataPropertyDomain>
-        <DataProperty IRI="#Ciudad"/>
-        <Class IRI="#Direccion"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
         <DataProperty IRI="#CodigoPostal"/>
         <Class IRI="#Direccion"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Descripcion"/>
         <Class IRI="#Producto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Direccion"/>
+        <Class IRI="#Direccion"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#FechaEntrega"/>
@@ -567,6 +573,10 @@
         <Class IRI="#RestriccionDePrecio"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
+        <DataProperty IRI="#Prioridad"/>
+        <Class IRI="#PeticionCompra"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="#Puntuacion"/>
         <Class IRI="#Valoracion"/>
     </DataPropertyDomain>
@@ -579,19 +589,23 @@
         <Class IRI="#RestriccionDeValoracion"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
+        <DataProperty IRI="#Tarjeta"/>
+        <Class IRI="#PeticionCompra"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="#UnidadesEnStok"/>
         <Class IRI="#Stock"/>
     </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#Ciudad"/>
-        <Datatype abbreviatedIRI="xsd:string"/>
-    </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#CodigoPostal"/>
         <Datatype abbreviatedIRI="xsd:int"/>
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#Descripcion"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#Direccion"/>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
@@ -627,6 +641,10 @@
         <Datatype abbreviatedIRI="xsd:float"/>
     </DataPropertyRange>
     <DataPropertyRange>
+        <DataProperty IRI="#Prioridad"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
         <DataProperty IRI="#Puntuacion"/>
         <Datatype abbreviatedIRI="xsd:int"/>
     </DataPropertyRange>
@@ -636,6 +654,10 @@
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#PuntuacionMinima"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#Tarjeta"/>
         <Datatype abbreviatedIRI="xsd:int"/>
     </DataPropertyRange>
     <DataPropertyRange>

@@ -68,7 +68,7 @@ mss_cnt = 0
 
 # Data Agent
 # Datos del Agente
-FilterAgent = Agent('SellerAgent',
+FilterAgent = Agent('FilterAgent',
                     agn.FilterAgent,
                     'http://%s:%d/comm' % (hostname, port),
                     'http://%s:%d/Stop' % (hostname, port))
@@ -139,9 +139,9 @@ def communication():
                 # Llamamos a una funcion que nos retorna un grafo con la información acorde al filtro establecido por el usuario
                 resultadoComunicacion = findProductsByFilter(**directivasRestrictivas)
 
-            logger.info('Respondemos a la petición de busqueda')
-            serialize = resultadoComunicacion.serialize(format='xml')
-            return serialize, 200
+    logger.info('Respondemos a la petición de busqueda')
+    serialize = resultadoComunicacion.serialize(format='xml')
+    return serialize, 200
 
 @app.route("/Stop")
 def stop():
@@ -191,7 +191,6 @@ def filterBehavior(queue):
     """
     gr = register_message()
 
-# TODO implementar este metodo y base de datos tipo RDF acorde a la ontologia de Protege
 # Función que busca productos en la base de datos acorde a los filtros establecidos con anterioriad
 def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max):
     graph = Graph()
