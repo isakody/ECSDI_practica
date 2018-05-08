@@ -12,7 +12,7 @@ from utils.Agent import Agent
 
 __author__ = 'amazdonde'
 
-import requests
+import rSequests
 from rdflib import Graph, Namespace, Literal
 from rdflib.namespace import RDF, FOAF
 from utils.OntologyNamespaces import ACL, DSO

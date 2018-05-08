@@ -104,12 +104,12 @@ def communication():
         print(s,p,o)
     messageProperties = get_message_properties(grafoEntrada)
 
-    resultadoComunicacion = None
+    resultadoComunicacion = Graph()
 
     #no retronamso nada
     logger.info('Respondemos a la petición de venta')
-    ##serialize = resultadoComunicacion.serialize(format='xml')
-    return None, 200
+    serialize = resultadoComunicacion.serialize(format='xml')
+    return serialize, 200
 
 @app.route("/Stop")
 def stop():

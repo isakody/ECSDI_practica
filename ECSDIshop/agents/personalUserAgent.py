@@ -182,10 +182,8 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
     grafoCompra = Graph()
 
     content = ECSDI['PeticionCompra' + str(getMessageCount())]
-    #TODO revisar ontología donde poner el atributo de la prioridad y la tarjeta
     grafoCompra.add((content,RDF.type,ECSDI.PeticionCompra))
-    grafoCompra.add((content,ECSDI.Prioridad,Literal(prioridad, datatype=XSD.int)))
-    grafoCompra.add((content,ECSDI.Tarjeta,Literal(numTarjeta, datatype=XSD.int)))
+
 
     sujetoDireccion = ECSDI['Direccion'+ str(getMessageCount())]
     grafoCompra.add((sujetoDireccion,RDF.type,ECSDI.Direccion))
@@ -194,6 +192,8 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
     sujetoCompra = ECSDI['Compra'+str(getMessageCount())]
     grafoCompra.add((sujetoCompra, RDF.type, ECSDI.Compra))
+    grafoCompra.add((sujetoCompra, ECSDI.Prioridad, Literal(prioridad, datatype=XSD.int)))
+    grafoCompra.add((sujetoCompra, ECSDI.Tarjeta, Literal(numTarjeta, datatype=XSD.int)))
     grafoCompra.add((sujetoCompra, ECSDI.Destino, URIRef(sujetoDireccion)))
 
 
@@ -213,7 +213,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
                       msgcnt=getMessageCount(),
                       content=content), vendedor.address)
 
-    render_template('ventaRealizada.html')
+    return render_template('ventaRealizada.html',products=listaDeCompra)
 
 
 # Función de parado del agente

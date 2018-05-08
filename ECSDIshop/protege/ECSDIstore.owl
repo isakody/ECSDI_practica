@@ -122,9 +122,6 @@
         <Class IRI="#Vendedor"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#Compra"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#CompuestoPor"/>
     </Declaration>
     <Declaration>
@@ -366,10 +363,6 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#Compra"/>
-        <Class IRI="#PeticionCompra"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="#CompuestoPor"/>
         <Class IRI="#LoteProductos"/>
     </ObjectPropertyDomain>
@@ -391,7 +384,7 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Destino"/>
-        <Class IRI="#PeticionCompra"/>
+        <Class IRI="#Compra"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#EnvioDe"/>
@@ -452,10 +445,6 @@
         <ObjectProperty IRI="#VendidoPor"/>
         <Class IRI="#ProductoExterno"/>
     </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#Compra"/>
-        <Class IRI="#Compra"/>
-    </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#CompuestoPor"/>
         <Class IRI="#Producto"/>
