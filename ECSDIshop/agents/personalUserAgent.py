@@ -178,6 +178,7 @@ def search():
             codigoPostal = int(request.form['codigoPostal'])
             print(numTarjeta,prioridad,direccion,codigoPostal)
             procesarVenta(listaDeCompra,prioridad,numTarjeta,direccion,codigoPostal)
+            return render_template('ventaRealizada.html')
 
 
 
@@ -217,7 +218,6 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
                       msgcnt=getMessageCount(),
                       content=content), vendedor.address)
 
-    render_template('ventaRealizada.html')
 
 
 # Función de parado del agente

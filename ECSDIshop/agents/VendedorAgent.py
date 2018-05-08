@@ -100,14 +100,47 @@ def communication():
     message = request.args['content']
     grafoEntrada = Graph()
     grafoEntrada.parse(data=message)
+
     for s, p, o in grafoEntrada:
         print(s,p,o)
+
     messageProperties = get_message_properties(grafoEntrada)
 
-    resultadoComunicacion = Graph()
+    resultadoComunicacion = None
 
-    #no retronamso nada
-    logger.info('Respondemos a la petición de venta')
+    if messageProperties is None:
+        # Respondemos que no hemos entendido el mensaje
+        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                              sender=VendedorAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProperties['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
+        else:
+            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
+            content = messageProperties['content']
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
+
+            # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
+            if accion == ECSDI.PeticionCompra:
+                logger.info('Recibimos petición de compra')
+
+                # Enviar mensaje con la compra a enviador
+                # enviador = getAgentInfo()
+                # resultadoComunicacion = send_message(build_message(grafoEntrada,
+                #       perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
+                #       msgcnt=getMessageCount(), content=content), enviador.address)
+
+                content = ECSDI['RespuestaCompra' + str(getMessageCount())]
+                resultadoComunicacion = Graph()
+
+                # resultadoComunicacion.add((content, RDF.type, ECSDI.RespuestaCompra))
+
+
+    #no retronamos nada
+    logger.info('Respondemos a la petición de compra')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 

@@ -236,7 +236,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     query += """)}"""
 
     graph_query = graph.query(query)
-    products_graph = Graph();
+    products_graph = Graph()
     products_graph.bind('ECSDI', ECSDI)
     for product in graph_query:
         product_nombre = product.Nombre
