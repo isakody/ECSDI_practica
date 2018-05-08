@@ -195,7 +195,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
     sujetoDireccion = ECSDI['Direccion'+ str(getMessageCount())]
     grafoCompra.add((sujetoDireccion,RDF.type,ECSDI.Direccion))
     grafoCompra.add((sujetoDireccion,ECSDI.Direccion,Literal(direccion,datatype=XSD.string)))
-    grafoCompra.add((sujetoDireccion,ECSDI.CoigoPostal,Literal(codigoPostal,datatype=XSD.int)))
+    grafoCompra.add((sujetoDireccion,ECSDI.CodigoPostal,Literal(codigoPostal,datatype=XSD.int)))
 
     sujetoCompra = ECSDI['Compra'+str(getMessageCount())]
     grafoCompra.add((sujetoCompra, RDF.type, ECSDI.Compra))
@@ -208,6 +208,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
         grafoCompra.add((sujetoProducto,ECSDI.Descripcion,producto['Descripcion']))
         grafoCompra.add((sujetoProducto,ECSDI.Nombre,producto['Nombre']))
         grafoCompra.add((sujetoProducto,ECSDI.Precio,producto['Precio']))
+        grafoCompra.add((sujetoCompra, ECSDI.Contiene, URIRef(sujetoProducto)))
 
     grafoCompra.add((content,ECSDI.De,URIRef(sujetoCompra)))
 
