@@ -127,10 +127,10 @@ def communication():
                 logger.info('Recibimos petición de compra')
 
                 # Enviar mensaje con la compra a enviador
-                # enviador = getAgentInfo()
-                # resultadoComunicacion = send_message(build_message(grafoEntrada,
-                #       perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
-                #       msgcnt=getMessageCount(), content=content), enviador.address)
+                #enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent.uri, getMessageCount())
+                #resultadoComunicacion = send_message(build_message(grafoEntrada,
+                     #  perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
+                     #  msgcnt=getMessageCount(), content=content), enviador.address)
 
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
 
