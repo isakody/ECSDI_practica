@@ -59,7 +59,7 @@
         <Class IRI="#PeticionCompra"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PeticionEnvioDesdeCentroLogistico"/>
+        <Class IRI="#PeticionEnvioACentroLogístico"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PeticionOfertaTransporte"/>
@@ -258,7 +258,7 @@
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#PeticionEnvioDesdeCentroLogistico"/>
+        <Class IRI="#PeticionEnvioACentroLogístico"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
@@ -395,7 +395,7 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#EnvioDe"/>
-        <Class IRI="#PeticionEnvioDesdeCentroLogistico"/>
+        <Class IRI="#PeticionEnvioACentroLogístico"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Ofrece"/>
@@ -571,6 +571,10 @@
     <DataPropertyDomain>
         <DataProperty IRI="#Prioridad"/>
         <Class IRI="#PeticionCompra"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Prioridad"/>
+        <Class IRI="#PeticionEnvioACentroLogístico"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Puntuacion"/>

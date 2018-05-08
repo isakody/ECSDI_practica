@@ -131,39 +131,15 @@ def communication():
                 # resultadoComunicacion = send_message(build_message(grafoEntrada,
                 #       perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
                 #       msgcnt=getMessageCount(), content=content), enviador.address)
+                for a,b,c in grafoEntrada:
+                    print(a,b,c)
 
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
                 print(tarjeta)
 
-                relacion = grafoEntrada.value(subject=content, predicate=ECSDI.De)
-                print(relacion)
-
-                # relacion = grafoEntrada.value(subject=content, predicate=ECSDI.De)
-
-                # relacion = grafoEntrada.objects(content, ECSDI.De)
-                # compra = grafoEntrada.objects(content, ECSDI.Compra)
-
-                # compra = grafoEntrada.subjects(RDF.type, ECSDI.Compra)
-
-
-
-                compra = grafoEntrada.value(subject=relacion, predicate=ECSDI.Compra)
-                print(compra)
-                for producto in grafoEntrada.objects(subject=compra, predicate=ECSDI.Producto):
-                    print(producto)
-                    print(grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre))
-
-                #for r in relacion:
-                 #   if grafoEntrada.value(subject=r, predicate=RDF.type) == ECSDI.Compra:
-                  #      compra = grafoEntrada.value(subject=r, predicate=RDF.type)
-                   #     for producto in compra:
-                    #        nombre = grafoEntrada.value(subject=producto, predicate=RDF.Nombre)
-                     #       print(nombre)
-                      #      precio = grafoEntrada.value(subject=producto, predicate=RDF.Precio)
-                       #     print(precio)
-
-
-                # content = ECSDI['RespuestaCompra' + str(getMessageCount())]
+                for compra in grafoEntrada.objects(predicate=ECSDI.De):
+                    for productos in grafoEntrada.value(predicate=compra):
+                        print(productos)
 
                 resultadoComunicacion = Graph()
 
