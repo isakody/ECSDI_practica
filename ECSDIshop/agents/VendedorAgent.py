@@ -127,17 +127,24 @@ def communication():
                 logger.info('Recibimos petición de compra')
 
                 # Enviar mensaje con la compra a enviador
+
                 #enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent.uri, getMessageCount())
                 #resultadoComunicacion = send_message(build_message(grafoEntrada,
                      #  perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
                      #  msgcnt=getMessageCount(), content=content), enviador.address)
+
+                # enviador = getAgentInfo()
+                # resultadoComunicacion = send_message(build_message(grafoEntrada,
+                #       perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
+                #       msgcnt=getMessageCount(), content=content), enviador.address)
+
 
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
 
                 relacion = grafoEntrada.value(subject=content, predicate=ECSDI.De)
 
                 factura = """FACTURA PARA """ + tarjeta + """\n"""
-                precioTotal = 0;
+                precioTotal = 0
                 for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
                     factura += grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
                     factura += """:  """
@@ -149,6 +156,7 @@ def communication():
 
 
                 # content = ECSDI['RespuestaCompra' + str(getMessageCount())]
+
 
                 resultadoComunicacion = Graph()
 
