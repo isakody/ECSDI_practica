@@ -86,6 +86,9 @@
         <Class IRI="#Respuesta"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#RespuestaCompra"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#RespuestaDeBusqueda"/>
     </Declaration>
     <Declaration>
@@ -281,6 +284,10 @@
     <SubClassOf>
         <Class IRI="#ProductoExterno"/>
         <Class IRI="#Producto"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RespuestaCompra"/>
+        <Class IRI="#Respuesta"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#RespuestaDeBusqueda"/>
