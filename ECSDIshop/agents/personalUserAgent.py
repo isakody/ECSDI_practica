@@ -172,7 +172,12 @@ def search():
             for producto in request.form.getlist("checkbox"):
                 listaDeCompra.append(listaDeProductos[int(producto)])
 
-            procesarVenta(listaDeCompra,prioridad=1,numTarjeta=101010,direccion="DolorsMasferrer",codigoPostal=8028)
+            numTarjeta = int(request.form['numeroTarjeta'])
+            prioridad = int(request.form['prioridad'])
+            direccion = request.form['direccion']
+            codigoPostal = int(request.form['codigoPostal'])
+            print(numTarjeta,prioridad,direccion,codigoPostal)
+            procesarVenta(listaDeCompra,prioridad,numTarjeta,direccion,codigoPostal)
 
 
 
@@ -183,7 +188,8 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
     content = ECSDI['PeticionCompra' + str(getMessageCount())]
     grafoCompra.add((content,RDF.type,ECSDI.PeticionCompra))
-
+    grafoCompra.add((content,ECSDI.Prioridad,Literal(prioridad, datatype=XSD.int)))
+    grafoCompra.add((content,ECSDI.Tarjeta,Literal(numTarjeta, datatype=XSD.int)))
 
     sujetoDireccion = ECSDI['Direccion'+ str(getMessageCount())]
     grafoCompra.add((sujetoDireccion,RDF.type,ECSDI.Direccion))
@@ -192,8 +198,6 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
     sujetoCompra = ECSDI['Compra'+str(getMessageCount())]
     grafoCompra.add((sujetoCompra, RDF.type, ECSDI.Compra))
-    grafoCompra.add((sujetoCompra, ECSDI.Prioridad, Literal(prioridad, datatype=XSD.int)))
-    grafoCompra.add((sujetoCompra, ECSDI.Tarjeta, Literal(numTarjeta, datatype=XSD.int)))
     grafoCompra.add((sujetoCompra, ECSDI.Destino, URIRef(sujetoDireccion)))
 
 
@@ -213,7 +217,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
                       msgcnt=getMessageCount(),
                       content=content), vendedor.address)
 
-    return render_template('ventaRealizada.html',products=listaDeCompra)
+    render_template('ventaRealizada.html')
 
 
 # Función de parado del agente
