@@ -133,34 +133,19 @@ def communication():
                 #       msgcnt=getMessageCount(), content=content), enviador.address)
 
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
-                print(tarjeta)
 
                 relacion = grafoEntrada.value(subject=content, predicate=ECSDI.De)
-                print(relacion)
 
-                # relacion = grafoEntrada.value(subject=content, predicate=ECSDI.De)
-
-                # relacion = grafoEntrada.objects(content, ECSDI.De)
-                # compra = grafoEntrada.objects(content, ECSDI.Compra)
-
-                # compra = grafoEntrada.subjects(RDF.type, ECSDI.Compra)
-
-
-
-                compra = grafoEntrada.value(subject=relacion, predicate=ECSDI.Compra)
-                print(compra)
-                for producto in grafoEntrada.objects(subject=compra, predicate=ECSDI.Producto):
-                    print(producto)
-                    print(grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre))
-
-                #for r in relacion:
-                 #   if grafoEntrada.value(subject=r, predicate=RDF.type) == ECSDI.Compra:
-                  #      compra = grafoEntrada.value(subject=r, predicate=RDF.type)
-                   #     for producto in compra:
-                    #        nombre = grafoEntrada.value(subject=producto, predicate=RDF.Nombre)
-                     #       print(nombre)
-                      #      precio = grafoEntrada.value(subject=producto, predicate=RDF.Precio)
-                       #     print(precio)
+                factura = """FACTURA PARA """ + tarjeta + """\n"""
+                precioTotal = 0;
+                for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
+                    factura += grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
+                    factura += """:  """
+                    factura += str(grafoEntrada.value(subject=producto, predicate=ECSDI.Precio))
+                    factura += """\n"""
+                    precioTotal += float(grafoEntrada.value(subject=producto, predicate=ECSDI.Precio))
+                factura += """TOTAL:  """ + str(precioTotal)
+                enviarFactura(factura)
 
 
                 # content = ECSDI['RespuestaCompra' + str(getMessageCount())]
@@ -185,6 +170,10 @@ def stop():
     tidyUp()
     shutdown_server()
     return "Stopping server"
+
+# Simulamos el envío por mail de la factura al cliente
+def enviarFactura(factura):
+    logger.info(factura)
 
 #funcion llamada al principio de un agente
 def vendedorBehavior(queue):
