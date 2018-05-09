@@ -8,30 +8,3 @@
 
 <http://www.owl-ontologies.com/ECSDIstore> a owl:Ontology .
 
-ns1:PeticionCompra28 a ns1:PeticionCompra ;
-    ns1:De ns1:Compra30 ;
-    ns1:Pagado false ;
-    ns1:Prioridad "1"^^xsd:int ;
-    ns1:Tarjeta "101010"^^xsd:int .
-
-:Producto1 a ns1:Producto ;
-    ns1:Descripcion "Esto son Patatas"^^xsd:string ;
-    ns1:Nombre "Patatas"^^xsd:string ;
-    ns1:Peso "23.0"^^xsd:float ;
-    ns1:Precio "308.0"^^xsd:float .
-
-:Producto3 a ns1:Producto ;
-    ns1:Descripcion "Esto es un teclado"^^xsd:string ;
-    ns1:Nombre "Teclado"^^xsd:string ;
-    ns1:Peso "2.0"^^xsd:float ;
-    ns1:Precio "55.0"^^xsd:float .
-
-ns1:Compra30 a ns1:Compra ;
-    ns1:Contiene :Producto1,
-        :Producto3 ;
-    ns1:Destino ns1:Direccion29 .
-
-ns1:Direccion29 a ns1:Direccion ;
-    ns1:CodigoPostal "1010"^^xsd:int ;
-    ns1:Direccion "calle falsa 123"^^xsd:string .
-
