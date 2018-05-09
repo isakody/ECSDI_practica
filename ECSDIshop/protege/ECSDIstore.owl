@@ -209,6 +209,9 @@
         <DataProperty IRI="#Nombre"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="#Peso"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#Precio"/>
     </Declaration>
     <Declaration>
@@ -557,6 +560,10 @@
         <Class IRI="#IntervaloDeEntrega"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
+        <DataProperty IRI="#Peso"/>
+        <Class IRI="#Producto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="#Precio"/>
         <Class IRI="#Producto"/>
     </DataPropertyDomain>
@@ -627,6 +634,10 @@
     <DataPropertyRange>
         <DataProperty IRI="#Nombre"/>
         <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#Peso"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#Precio"/>
