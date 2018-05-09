@@ -134,7 +134,6 @@ def communication():
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 
-
 def procesarCompra(grafo):
     registrarCompra(grafo)
     #solicitarEnvio(grafo)
@@ -172,7 +171,6 @@ def enviadorBehavior(queue):
     :return: something
     """
     gr = register_message()
-
 
 #función llamada antes de cerrar el servidor
 def tidyUp():
@@ -213,9 +211,11 @@ def comprobarYCobrar():
         if not pagado:
             pedirCobro(grafoCompras.value(subject=compra,predicate=ECSDI.Tarjeta),
                        grafoCompras.value(subject=compra,predicate=ECSDI.PrecioTotal))
+            grafoCompras.remove((compra,ECSDI.Pagado,None))
+            grafoCompras.add((compra,ECSDI.Pagado,Literal(True,datatype=XSD.boolean)))
 
     # Guardem el graf
-    #grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
+    grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
     return
 
 def pedirCobro(tarjeta,cantidad):
