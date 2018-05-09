@@ -510,7 +510,7 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Pagado"/>
-        <Class IRI="#Compra"/>
+        <Class IRI="#PeticionCompra"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Peso"/>
