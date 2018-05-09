@@ -234,9 +234,6 @@
     <Declaration>
         <ObjectProperty IRI="#VendidoPor"/>
     </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#ParaLa"/>
-    </Declaration>
     <SubClassOf>
         <Class IRI="#BuscarProducto"/>
         <Class IRI="#Accion"/>
@@ -361,10 +358,6 @@
         </ObjectUnionOf>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#ParaLa"/>
-        <Class IRI="#PeticionTransferencia"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="#PendienteDeSerEnviado"/>
         <Class IRI="#EnviarUnLote"/>
     </ObjectPropertyDomain>
@@ -443,10 +436,6 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#Para"/>
         <Class IRI="#LoteProductos"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#ParaLa"/>
-        <Class IRI="#Compra"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#PendienteDeSerEnviado"/>

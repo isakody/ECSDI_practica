@@ -168,7 +168,6 @@ def communication():
                     grafoFactura.add((sujeto, ECSDI.FormadaPor, URIRef(producto)))
 
                 factura += """TOTAL:  """ + str(precioTotal)
-                enviarFactura(factura)
                 grafoFactura.add((sujeto, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
                 grafoEntrada.add((relacion, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
                 thread = Process(target=enviarCompra, args=(grafoEntrada, content))
@@ -199,10 +198,6 @@ def stop():
     tidyUp()
     shutdown_server()
     return "Stopping server"
-
-# Simulamos el envío por mail de la factura al cliente
-def enviarFactura(factura):
-    logger.info(factura)
 
 #funcion llamada al principio de un agente
 def vendedorBehavior(queue):
