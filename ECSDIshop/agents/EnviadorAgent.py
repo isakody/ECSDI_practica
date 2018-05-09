@@ -100,16 +100,54 @@ def communication():
     message = request.args['content']
     grafoEntrada = Graph()
     grafoEntrada.parse(data=message)
-    for s, p, o in grafoEntrada:
-        print(s,p,o)
+
     messageProperties = get_message_properties(grafoEntrada)
 
     resultadoComunicacion = Graph()
+
+    if messageProperties is None:
+        # Respondemos que no hemos entendido el mensaje
+        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                              sender=EnviadorAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProperties['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
+        else:
+            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
+            content = messageProperties['content']
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
+            # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
+            if accion == ECSDI.PeticionCompra:
+                logger.info("Procesando peticion de compra")
+                # Eliminar los ACLMessage
+                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+                    grafoEntrada.remove((item, None, None))
+
+                procesarCompra(grafoEntrada)
 
     #no retronamso nada
     logger.info('Respondemos a la petición de venta')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
+
+
+def procesarCompra(grafo):
+    registrarCompra(grafo)
+    #solicitarEnvio(grafo)
+
+def registrarCompra(grafo):
+    logger.info("Registrando la compra")
+    ontologyFile = open('../data/ComprasDB')
+
+    grafoCompras = Graph()
+    grafoCompras.parse(ontologyFile, format='turtle')
+    grafoCompras += grafo
+
+    # Guardem el graf
+    grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
 
 @app.route("/Stop")
 def stop():
@@ -142,6 +180,7 @@ def tidyUp():
     queue.put(0)
 
     pass
+
 #función para registro de agente en el servicio de directorios
 def register_message():
     """
