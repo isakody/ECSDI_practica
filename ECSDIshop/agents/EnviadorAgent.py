@@ -12,6 +12,7 @@ import socket
 import sys
 import threading
 from multiprocessing import Queue, Process
+from time import sleep
 
 from flask import Flask, request
 from rdflib import URIRef, XSD
@@ -198,10 +199,15 @@ def register_message():
     gr = registerAgent(EnviadorAgent, DirectoryAgent, EnviadorAgent.uri, getMessageCount())
     return gr
 
+def comprobarYCobrar():
+    print("Te estoi cobrando guei")
+    return
 def cobrar():
-    threading.Timer(100.0, cobrar).start()
-    print("Cobrando")
+    comprobarYCobrar()
+    threading.Timer(10, cobrar).start()
 cobrar()
+
+
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
@@ -209,11 +215,10 @@ if __name__ == '__main__':
     ab1 = Process(target=enviadorBehavior, args=(queue,))
     ab1.start()
 
-    ab2 = Process(target=cobrar)
     # Run server
     app.run(host=hostname, port=port, debug=True)
 
     # Wait behaviors
     ab1.join()
-    ab2.join()
+    cobrar()
     print('The End')
