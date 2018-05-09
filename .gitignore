@@ -1,3 +1,4 @@
 ECSDIshop/venv/*
 ECSDIshop/.idea/inspectionProfiles/Project_Default.xml
 ECSDIshop/.idea/workspace.xml
+*.pyc
