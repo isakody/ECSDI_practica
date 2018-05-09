@@ -136,8 +136,7 @@ def communication():
                 # Eliminar los ACLMessage
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
                     grafoEntrada.remove((item, None, None))
-                thread = Process(target=enviarCompra,args=(grafoEntrada,content))
-                thread.start()
+
 
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
 
@@ -171,6 +170,9 @@ def communication():
                 factura += """TOTAL:  """ + str(precioTotal)
                 enviarFactura(factura)
                 grafoFactura.add((sujeto, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
+                grafoEntrada.add((relacion, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
+                thread = Process(target=enviarCompra, args=(grafoEntrada, content))
+                thread.start()
 
 
 
