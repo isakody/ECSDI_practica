@@ -204,13 +204,14 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?Producto ?Nombre ?Precio ?Descripcion ?Id
+    SELECT ?Producto ?Nombre ?Precio ?Descripcion ?Id ?Peso
     where {
         ?Producto rdf:type default:Producto .
         ?Producto default:Nombre ?Nombre .
         ?Producto default:Precio ?Precio .
         ?Producto default:Descripcion ?Descripcion .
         ?Producto default:Id ?Id .
+        ?Producto default:Peso ?Peso .
         FILTER("""
 
     if Nombre is not None:
@@ -242,6 +243,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
         product_nombre = product.Nombre
         product_precio = product.Precio
         product_descripcion = product.Descripcion
+        product_peso = product.Peso
         print(product_nombre)
         print(product_precio)
         print(product_descripcion)
@@ -250,6 +252,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
         products_graph.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
         products_graph.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
         products_graph.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
+        products_graph.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
 
     return products_graph
 
