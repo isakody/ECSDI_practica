@@ -223,6 +223,10 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
                       content=content), vendedor.address)
 
 
+    for s, p, o in respuestaVenta:
+        print(s,p,o)
+
+
 
 # Función de parado del agente
 @app.route("/Stop")

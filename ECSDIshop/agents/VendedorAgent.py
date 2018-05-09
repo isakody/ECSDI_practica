@@ -105,7 +105,7 @@ def communication():
 
     messageProperties = get_message_properties(grafoEntrada)
 
-    resultadoComunicacion = None
+    resultadoComunicacion = Graph()
 
     if messageProperties is None:
         # Respondemos que no hemos entendido el mensaje
@@ -136,28 +136,45 @@ def communication():
                        perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
                        msgcnt=getMessageCount(), content=content), enviador.address)
 
-
-
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
+
+                grafoFactura = Graph()
+                grafoFactura.bind('ECSDI', ECSDI)
+                sujeto =  ECSDI['Factura'+ str(getMessageCount())]
+                grafoFactura.add((sujeto, RDF.type, ECSDI.Factura))
+                grafoFactura.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta , datatype=XSD.int)))
 
                 relacion = grafoEntrada.value(subject=content, predicate=ECSDI.De)
 
                 factura = """FACTURA PARA """ + tarjeta + """\n"""
                 precioTotal = 0
                 for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
-                    factura += grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
+
+                    grafoFactura.add((producto, RDF.type, ECSDI.Producto))
+
+                    nombreProducto = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
+                    grafoFactura.add((producto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
+                    factura += nombreProducto
                     factura += """:  """
-                    factura += str(grafoEntrada.value(subject=producto, predicate=ECSDI.Precio))
+
+                    precioProducto = grafoEntrada.value(subject=producto, predicate=ECSDI.Precio)
+                    grafoFactura.add((producto, ECSDI.Precio, Literal(float(precioProducto), datatype=XSD.float)))
+                    factura += str(precioProducto)
                     factura += """\n"""
-                    precioTotal += float(grafoEntrada.value(subject=producto, predicate=ECSDI.Precio))
+                    precioTotal += float(precioProducto)
+
+                    grafoFactura.add((sujeto, ECSDI.FormadaPor, URIRef(producto)))
+
                 factura += """TOTAL:  """ + str(precioTotal)
                 enviarFactura(factura)
+                grafoFactura.add((sujeto, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
+
 
 
                 # content = ECSDI['RespuestaCompra' + str(getMessageCount())]
 
 
-                resultadoComunicacion = Graph()
+                resultadoComunicacion = grafoFactura
 
                 # resultadoComunicacion.add((content, RDF.type, ECSDI.RespuestaCompra))
 
