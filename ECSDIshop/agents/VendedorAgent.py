@@ -126,17 +126,16 @@ def communication():
             if accion == ECSDI.PeticionCompra:
                 logger.info('Recibimos petición de compra')
 
+                # Eliminar los ACLMessage
+                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+                    grafoEntrada.remove((item, None, None))
+
                 # Enviar mensaje con la compra a enviador
+                enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent, getMessageCount())
+                resultadoComunicacion = send_message(build_message(grafoEntrada,
+                       perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
+                       msgcnt=getMessageCount(), content=content), enviador.address)
 
-                #enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent.uri, getMessageCount())
-                #resultadoComunicacion = send_message(build_message(grafoEntrada,
-                     #  perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
-                     #  msgcnt=getMessageCount(), content=content), enviador.address)
-
-                # enviador = getAgentInfo()
-                # resultadoComunicacion = send_message(build_message(grafoEntrada,
-                #       perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
-                #       msgcnt=getMessageCount(), content=content), enviador.address)
 
 
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
