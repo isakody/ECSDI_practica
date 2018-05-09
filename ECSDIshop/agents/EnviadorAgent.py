@@ -10,6 +10,7 @@ Asume que el agente de registro esta en el puerto 9000
 import argparse
 import socket
 import sys
+import threading
 from multiprocessing import Queue, Process
 
 from flask import Flask, request
@@ -20,7 +21,6 @@ from utils.Agent import Agent
 from utils.FlaskServer import shutdown_server
 from utils.Logging import config_logger
 from utils.OntologyNamespaces import ECSDI
-
 __author__ = 'ECSDIstore'
 
 # Definimos los parametros de la linea de comandos
@@ -170,6 +170,7 @@ def enviadorBehavior(queue):
     """
     gr = register_message()
 
+
 #función llamada antes de cerrar el servidor
 def tidyUp():
     """
@@ -197,15 +198,22 @@ def register_message():
     gr = registerAgent(EnviadorAgent, DirectoryAgent, EnviadorAgent.uri, getMessageCount())
     return gr
 
+def cobrar():
+    threading.Timer(100.0, cobrar).start()
+    print("Cobrando")
+cobrar()
+
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
     ab1 = Process(target=enviadorBehavior, args=(queue,))
     ab1.start()
 
+    ab2 = Process(target=cobrar)
     # Run server
     app.run(host=hostname, port=port, debug=True)
 
     # Wait behaviors
     ab1.join()
+    ab2.join()
     print('The End')
