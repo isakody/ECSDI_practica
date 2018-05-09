@@ -179,8 +179,18 @@ def search():
             direccion = request.form['direccion']
             codigoPostal = int(request.form['codigoPostal'])
             print(numTarjeta,prioridad,direccion,codigoPostal)
-            procesarVenta(listaDeCompra,prioridad,numTarjeta,direccion,codigoPostal)
-            return render_template('ventaRealizada.html')
+            respuestaVenta = procesarVenta(listaDeCompra,prioridad,numTarjeta,direccion,codigoPostal)
+            factura = respuestaVenta.value(predicate=RDF.type,object=ECSDI.Factura)
+            tarjeta = respuestaVenta.value(subject=factura,predicate=ECSDI.Tarjeta)
+            total = respuestaVenta.value(subject=factura,predicate=ECSDI.PrecioTotal)
+            productos = respuestaVenta.subjects(object=ECSDI.Producto)
+            productosEnFactura = []
+            for producto in productos:
+                product = [respuestaVenta.value(subject=producto, predicate=ECSDI.Nombre),
+                           respuestaVenta.value(subject=producto, predicate=ECSDI.Precio)]
+                productosEnFactura.append(product)
+
+            return render_template('ventaRealizada.html',products=productosEnFactura,tarjeta=tarjeta,total=total)
 
 
 
@@ -223,8 +233,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
                       content=content), vendedor.address)
 
 
-    for s, p, o in respuestaVenta:
-        print(s,p,o)
+    return respuestaVenta
 
 
 
