@@ -162,6 +162,8 @@ def search():
                         producto["Descripcion"] = o
                     elif p == ECSDI.Id:
                         producto["Id"] = o
+                    elif p == ECSDI.Peso:
+                        producto["Peso"] = o
                     elif p == RDF.type:
                         producto["Sujeto"] = s
                     listaDeProductos[posicionDeSujetos[s]] = producto
@@ -208,6 +210,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
         grafoCompra.add((sujetoProducto,ECSDI.Descripcion,producto['Descripcion']))
         grafoCompra.add((sujetoProducto,ECSDI.Nombre,producto['Nombre']))
         grafoCompra.add((sujetoProducto,ECSDI.Precio,producto['Precio']))
+        grafoCompra.add((sujetoProducto,ECSDI.Peso,producto['Peso']))
         grafoCompra.add((sujetoCompra, ECSDI.Contiene, URIRef(sujetoProducto)))
 
     grafoCompra.add((content,ECSDI.De,URIRef(sujetoCompra)))
