@@ -140,6 +140,8 @@ def procesarCompra(grafo):
     #solicitarEnvio(grafo)
 
 def registrarCompra(grafo):
+    compra = grafo.value(predicate=RDF.type,object=ECSDI.Compra)
+    grafo.add((compra,ECSDI.Pagado,Literal(False,datatype=XSD.boolean)))
     logger.info("Registrando la compra")
     ontologyFile = open('../data/ComprasDB')
 

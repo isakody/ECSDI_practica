@@ -93,7 +93,14 @@ def getMessageCount():
     global mss_cnt
     mss_cnt += 1
     return mss_cnt
-
+def enviarCompra(grafoEntrada,content):
+    print("Enviando compra guei")
+    # Enviar mensaje con la compra a enviador
+    enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent, getMessageCount())
+    resultadoComunicacion = send_message(build_message(grafoEntrada,
+                                                       perf=ACL.request, sender=VendedorAgent.uri,
+                                                       receiver=enviador.uri,
+                                                       msgcnt=getMessageCount(), content=content), enviador.address)
 #funcion llamada en /comm
 @app.route("/comm")
 def communication():
@@ -129,12 +136,8 @@ def communication():
                 # Eliminar los ACLMessage
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
                     grafoEntrada.remove((item, None, None))
-
-                # Enviar mensaje con la compra a enviador
-                enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent, getMessageCount())
-                resultadoComunicacion = send_message(build_message(grafoEntrada,
-                       perf=ACL.request, sender=VendedorAgent.uri, receiver=enviador.uri,
-                       msgcnt=getMessageCount(), content=content), enviador.address)
+                thread = Process(target=enviarCompra,args=(grafoEntrada,content))
+                thread.start()
 
                 tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
 
