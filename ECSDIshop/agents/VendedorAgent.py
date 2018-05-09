@@ -169,7 +169,7 @@ def communication():
 
                 factura += """TOTAL:  """ + str(precioTotal)
                 grafoFactura.add((sujeto, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
-                grafoEntrada.add((relacion, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
+                grafoEntrada.add((accion, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
                 thread = Process(target=enviarCompra, args=(grafoEntrada, content))
                 thread.start()
 
