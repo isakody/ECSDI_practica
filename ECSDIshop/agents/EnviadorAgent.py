@@ -202,11 +202,38 @@ def register_message():
     return gr
 
 def comprobarYCobrar():
-    print("Te estoi cobrando guei")
+    logger.info("Realizando cobros rutinarios")
+    ontologyFile = open('../data/ComprasDB')
+
+    grafoCompras = Graph()
+    grafoCompras.parse(ontologyFile, format='turtle')
+    compras = grafoCompras.subjects(object=ECSDI.PeticionCompra)
+    for compra in compras:
+        pagado = grafoCompras.value(subject=compra,predicate=ECSDI.Pagado)
+        if(not pagado):
+            pedirCobro(grafoCompras.value(subject=compra,predicate=ECSDI.Tarjeta),
+                       grafoCompras.value(subject=compra,predicate=ECSDI.PrecioTotal))
+
+    # Guardem el graf
+    #grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
+    return
+
+def pedirCobro(tarjeta,cantidad):
+    peticion = Graph()
+    peticion.bind('ECSDI',ECSDI)
+    sujeto = ECSDI['PeticionTransferencia'+str(getMessageCount())]
+    peticion.add((sujeto,RDF.type,ECSDI.PeticionTransferencia))
+    peticion.add((sujeto,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
+    peticion.add((sujeto,ECSDI.PrecioTotal,Literal(cantidad,datatype=XSD.float)))
+    logger.info("Solicitando cobro")
+    agenteCobrador = getAgentInfo(agn.TesoreroAgente,DirectoryAgent,EnviadorAgent,getMessageCount())
+    if(agenteCobrador is not None):
+        resultado = send_message(build_message(peticion,perf=ACL.request, sender=EnviadorAgent.uri,receiver=agenteCobrador.uri,
+                               msgcnt=getMessageCount(),content=sujeto),agenteCobrador.address)
     return
 def cobrar():
     comprobarYCobrar()
-    threading.Timer(10, cobrar).start()
+    threading.Timer(20, cobrar).start()
 cobrar()
 
 

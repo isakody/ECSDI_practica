@@ -191,14 +191,6 @@ def register_message():
     gr = registerAgent(TesoreroAgent, DirectoryAgent, TesoreroAgent.uri, getMessageCount())
     return gr
 
-def comprobarYCobrar():
-    print("Te estoi cobrando guei")
-    return
-def cobrar():
-    comprobarYCobrar()
-    threading.Timer(10, cobrar).start()
-cobrar()
-
 
 
 if __name__ == '__main__':
@@ -212,5 +204,4 @@ if __name__ == '__main__':
 
     # Wait behaviors
     ab1.join()
-    cobrar()
     print('The End')
