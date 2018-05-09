@@ -210,7 +210,7 @@ def comprobarYCobrar():
     compras = grafoCompras.subjects(object=ECSDI.PeticionCompra)
     for compra in compras:
         pagado = grafoCompras.value(subject=compra,predicate=ECSDI.Pagado)
-        if(not pagado):
+        if not pagado:
             pedirCobro(grafoCompras.value(subject=compra,predicate=ECSDI.Tarjeta),
                        grafoCompras.value(subject=compra,predicate=ECSDI.PrecioTotal))
 
@@ -226,8 +226,8 @@ def pedirCobro(tarjeta,cantidad):
     peticion.add((sujeto,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
     peticion.add((sujeto,ECSDI.PrecioTotal,Literal(cantidad,datatype=XSD.float)))
     logger.info("Solicitando cobro")
-    agenteCobrador = getAgentInfo(agn.TesoreroAgente,DirectoryAgent,EnviadorAgent,getMessageCount())
-    if(agenteCobrador is not None):
+    agenteCobrador = getAgentInfo(agn.TesoreroAgent,DirectoryAgent,EnviadorAgent,getMessageCount())
+    if agenteCobrador is not None:
         resultado = send_message(build_message(peticion,perf=ACL.request, sender=EnviadorAgent.uri,receiver=agenteCobrador.uri,
                                msgcnt=getMessageCount(),content=sujeto),agenteCobrador.address)
     return
