@@ -524,6 +524,7 @@
         <DataProperty IRI="#PrecioTotal"/>
         <ObjectUnionOf>
             <Class IRI="#Factura"/>
+            <Class IRI="#PeticionCompra"/>
             <Class IRI="#PeticionTransferencia"/>
         </ObjectUnionOf>
     </DataPropertyDomain>
