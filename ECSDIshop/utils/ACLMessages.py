@@ -16,6 +16,8 @@ import requests
 from rdflib import Graph, Namespace, Literal
 from rdflib.namespace import RDF, FOAF
 from utils.OntologyNamespaces import ACL, DSO
+from utils.OntologyNamespaces import ECSDI
+from rdflib import XSD
 
 agn = Namespace("http://www.agentes.org#")
 
@@ -123,6 +125,27 @@ def registerAgent(agent, directoryAgent, typeOfAgent, messageCount):
     gmess.add((reg_obj, FOAF.Name, Literal(agent.name)))
     gmess.add((reg_obj, DSO.Address, Literal(agent.address)))
     gmess.add((reg_obj, DSO.AgentType, typeOfAgent))
+    # Lo metemos en un envoltorio FIPA-ACL y lo enviamos
+    gr = send_message(
+        build_message(gmess, perf=ACL.request,
+                      sender=agent.uri,
+                      receiver=directoryAgent.uri,
+                      content=reg_obj,
+                      msgcnt=messageCount),
+        directoryAgent.address)
+
+# Función para solicitar los Centros logísticos por proximidad
+def getCentroLogisticoPorProximidad(agent, directoryAgent, typeOfAgent, messageCount, postCode):
+    gmess = Graph()
+    gmess.bind('foaf', FOAF)
+    gmess.bind('dso', DSO)
+    reg_obj = agn[agent.name + '-Register']
+    gmess.add((reg_obj, RDF.type, DSO.Register))
+    gmess.add((reg_obj, DSO.Uri, agent.uri))
+    gmess.add((reg_obj, FOAF.Name, Literal(agent.name)))
+    gmess.add((reg_obj, DSO.Address, Literal(agent.address)))
+    gmess.add((reg_obj, DSO.AgentType, typeOfAgent))
+    gmess.add((reg_obj,ECSDI.CodigoPostal, Literal(postCode,datatype=XSD.int)))
     # Lo metemos en un envoltorio FIPA-ACL y lo enviamos
     gr = send_message(
         build_message(gmess, perf=ACL.request,
