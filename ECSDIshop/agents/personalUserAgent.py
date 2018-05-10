@@ -192,9 +192,6 @@ def search():
 
             return render_template('ventaRealizada.html',products=productosEnFactura,tarjeta=tarjeta,total=total)
 
-
-
-
 def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal):
     logger.info("Procesando compra")
     grafoCompra = Graph()
@@ -234,8 +231,6 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
 
     return respuestaVenta
-
-
 
 # Función de parado del agente
 @app.route("/Stop")

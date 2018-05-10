@@ -135,8 +135,10 @@ def communication():
     return serialize, 200
 
 def procesarCompra(grafo):
-    registrarCompra(grafo)
-    solicitarEnvio(grafo)
+    thread1 = threading.Thread(target=registrarCompra,args=(grafo,))
+    thread1.start()
+    thread2 = threading.Thread(target=solicitarEnvio,args=(grafo,))
+    thread2.start()
 
 def solicitarEnvio(grafo):
     direccion = grafo.subjects(object=ECSDI.Direccion)
@@ -144,10 +146,21 @@ def solicitarEnvio(grafo):
     for d in direccion:
         codigoPostal = grafo.value(subject=d,predicate=ECSDI.CodigoPostal)
     centroLogisticoAgente = getAgentInfo(agn.CentroLogisticoDirectoryAgent, DirectoryAgent, EnviadorAgent, getMessageCount())
-    print("holi")
     if codigoPostal != None:
         agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), codigoPostal)
-        print(agentes)
+        peticionEnvio = Graph()
+        peticionEnvio.bind('ECSDI', ECSDI)
+        contenido = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
+        peticionEnvio.add((contenido, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
+        peticionEnvio.add((contenido,ECSDI.Prioridad,Literal(codigoPostal,datatype=XSD.int)))
+
+        for a in agentes:
+            logger.info("Solicitando peticion de envio a centro logistico")
+            respuesta = send_message(
+                build_message(peticionEnvio, perf=ACL.request, sender=EnviadorAgent.uri, receiver=a.uri,
+                              msgcnt=getMessageCount(),
+                              content=contenido), a.address)
+
 
 def registrarCompra(grafo):
     compra = grafo.value(predicate=RDF.type,object=ECSDI.PeticionCompra)
