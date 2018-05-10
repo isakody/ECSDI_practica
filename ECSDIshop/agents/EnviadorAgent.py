@@ -127,32 +127,38 @@ def communication():
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
                     grafoEntrada.remove((item, None, None))
 
-                procesarCompra(grafoEntrada)
+                procesarCompra(grafoEntrada,content)
 
     #no retronamso nada
     logger.info('Respondemos a la petición de venta')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 
-def procesarCompra(grafo):
+def procesarCompra(grafo,contenido):
     thread1 = threading.Thread(target=registrarCompra,args=(grafo,))
     thread1.start()
-    thread2 = threading.Thread(target=solicitarEnvio,args=(grafo,))
+    thread2 = threading.Thread(target=solicitarEnvio,args=(grafo,contenido))
     thread2.start()
 
-def solicitarEnvio(grafo):
+def solicitarEnvio(grafo,contenido):
     direccion = grafo.subjects(object=ECSDI.Direccion)
     codigoPostal = None
     for d in direccion:
         codigoPostal = grafo.value(subject=d,predicate=ECSDI.CodigoPostal)
     centroLogisticoAgente = getAgentInfo(agn.CentroLogisticoDirectoryAgent, DirectoryAgent, EnviadorAgent, getMessageCount())
+    prioridad = grafo.value(subject=contenido,predicate=ECSDI.Prioridad)
     if codigoPostal != None:
         agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), codigoPostal)
         peticionEnvio = Graph()
         peticionEnvio.bind('ECSDI', ECSDI)
         contenido = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
         peticionEnvio.add((contenido, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
-        peticionEnvio.add((contenido,ECSDI.Prioridad,Literal(codigoPostal,datatype=XSD.int)))
+        peticionEnvio.add((contenido,ECSDI.Prioridad,Literal(prioridad,datatype=XSD.int)))
+
+
+
+        for a,b,c in peticionEnvio:
+            print(a,b,c)
 
         for a in agentes:
             logger.info("Solicitando peticion de envio a centro logistico")
