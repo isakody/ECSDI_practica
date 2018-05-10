@@ -59,9 +59,6 @@
         <Class IRI="#OfertaDeTransporte"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PeticionCentrosLogisticos"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#PeticionCompra"/>
     </Declaration>
     <Declaration>
@@ -247,6 +244,12 @@
     <Declaration>
         <DataProperty IRI="#UnidadesEnStok"/>
     </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Stock1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Truita"/>
+    </Declaration>
     <SubClassOf>
         <Class IRI="#BuscarProducto"/>
         <Class IRI="#Accion"/>
@@ -258,10 +261,6 @@
     <SubClassOf>
         <Class IRI="#IntervaloDeEntrega"/>
         <Class IRI="#Restricciones"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#PeticionCentrosLogisticos"/>
-        <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#PeticionCompra"/>
@@ -327,6 +326,49 @@
         <Class IRI="#RestriccionDeValoracion"/>
         <Class IRI="#Restricciones"/>
     </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="#Stock"/>
+        <NamedIndividual IRI="#Stock1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Producto"/>
+        <NamedIndividual IRI="#Truita"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#Tiene"/>
+        <NamedIndividual IRI="#Stock1"/>
+        <NamedIndividual IRI="#Truita"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#UnidadesEnStok"/>
+        <NamedIndividual IRI="#Stock1"/>
+        <Literal datatypeIRI="&xsd;int">999999</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#Descripcion"/>
+        <NamedIndividual IRI="#Truita"/>
+        <Literal datatypeIRI="&xsd;string">Truita de patates</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#Id"/>
+        <NamedIndividual IRI="#Truita"/>
+        <Literal datatypeIRI="&xsd;int">1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#Nombre"/>
+        <NamedIndividual IRI="#Truita"/>
+        <Literal datatypeIRI="&xsd;string">Truita</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#Peso"/>
+        <NamedIndividual IRI="#Truita"/>
+        <Literal datatypeIRI="&xsd;float">1.2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#Precio"/>
+        <NamedIndividual IRI="#Truita"/>
+        <Literal datatypeIRI="&xsd;float">3.0</Literal>
+    </DataPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#PerteneceA"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
@@ -440,7 +482,7 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#EnvioDe"/>
-        <Class IRI="#Producto"/>
+        <Class IRI="#Compra"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#FormadaPor"/>
@@ -499,10 +541,6 @@
         <Class IRI="#Direccion"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="#CodigoPostal"/>
-        <Class IRI="#PeticionCentrosLogisticos"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
         <DataProperty IRI="#Descripcion"/>
         <Class IRI="#Producto"/>
     </DataPropertyDomain>
@@ -517,6 +555,14 @@
     <DataPropertyDomain>
         <DataProperty IRI="#FechaEntregaMaxima"/>
         <Class IRI="#IntervaloDeEntrega"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Id"/>
+        <Class IRI="#Producto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Nombre"/>
+        <Class IRI="#Producto"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Pagado"/>
