@@ -61,7 +61,7 @@ dsgraph.bind('dso', DSO)
 
 agn = Namespace("http://www.agentes.org#")
 CentroLogisticoDirectoryAgent = Agent('CentroLogisticoDirectoryAgent',
-                       agn.CentroLogisticoDirectory,
+                       agn.CentroLogisticoDirectoryAgent,
                        'http://%s:%d/Register' % (hostname, port),
                        'http://%s:%d/Stop' % (hostname, port))
 
@@ -137,7 +137,7 @@ def register():
                              receiver=agn_uri,
                              msgcnt=mss_cnt)
 
-    def process_search():
+    def process_search(cp):
         # Asumimos que hay una accion de busqueda que puede tener
         # diferentes parametros en funcion de si se busca un tipo de agente
         # o un agente concreto por URI o nombre
@@ -147,6 +147,8 @@ def register():
         # Solo consideramos cuando Search indica el tipo de agente
         # Buscamos una coincidencia exacta
         # Retornamos el primero de la lista de posibilidades
+
+        " Aqui tenim una variable cp que es el codi postal."
 
         logger.info('Peticion de busqueda')
 
@@ -160,12 +162,14 @@ def register():
         graph.add((bag, RDF.type, RDF.Bag))
 
         for agn_uri in rsearch:
-            agn_add = dsgraph.value(subject=agn_uri, predicate=DSO.Address)
-            agn_name = dsgraph.value(subject=agn_uri, predicate=FOAF.name)
+            agn_uri2 = agn_uri[0]
+            print(agn_uri)
+            agn_add = dsgraph.value(subject=agn_uri2, predicate=DSO.Address)
+            agn_name = dsgraph.value(subject=agn_uri2, predicate=FOAF.name)
 
             rsp_obj = agn['Directory-response' + str(i)]
             graph.add((rsp_obj, DSO.Address, agn_add))
-            graph.add((rsp_obj, DSO.Uri, agn_uri))
+            graph.add((rsp_obj, DSO.Uri, agn_uri2))
             graph.add((rsp_obj, FOAF.name, agn_name))
             graph.add((bag, URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#_') + str(i), rsp_obj))
             logger.info("Agente encontrado: " + agn_name)
@@ -221,7 +225,8 @@ def register():
             # Accion de busqueda
             elif accion == DSO.Search:
                 cp = gm.value(subject=content, predicate=ECSDI.CodigoPostal)
-                gr = process_search()
+                print(cp)
+                gr = process_search(cp)
             # No habia ninguna accion en el mensaje
             else:
                 gr = build_message(Graph(),

@@ -69,8 +69,8 @@ mss_cnt = 0
 
 # Data Agent
 # Datos del Agente
-CentroLogisticoAgent = Agent('CentroLogistico1Agent',
-                    agn.CentroLogistico1Agent,
+CentroLogisticoAgent = Agent('CentroLogisticoAgent',
+                    agn.CentroLogisticoAgent,
                     'http://%s:%d/comm' % (hostname, port),
                     'http://%s:%d/Stop' % (hostname, port))
 
@@ -110,8 +110,8 @@ def register_message():
     """
 
     logger.info('Nos registramos')
-
     gr = registerAgent(CentroLogisticoAgent, CentroLogisticoDirectoryAgent, CentroLogisticoAgent.uri, getMessageCount())
+    gr = registerAgent(CentroLogisticoAgent, DirectoryAgent, CentroLogisticoAgent.uri, getMessageCount())
     return gr
 
 @app.route("/comm")
@@ -145,7 +145,8 @@ def communication():
             # Averiguamos el tipo de la accion
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
 
-            #if accion == ECSDI.
+            # if accion == ECSDI.PeticionEnvioACentroLogistico:
+
 
 @app.route("/Stop")
 def stop():
@@ -169,7 +170,7 @@ def tidyUp():
 
     pass
 
-def centroLogistico1Behaviour():
+def centroLogistico1Behaviour(queue):
 
     """
     Agent Behaviour in a concurrent thread.

@@ -143,9 +143,10 @@ def solicitarEnvio(grafo):
     codigoPostal = None
     for d in direccion:
         codigoPostal = grafo.value(subject=d,predicate=ECSDI.CodigoPostal)
-    centroLogisticoAgente = getAgentInfo(agn.CentroLogisticoDirectoryAgent,DirectoryAgent,EnviadorAgent,getMessageCount())
+    centroLogisticoAgente = getAgentInfo(agn.CentroLogisticoDirectoryAgent, DirectoryAgent, EnviadorAgent, getMessageCount())
+    print("holi")
     if codigoPostal != None:
-        agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent,DirectoryAgent,EnviadorAgent,getMessageCount(),codigoPostal)
+        agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), codigoPostal)
         print(agentes)
 
 def registrarCompra(grafo):

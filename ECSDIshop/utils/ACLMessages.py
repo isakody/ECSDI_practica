@@ -135,22 +135,25 @@ def registerAgent(agent, directoryAgent, typeOfAgent, messageCount):
         directoryAgent.address)
 
 # Función para solicitar los Centros logísticos por proximidad
-def getCentroLogisticoPorProximidad(agent, directoryAgent, typeOfAgent, messageCount, postCode):
+def getCentroLogisticoPorProximidad(agentType, directoryAgent, sender, messageCount, postCode):
     gmess = Graph()
     gmess.bind('foaf', FOAF)
     gmess.bind('dso', DSO)
-    reg_obj = agn[agent.name + '-Register']
-    gmess.add((reg_obj, RDF.type, DSO.Register))
-    gmess.add((reg_obj, DSO.Uri, agent.uri))
-    gmess.add((reg_obj, FOAF.Name, Literal(agent.name)))
-    gmess.add((reg_obj, DSO.Address, Literal(agent.address)))
-    gmess.add((reg_obj, DSO.AgentType, typeOfAgent))
-    gmess.add((reg_obj,ECSDI.CodigoPostal, Literal(postCode,datatype=XSD.int)))
-    # Lo metemos en un envoltorio FIPA-ACL y lo enviamos
+    ask_obj = agn[sender.name + '-Search']
+
+    gmess.add((ask_obj, RDF.type, DSO.Search))
+    gmess.add((ask_obj, DSO.AgentType, agentType))
+    gmess.add((ask_obj, ECSDI.CodigoPostal, Literal(postCode, datatype=XSD.int)))
     gr = send_message(
-        build_message(gmess, perf=ACL.request,
-                      sender=agent.uri,
-                      receiver=directoryAgent.uri,
-                      content=reg_obj,
-                      msgcnt=messageCount),
-        directoryAgent.address)
+        build_message(gmess, perf=ACL.request, sender=sender.uri, receiver=directoryAgent.uri, msgcnt=messageCount,
+                      content=ask_obj),
+        directoryAgent.address
+    )
+    dic = get_message_properties(gr)
+    content = dic['content']
+
+    address = gr.value(subject=content, predicate=DSO.Address)
+    url = gr.value(subject=content, predicate=DSO.Uri)
+    name = gr.value(subject=content, predicate=FOAF.name)
+
+    return Agent(name, url, address, None)
