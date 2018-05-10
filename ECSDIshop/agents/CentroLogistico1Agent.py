@@ -145,7 +145,64 @@ def communication():
             # Averiguamos el tipo de la accion
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
 
-            # if accion == ECSDI.PeticionEnvioACentroLogistico:
+            if accion == ECSDI.PeticionEnvioACentroLogistico:
+                prioritat = grafoEntrada.value(subject=content, predicate=ECSDI.Prioridad)
+
+                relacion = grafoEntrada.value(subject=content, predicate=ECSDI.EnvioDe)
+                direccion = grafoEntrada.value(subject=content, predicate=ECSDI.Destino)
+
+                for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
+                    nombreP = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
+
+                    # QUERY
+                    # Mirar que el que retorna la query sigui un stock amb num de tal >= 1
+
+                    graph = Graph()
+                    ontologyFile = open('../data/StockDB.owl')
+                    graph.parse(ontologyFile, format='turtle')
+
+                    addAnd = False;
+
+                    query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                        PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
+                        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                        SELECT ?Producto ?Nombre ?UnidadesEnStok
+                        where {
+                            ?Stock rdf:type default:Stock .
+                            ?Stock default:UnidadesEnStok ?UnidadesEnStok .
+                            ?Stock default:Producto ?Producto .
+                            ?Producto default:Nombre ?Nombre .
+                            FILTER("""
+
+                    if nombreP is not None:
+                        query += """?Nombre = '""" + nombreP + """'"""
+                        addAnd = True
+
+                    query += """)}"""
+
+                    graph_query = graph.query(query)
+
+                    grafoFaltan = Graph()
+                    grafoFaltan.bind('ECSDI', ECSDI)
+                    content = ECSDI['RespuestaEnvioDesdeCentroLogistico' + str(getMessageCount())]
+                    grafoFaltan.add((content, RDF.type, ECSDI.RespuestaEnvioDesdeCentroLogistico))
+                    grafoFaltan.add((content, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
+
+                    for stock in graph_query:
+                        unitats = stock.UnidadesEnStok
+                        print(unitats)
+                        ## TODO afegir el producte si unitats >= 1.
+
+                    enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, CentroLogisticoAgent, getMessageCount())
+
+                    respuestaPeticion = send_message(
+                        build_message(grafoFaltan, perf=ACL.request, sender=CentroLogisticoAgent.uri,
+                                      receiver=enviador.uri,
+                                      msgcnt=getMessageCount(),
+                                      content=content), enviador.address)
+
 
 
 @app.route("/Stop")

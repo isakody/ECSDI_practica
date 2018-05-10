@@ -135,12 +135,13 @@ def register():
         g.add((bag,RDF.type, RDF.Bag))
 
         for agn_uri in rsearch:
-            agn_add = dsgraph.value(subject=agn_uri, predicate=DSO.Address)
-            agn_name = dsgraph.value(subject=agn_uri, predicate=FOAF.name)
+            agn_uri2 = agn_uri[0]
+            agn_add = dsgraph.value(subject=agn_uri2, predicate=DSO.Address)
+            agn_name = dsgraph.value(subject=agn_uri2, predicate=FOAF.name)
 
             rsp_obj = agn['Directory-response' + str(num)]
             g.add((rsp_obj, DSO.Address, agn_add))
-            g.add((rsp_obj, DSO.Uri, agn_uri))
+            g.add((rsp_obj, DSO.Uri, agn_uri2))
             g.add((rsp_obj, FOAF.name, agn_name))
             g.add((bag, URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#_') + str(num), rsp_obj))
             logger.info("Agente encontrado: " + agn_name)
