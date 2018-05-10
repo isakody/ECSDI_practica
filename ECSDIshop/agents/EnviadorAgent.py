@@ -213,9 +213,9 @@ def comprobarYCobrar():
                        grafoCompras.value(subject=compra,predicate=ECSDI.PrecioTotal))
             grafoCompras.remove((compra,ECSDI.Pagado,None))
             grafoCompras.add((compra,ECSDI.Pagado,Literal(True,datatype=XSD.boolean)))
+            grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
 
-    # Guardem el graf
-    grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
+
     return
 
 def pedirCobro(tarjeta,cantidad):
@@ -232,22 +232,28 @@ def pedirCobro(tarjeta,cantidad):
                                msgcnt=getMessageCount(),content=sujeto),agenteCobrador.address)
     return
 def cobrar():
-    comprobarYCobrar()
-    threading.Timer(20, cobrar).start()
-cobrar()
+    thread = threading.Thread(target=comprobarYCobrar)
+    thread.start()
+    thread.join()
+    sleep(10)
+
+    cobrar()
 
 
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
+    thread = threading.Thread(target=cobrar)
+    thread.start()
     ab1 = Process(target=enviadorBehavior, args=(queue,))
     ab1.start()
 
     # Run server
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     # Wait behaviors
     ab1.join()
-    cobrar()
+    thread.join()
+
     print('The End')
