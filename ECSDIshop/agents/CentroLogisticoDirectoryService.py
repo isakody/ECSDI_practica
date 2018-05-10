@@ -14,7 +14,7 @@ import argparse
 import socket
 from multiprocessing import Process, Queue
 from flask import Flask, request, render_template
-from rdflib import Graph, RDF, Namespace, RDFS
+from rdflib import Graph, RDF, Namespace, RDFS, BNode, URIRef
 from rdflib.namespace import FOAF
 from utils.OntologyNamespaces import ACL, DSO
 
@@ -49,16 +49,6 @@ if args.open is None:
 else:
     hostname = socket.gethostname()
 
-if args.dport is None:
-    dport = 9000
-else:
-    dport = args.dport
-
-if args.dhost is None:
-    dhostname = socket.gethostname()
-else:
-    dhostname = args.dhost
-
 # Directory Service Graph
 dsgraph = Graph()
 
@@ -71,14 +61,15 @@ dsgraph.bind('dso', DSO)
 
 agn = Namespace("http://www.agentes.org#")
 CentroLogisticoDirectoryAgent = Agent('CentroLogisticoDirectoryAgent',
-                       agn.Directory,
+                       agn.CentroLogisticoDirectory,
                        'http://%s:%d/Register' % (hostname, port),
                        'http://%s:%d/Stop' % (hostname, port))
 
+# Directory agent address
 DirectoryAgent = Agent('DirectoryAgent',
                        agn.Directory,
-                       'http://%s:%d/Register' % (dhostname, dport),
-                       'http://%s:%d/Stop' % (dhostname, dport))
+                       'http://%s:9000/Register' % hostname,
+                       'http://%s:9000/Stop' % hostname)
 
 app = Flask(__name__)
 mss_cnt = 0
@@ -142,7 +133,7 @@ def register():
         # Generamos un mensaje de respuesta
         return build_message(Graph(),
                              ACL.confirm,
-                             sender=DirectoryAgent.uri,
+                             sender=CentroLogisticoDirectoryAgent.uri,
                              receiver=agn_uri,
                              msgcnt=mss_cnt)
 
@@ -161,28 +152,36 @@ def register():
 
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
         rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
-        if rsearch is not None:
-            agn_uri = rsearch.next()[0]
+
+        i = 0
+        graph = Graph()
+        graph.bind('dso', DSO)
+        bag = BNode()
+        graph.add((bag, RDF.type, RDF.Bag))
+
+        for agn_uri in rsearch:
             agn_add = dsgraph.value(subject=agn_uri, predicate=DSO.Address)
             agn_name = dsgraph.value(subject=agn_uri, predicate=FOAF.name)
-            gr = Graph()
-            gr.bind('dso', DSO)
-            rsp_obj = agn['Directory-response']
-            gr.add((rsp_obj, DSO.Address, agn_add))
-            gr.add((rsp_obj, DSO.Uri, agn_uri))
-            gr.add((rsp_obj, FOAF.name, agn_name))
+
+            rsp_obj = agn['Directory-response' + str(i)]
+            graph.add((rsp_obj, DSO.Address, agn_add))
+            graph.add((rsp_obj, DSO.Uri, agn_uri))
+            graph.add((rsp_obj, FOAF.name, agn_name))
+            graph.add((bag, URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#_') + str(i), rsp_obj))
             logger.info("Agente encontrado: " + agn_name)
-            return build_message(gr,
+            i += 1
+
+        if rsearch is not None:
+            return build_message(graph,
                                  ACL.inform,
-                                 sender=DirectoryAgent.uri,
+                                 sender=CentroLogisticoDirectoryAgent.uri,
                                  msgcnt=mss_cnt,
-                                 receiver=agn_uri,
-                                 content=rsp_obj)
+                                 content=bag)
         else:
             # Si no encontramos nada retornamos un inform sin contenido
             return build_message(Graph(),
                                  ACL.inform,
-                                 sender=DirectoryAgent.uri,
+                                 sender=CentroLogisticoDirectoryAgent.uri,
                                  msgcnt=mss_cnt)
 
     global dsgraph
@@ -221,6 +220,7 @@ def register():
                 gr = process_register()
             # Accion de busqueda
             elif accion == DSO.Search:
+                cp = gm.value(subject=content, predicate=ECSDI.CodigoPostal)
                 gr = process_search()
             # No habia ninguna accion en el mensaje
             else:
@@ -260,7 +260,7 @@ def tidyup():
     """
 
 
-def CentroLogisticoDirectoryBehavior(queue):
+def CentroLogisticoDirectoryBehaviour():
 
     """
     Agent Behaviour in a concurrent thread.
@@ -272,7 +272,7 @@ def CentroLogisticoDirectoryBehavior(queue):
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviours como procesos
-    ab1 = Process(target=CentroLogisticoDirectoryBehavior)
+    ab1 = Process(target=CentroLogisticoDirectoryBehaviour)
     ab1.start()
 
     # Ponemos en marcha el servidor Flask
