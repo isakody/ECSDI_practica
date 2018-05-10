@@ -139,12 +139,14 @@ def procesarCompra(grafo):
     solicitarEnvio(grafo)
 
 def solicitarEnvio(grafo):
-    direccion = grafo.value(predicate=ECSDI.Direccion)
-    print("esto es la direcion ", direccion)
-    var = grafo.value(predicate=ECSDI.Destino)
-    codigoPostal = grafo.value(subject=var,predicate=ECSDI.CodigoPostal)
-    #codigoPostal = grafo.value(subject=direccion,predicate=ECSDI.CodigoPostal)
-    print(codigoPostal)
+    direccion = grafo.subjects(object=ECSDI.Direccion)
+    codigoPostal = None
+    for d in direccion:
+        codigoPostal = grafo.value(subject=d,predicate=ECSDI.CodigoPostal)
+    centroLogisticoAgente = getAgentInfo(agn.CentroLogisticoDirectoryAgent,DirectoryAgent,EnviadorAgent,getMessageCount())
+    if codigoPostal != None:
+        agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent,DirectoryAgent,EnviadorAgent,getMessageCount(),codigoPostal)
+        print(agentes)
 
 def registrarCompra(grafo):
     compra = grafo.value(predicate=RDF.type,object=ECSDI.PeticionCompra)
