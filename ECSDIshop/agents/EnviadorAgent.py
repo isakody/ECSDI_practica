@@ -136,7 +136,15 @@ def communication():
 
 def procesarCompra(grafo):
     registrarCompra(grafo)
-    #solicitarEnvio(grafo)
+    solicitarEnvio(grafo)
+
+def solicitarEnvio(grafo):
+    direccion = grafo.value(predicate=ECSDI.Direccion)
+    print("esto es la direcion ", direccion)
+    var = grafo.value(predicate=ECSDI.Destino)
+    codigoPostal = grafo.value(subject=var,predicate=ECSDI.CodigoPostal)
+    #codigoPostal = grafo.value(subject=direccion,predicate=ECSDI.CodigoPostal)
+    print(codigoPostal)
 
 def registrarCompra(grafo):
     compra = grafo.value(predicate=RDF.type,object=ECSDI.PeticionCompra)
@@ -231,6 +239,7 @@ def pedirCobro(tarjeta,cantidad):
         resultado = send_message(build_message(peticion,perf=ACL.request, sender=EnviadorAgent.uri,receiver=agenteCobrador.uri,
                                msgcnt=getMessageCount(),content=sujeto),agenteCobrador.address)
     return
+
 def cobrar():
     thread = threading.Thread(target=comprobarYCobrar)
     thread.start()
