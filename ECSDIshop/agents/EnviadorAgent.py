@@ -160,8 +160,12 @@ def solicitarEnvio(grafo,contenido):
 
         for a, b, c in grafoCopia:
             if a == contenido:
-                grafoCopia.remove((a,b,c))
-                grafoCopia.add((sujeto,b,c))
+                if b == ECSDI.De:
+                    grafoCopia.remove((a, b, c))
+                    grafoCopia.add((sujeto, ECSDI.EnvioDe, c))
+                else:
+                    grafoCopia.remove((a,b,c))
+                    grafoCopia.add((sujeto,b,c))
 
 
         for a in agentes:
