@@ -244,9 +244,6 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
         product_precio = product.Precio
         product_descripcion = product.Descripcion
         product_peso = product.Peso
-        print(product_nombre)
-        print(product_precio)
-        print(product_descripcion)
         sujeto = product.Producto
         products_graph.add((sujeto, RDF.type, ECSDI.Producto))
         products_graph.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))

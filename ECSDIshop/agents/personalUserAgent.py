@@ -178,7 +178,6 @@ def search():
             prioridad = int(request.form['prioridad'])
             direccion = request.form['direccion']
             codigoPostal = int(request.form['codigoPostal'])
-            print(numTarjeta,prioridad,direccion,codigoPostal)
             respuestaVenta = procesarVenta(listaDeCompra,prioridad,numTarjeta,direccion,codigoPostal)
             factura = respuestaVenta.value(predicate=RDF.type,object=ECSDI.Factura)
             tarjeta = respuestaVenta.value(subject=factura,predicate=ECSDI.Tarjeta)
