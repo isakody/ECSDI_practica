@@ -8,6 +8,7 @@ Tiene una funcion AgentBehavior1 que se lanza como un thread concurrente
 Asume que el agente de registro esta en el puerto 9000
 """
 import argparse
+import copy
 import socket
 import sys
 import threading
@@ -15,13 +16,14 @@ from multiprocessing import Queue, Process
 from time import sleep
 
 from flask import Flask, request
-from rdflib import URIRef, XSD
+from rdflib import URIRef, XSD, RDF
 
 from utils.ACLMessages import *
 from utils.Agent import Agent
 from utils.FlaskServer import shutdown_server
 from utils.Logging import config_logger
 from utils.OntologyNamespaces import ECSDI
+
 __author__ = 'ECSDIstore'
 
 # Definimos los parametros de la linea de comandos
@@ -129,7 +131,6 @@ def communication():
 
                 procesarCompra(grafoEntrada,content)
 
-    #no retronamso nada
     logger.info('Respondemos a la petición de venta')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
@@ -141,6 +142,9 @@ def procesarCompra(grafo,contenido):
     thread2.start()
 
 def solicitarEnvio(grafo,contenido):
+    grafoCopia = Graph()
+    for a,b,c in grafo:
+        grafoCopia.add((a,b,c))
     direccion = grafo.subjects(object=ECSDI.Direccion)
     codigoPostal = None
     for d in direccion:
@@ -149,21 +153,21 @@ def solicitarEnvio(grafo,contenido):
     prioridad = grafo.value(subject=contenido,predicate=ECSDI.Prioridad)
     if codigoPostal != None:
         agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), codigoPostal)
-        peticionEnvio = Graph()
-        peticionEnvio.bind('ECSDI', ECSDI)
-        contenido = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
-        peticionEnvio.add((contenido, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
-        peticionEnvio.add((contenido,ECSDI.Prioridad,Literal(prioridad,datatype=XSD.int)))
+        grafoCopia.remove((contenido,ECSDI.Tarjeta,None))
+        grafoCopia.remove((contenido,RDF.type,ECSDI.PeticionCompra))
+        sujeto = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
+        grafoCopia.add((sujeto, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
 
+        for a, b, c in grafoCopia:
+            if a == contenido:
+                grafoCopia.remove((a,b,c))
+                grafoCopia.add((sujeto,b,c))
 
-
-        for a,b,c in peticionEnvio:
-            print(a,b,c)
 
         for a in agentes:
             logger.info("Solicitando peticion de envio a centro logistico")
             respuesta = send_message(
-                build_message(peticionEnvio, perf=ACL.request, sender=EnviadorAgent.uri, receiver=a.uri,
+                build_message(grafoCopia, perf=ACL.request, sender=EnviadorAgent.uri, receiver=a.uri,
                               msgcnt=getMessageCount(),
                               content=contenido), a.address)
 
