@@ -260,16 +260,15 @@ def responderPeticionEnvio(grafoEntrada, content):
                 grafoEnviar.add((contentEnviar, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
                 grafoEnviar.add((contentEnviar, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
 
+                grafoEnviar.add((direccion, RDF.type, ECSDI.Direccion))
                 grafoEnviar.add((direccion, ECSDI.Direccion, Literal(direccion2, datatype=XSD.string)))
                 grafoEnviar.add((direccion, ECSDI.CodigoPostal, Literal(codigopostal, datatype=XSD.int)))
-                grafoEnviar.add((contentEnviar, ECSDI.EnviarA, direccion))
+                grafoEnviar.add((contentEnviar, ECSDI.EnviarA, URIRef(direccion)))
 
                 grafoPendientes += grafoEnviar
                 grafoPendientes.serialize(destination="../data/ProductosPendientesDB", format='turtle')
 
                 # TODO baixar 1 el stock
-
-    # TODO guardar el grafoEnviar a ProductosPendientes
     #thread1 = threading.Thread(target=crearLote, args=(grafoEnviar, contentEnviar))
     #thread1.start()
 
@@ -308,20 +307,32 @@ def crearLotes():
     graph = Graph()
     graphLotes = Graph()
 
-    ontologyFile = open('../data/ProductosPendientesDB')
-    ontologyFile2 = open('../data/LotesPendientesDB')
-
+    ontologyFile = open("../data/ProductosPendientesDB")
     graph.parse(ontologyFile, format='turtle')
+    ontologyFile2 = open("../data/LotesPendientesDB")
     graphLotes.parse(ontologyFile2, format='turtle')
 
-    addAnd = False;
+    for a,b,c in graph:
+        print(a,b,c)
 
-    query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    graph_query = []
+
+    for producto_pendiente in graph.subjects(predicate=RDF.type, object=ECSDI.ProductoPendiente):
+        if graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad) == 1:
+            graph_querya = {}
+            graph_querya['Nombre'] = graph.value(subject=producto_pendiente, predicate=ECSDI.Nombre)
+            graph_querya['Peso'] = graph.value(subject=producto_pendiente, predicate=ECSDI.Peso)
+            producto_direccion = graph.value(subject=producto_pendiente, predicate=ECSDI.EnviarA)
+            graph_querya['Direccion'] = graph.value(subject=producto_direccion, predicate=ECSDI.Direccion)
+            graph_querya['CodigoPostal'] = graph.value(subject=producto_direccion, predicate=ECSDI.CodigoPostal)
+            graph_query.append(graph_querya)
+
+    """query = PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                                 PREFIX owl: <http://www.w3.org/2002/07/owl#>
                                 PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                                SELECT ?ProductoPendiente ?Peso ?Nombre ?Direccion ?DireccionI ?CodigoPostal
+                                SELECT ?ProductoPendiente ?Peso ?Nombre ?Direccion ?DireccionI ?CodigoPostal ?Prioridad
                                 where {
                                     ?ProductoPendiente rdf:type default:ProductoPendiente .
                                     ?ProductoPendiente default:Peso ?Peso .
@@ -332,7 +343,7 @@ def crearLotes():
                                     ?Direccion default:CodigoPostal ?CodigoPostal .
                                 FILTER(?Prioridad = 1)}"""
 
-    graph_query = graph.query(query)
+    # graph_query = graph.query(query)
 
     print("He executat la primera query")
     print(len(graph_query))
