@@ -58,9 +58,6 @@
         <ObjectProperty IRI="#Contiene"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IntervaloDeEntrega"/>
-    </Declaration>
-    <Declaration>
         <DataProperty IRI="#UnidadesEnStok"/>
     </Declaration>
     <Declaration>
@@ -226,10 +223,6 @@
     <SubClassOf>
         <Class IRI="#EnviarUnLote"/>
         <Class IRI="#Accion"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#IntervaloDeEntrega"/>
-        <Class IRI="#Restricciones"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#PeticionCompra"/>
@@ -510,8 +503,20 @@
         <Class IRI="#Producto"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
+        <DataProperty IRI="#Id"/>
+        <Class IRI="#Vendedor"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="#Nombre"/>
         <Class IRI="#Producto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Nombre"/>
+        <Class IRI="#RestriccionDeNombre"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Nombre"/>
+        <Class IRI="#Vendedor"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Pagado"/>
@@ -523,6 +528,10 @@
             <Class IRI="#LoteProductos"/>
             <Class IRI="#Producto"/>
         </ObjectUnionOf>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Precio"/>
+        <Class IRI="#OfertaDeTransporte"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Precio"/>
@@ -591,6 +600,10 @@
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>
         <Class IRI="#PeticionTransferencia"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Tarjeta"/>
+        <Class IRI="#Vendedor"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#UnidadesEnStok"/>
