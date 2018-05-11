@@ -169,7 +169,7 @@ def solicitarEnvio(grafo,contenido):
             respuesta = send_message(
                 build_message(grafoCopia, perf=ACL.request, sender=EnviadorAgent.uri, receiver=a.uri,
                               msgcnt=getMessageCount(),
-                              content=contenido), a.address)
+                              content=sujeto), a.address)
 
 
 def registrarCompra(grafo):
