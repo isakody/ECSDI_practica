@@ -318,38 +318,17 @@ def crearLotes():
     graph_query = []
 
     for producto_pendiente in graph.subjects(predicate=RDF.type, object=ECSDI.ProductoPendiente):
-        if graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad) == 1:
-            graph_querya = {}
-            graph_querya['Nombre'] = graph.value(subject=producto_pendiente, predicate=ECSDI.Nombre)
-            graph_querya['Peso'] = graph.value(subject=producto_pendiente, predicate=ECSDI.Peso)
+        print(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
+        if int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad)) == 1:
             producto_direccion = graph.value(subject=producto_pendiente, predicate=ECSDI.EnviarA)
-            graph_querya['Direccion'] = graph.value(subject=producto_direccion, predicate=ECSDI.Direccion)
-            graph_querya['CodigoPostal'] = graph.value(subject=producto_direccion, predicate=ECSDI.CodigoPostal)
-            graph_query.append(graph_querya)
+            query_node = {'Producto': producto_pendiente,
+                          'Nombre': graph.value(subject=producto_pendiente, predicate=ECSDI.Nombre),
+                          'Peso': graph.value(subject=producto_pendiente, predicate=ECSDI.Peso),
+                          'Direccion': producto_direccion,
+                          'Address': graph.value(subject=producto_direccion, predicate=ECSDI.Direccion),
+                          'CodigoPostal': graph.value(subject=producto_direccion, predicate=ECSDI.CodigoPostal)}
+            graph_query.append(query_node)
 
-    """query = PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                                PREFIX owl: <http://www.w3.org/2002/07/owl#>
-                                PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
-                                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-                                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                                SELECT ?ProductoPendiente ?Peso ?Nombre ?Direccion ?DireccionI ?CodigoPostal ?Prioridad
-                                where {
-                                    ?ProductoPendiente rdf:type default:ProductoPendiente .
-                                    ?ProductoPendiente default:Peso ?Peso .
-                                    ?ProductoPendiente default:Prioridad ?Prioridad .
-                                    ?ProductoPendiente default:Nombre ?Nombre .
-                                    ?ProductoPendiente default:EnviarA ?Direccion .
-                                    ?Direccion default:Direccion ?DireccionI .
-                                    ?Direccion default:CodigoPostal ?CodigoPostal .
-                                FILTER(?Prioridad = 1)}"""
-
-    # graph_query = graph.query(query)
-
-    print("He executat la primera query")
-    print(len(graph_query))
-
-    for a in graph_query:
-        print (a)
 
     if len(graph_query) != 0:
         nouLote = Graph()
@@ -360,14 +339,14 @@ def crearLotes():
         pesoLote = 0
 
         for pendiente in graph_query:
-            productoPendiente = pendiente.ProductoPendiente
-            peso = pendiente.Peso
-            nombre = pendiente.Nombre
-            direccion = pendiente.Direccion
-            direccion2 = pendiente.DireccionI
-            codigoPostal = pendiente.CodigoPostal
-            pesoLote += peso
-            print("Holi")
+            productoPendiente = pendiente['Producto']
+            peso = pendiente['Peso']
+            nombre = pendiente['Nombre']
+            direccion = pendiente['Direccion']
+            direccion2 = pendiente['Address']
+            codigoPostal = pendiente['CodigoPostal']
+
+            pesoLote = peso + pesoLote
 
 
             nouLote.add((productoPendiente, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
