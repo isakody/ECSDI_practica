@@ -40,7 +40,7 @@ args = parser.parse_args()
 
 # Configuration stuff
 if args.port is None:
-    port = 9004
+    port = 9011
 else:
     port = args.port
 
@@ -120,7 +120,7 @@ def communication():
     Communication Entrypoint
     """
 
-    logger.info('Peticion de informacion recibida')
+    logger.info('Peticion de envio recibida')
     global dsGraph
 
     message = request.args['content']
@@ -149,29 +149,39 @@ def communication():
 
             if accion == ECSDI.PeticionEnvioACentroLogistico:
 
+                logger.info('Peticion Envio A Centro Logistico')
+
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
                     grafoEntrada.remove((item, None, None))
 
-                responderPeticionEnvio(grafoEntrada, content)
+                faltan = responderPeticionEnvio(grafoEntrada, content)
+                res = faltan
+
+    logger.info('Respondemos a la petición de envio')
+    serialize = res.serialize(format='xml')
+    return serialize, 200
+
 
 
 def responderPeticionEnvio(grafoEntrada, content):
-    for a, b, c in grafoEntrada:
-        print(a, b, c)
 
     prioritat = grafoEntrada.value(subject=content, predicate=ECSDI.Prioridad)
 
     relacion = grafoEntrada.value(subject=content, predicate=ECSDI.EnvioDe)
-    direccion = grafoEntrada.value(subject=content, predicate=ECSDI.Destino)
+    direccion = grafoEntrada.value(subject=relacion, predicate=ECSDI.Destino)
+    direccion2 = grafoEntrada.value(subject=direccion, predicate=ECSDI.Direccion)
+    codigopostal = grafoEntrada.value(subject=direccion, predicate=ECSDI.CodigoPostal)
+
+    print("Prioritat, relacio i direccio")
+    print(prioritat)
+    print(relacion)
+    print(direccion)
 
     grafoFaltan = Graph()
     grafoFaltan.bind('ECSDI', ECSDI)
     contentR = ECSDI['RespuestaEnvioDesdeCentroLogistico' + str(getMessageCount())]
     grafoFaltan.add((contentR, RDF.type, ECSDI.RespuestaEnvioDesdeCentroLogistico))
     grafoFaltan.add((contentR, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
-
-    grafoEnviar = Graph()
-    grafoEnviar.bind('ECSDI', ECSDI)
 
     for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
         nombreP = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
@@ -180,7 +190,7 @@ def responderPeticionEnvio(grafoEntrada, content):
         # Mirar que el que retorna la query sigui un stock amb num de tal >= 1
 
         graph = Graph()
-        ontologyFile = open('../data/StockDB.owl')
+        ontologyFile = open('../data/StockDB')
         graph.parse(ontologyFile, format='turtle')
 
         addAnd = False;
@@ -190,12 +200,15 @@ def responderPeticionEnvio(grafoEntrada, content):
                             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                            SELECT ?Producto ?Nombre ?UnidadesEnStok
+                            SELECT ?Stock ?Producto ?Nombre ?Descripcion ?Precio ?Peso ?UnidadesEnStok
                             where {
                                 ?Stock rdf:type default:Stock .
                                 ?Stock default:UnidadesEnStok ?UnidadesEnStok .
-                                ?Stock default:Producto ?Producto .
+                                ?Stock default:Tiene ?Producto .
                                 ?Producto default:Nombre ?Nombre .
+                                ?Producto default:Descripcion ?Descripcion .
+                                ?Producto default:Precio ?Precio .
+                                ?Producto default:Peso ?Peso .
                                 FILTER("""
 
         if nombreP is not None:
@@ -206,55 +219,83 @@ def responderPeticionEnvio(grafoEntrada, content):
 
         graph_query = graph.query(query)
 
+        for a in graph_query:
+            print(a)
+
         for stock in graph_query:
             unitats = stock.UnidadesEnStok
-            producto = stock.Tiene
+            producto = stock.Producto
+            descripcion = stock.Descripcion
+            nombre = stock.Nombre
+            precio = stock.Precio
+            peso = stock.Peso
+
             print(unitats)
+            print(producto)
+            print(descripcion)
+            print(nombre)
+            print(precio)
+            print(peso)
 
 
             if unitats == 0:
-                sujetoProducto = ECSDI['Producto' + str(getMessageCount())]
-                grafoFaltan.add((sujetoProducto, RDF.type, ECSDI.Producto))
-                grafoFaltan.add((sujetoProducto, ECSDI.Descripcion, producto.Descripcion))
-                grafoFaltan.add((sujetoProducto, ECSDI.Nombre, producto.Nombre))
-                grafoFaltan.add((sujetoProducto, ECSDI.Precio, producto.Precio))
-                grafoFaltan.add((sujetoProducto, ECSDI.Peso, producto.Peso))
-                grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(sujetoProducto)))
+                grafoFaltan.add((producto, RDF.type, ECSDI.Producto))
+                grafoFaltan.add((producto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
+                grafoFaltan.add((producto, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
+                grafoFaltan.add((producto, ECSDI.Precio, Literal(precio, datatype=XSD.string)))
+                grafoFaltan.add((producto, ECSDI.Peso, Literal(peso, datatype=XSD.string)))
+                grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(producto)))
 
             else:
+                ontologyFile = open("../data/ProductosPendientesDB")
+                grafoPendientes = Graph()
+                grafoPendientes.parse(ontologyFile, format='turtle')
+
+                grafoEnviar = Graph()
+                grafoEnviar.bind('ECSDI', ECSDI)
+
                 contentEnviar = ECSDI['ProductoPendiente' + str(getMessageCount())]
                 grafoEnviar.add((contentEnviar, RDF.type, ECSDI.ProductoPendiente))
-                grafoEnviar.add((contentEnviar, ECSDI.Descripcion, producto.Descripcion))
-                grafoEnviar.add((contentEnviar, ECSDI.Nombre, producto.Nombre))
-                grafoEnviar.add((contentEnviar, ECSDI.Precio, producto.Precio))
-                grafoEnviar.add((contentEnviar, ECSDI.Peso, producto.Peso))
+                grafoEnviar.add((contentEnviar, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
+                grafoEnviar.add((contentEnviar, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
+                grafoEnviar.add((contentEnviar, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
+
+                grafoEnviar.add((direccion, ECSDI.Direccion, Literal(direccion2, datatype=XSD.string)))
+                grafoEnviar.add((direccion, ECSDI.CodigoPostal, Literal(codigopostal, datatype=XSD.int)))
                 grafoEnviar.add((contentEnviar, ECSDI.EnviarA, direccion))
+
+                grafoPendientes += grafoEnviar
+                grafoPendientes.serialize(destination="../data/ProductosPendientesDB", format='turtle')
+
                 # TODO baixar 1 el stock
 
     # TODO guardar el grafoEnviar a ProductosPendientes
-    thread1 = threading.Thread(target=crearLote, args=(grafoEnviar,))
-    thread1.start()
+    #thread1 = threading.Thread(target=crearLote, args=(grafoEnviar, contentEnviar))
+    #thread1.start()
 
     return grafoFaltan
 
 
-def crearLote(grafoEnviar):
+def crearLote(grafoEnviar, contentEnviar):
+    direccion = grafoEnviar.value(subject=contentEnviar, predicate=ECSDI.Direccion)
+    direccion2 = grafoEnviar.value(subject=direccion, predicate=ECSDI.Direccion)
+    codigopostal = grafoEnviar.value(subject=direccion, predicate=ECSDI.CodigoPostal)
+
     grafoLote = Graph()
     content = ECSDI['LoteProductos' + str(getMessageCount())]
     grafoLote.add((content, RDF.type, ECSDI.LoteProductos))
+
     peso = 0
     prioridad = 0
 
     for prodPendiente in grafoEnviar.subjects(RDF.type, ECSDI.ProductoPendiente):
-        prioridad = prodPendiente.Prioridad
-        sujetoP = ECSDI['Producto' + str(getMessageCount())]
+        prioridad = grafoEnviar.value(subject=prodPendiente, predicate=ECSDI.Prioridad)
+        nombre = grafoEnviar.value(subject=prodPendiente, predicate=ECSDI.Prioridad)
+        sujetoP = ECSDI['ProductoPendiente' + str(getMessageCount())]
         grafoLote.add((sujetoP, RDF.type, ECSDI.Producto))
-        grafoLote.add((sujetoP, ECSDI.Descripcion, prodPendiente.Descripcion))
-        grafoLote.add((sujetoP, ECSDI.Nombre, prodPendiente.Nombre))
-        grafoLote.add((sujetoP, ECSDI.Precio, prodPendiente.Precio))
-        grafoLote.add((sujetoP, ECSDI.Peso, prodPendiente.Peso))
+        grafoLote.add((sujetoP, ECSDI.Nombre, nombre))
         grafoLote.add((content, ECSDI.CompuestoPor, URIRef(sujetoP)))
-        peso += prodPendiente.Peso
+        peso += grafoEnviar.value(subject=prodPendiente, predicate=ECSDI.Peso)
 
     grafoLote.add((content, ECSDI.Peso, peso))
     grafoLote.value((content, ECSDI.Prioridad, prioridad))
@@ -262,15 +303,16 @@ def crearLote(grafoEnviar):
     transportista = getAgentInfo(agn.TransportistaDirectoryService, DirectoryAgent, CentroLogisticoAgent, getMessageCount())
 
 
-
-
-
-
 # Aixo servira per agafar els productes pendents i ordenar-los en lots
 def crearLotes():
     graph = Graph()
-    ontologyFile = open('../data/ProductosPendientesDB.owl')
+    graphLotes = Graph()
+
+    ontologyFile = open('../data/ProductosPendientesDB')
+    ontologyFile2 = open('../data/LotesPendientesDB')
+
     graph.parse(ontologyFile, format='turtle')
+    graphLotes.parse(ontologyFile2, format='turtle')
 
     addAnd = False;
 
@@ -279,16 +321,78 @@ def crearLotes():
                                 PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                                SELECT ?Producto ?Nombre ?UnidadesEnStok
+                                SELECT ?ProductoPendiente ?Peso ?Nombre ?Direccion ?DireccionI ?CodigoPostal
                                 where {
-                                    ?Stock rdf:type default:Stock .
-                                    ?Stock default:UnidadesEnStok ?UnidadesEnStok .
-                                    ?Stock default:Producto ?Producto .
-                                    ?Producto default:Nombre ?Nombre .
-                                }"""
+                                    ?ProductoPendiente rdf:type default:ProductoPendiente .
+                                    ?ProductoPendiente default:Peso ?Peso .
+                                    ?ProductoPendiente default:Prioridad ?Prioridad .
+                                    ?ProductoPendiente default:Nombre ?Nombre .
+                                    ?ProductoPendiente default:EnviarA ?Direccion .
+                                    ?Direccion default:Direccion ?DireccionI .
+                                    ?Direccion default:CodigoPostal ?CodigoPostal .
+                                FILTER(?Prioridad = 1)}"""
 
+    graph_query = graph.query(query)
+
+    print("He executat la primera query")
+    print(len(graph_query))
+
+    for a in graph_query:
+        print (a)
+
+    if len(graph_query) != 0:
+        nouLote = Graph()
+        nouLote.bind('ECSDI', ECSDI)
+
+        contentLote = ECSDI['LoteProductos' + str(getMessageCount())]
+        nouLote.add((contentLote, RDF.type, ECSDI.LoteProductos))
+        pesoLote = 0
+
+        for pendiente in graph_query:
+            productoPendiente = pendiente.ProductoPendiente
+            peso = pendiente.Peso
+            nombre = pendiente.Nombre
+            direccion = pendiente.Direccion
+            direccion2 = pendiente.DireccionI
+            codigoPostal = pendiente.CodigoPostal
+            pesoLote += peso
+            print("Holi")
+
+
+            nouLote.add((productoPendiente, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
+            nouLote.add((direccion, ECSDI.Direccion, Literal(direccion2, datatype=XSD.string )))
+            nouLote.add((direccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
+            nouLote.add((productoPendiente, ECSDI.EnviarA, direccion))
+            nouLote.add((contentLote, ECSDI.CompuestoPor, productoPendiente))
+
+
+        nouLote.add((contentLote, ECSDI.Peso, Literal(pesoLote, datatype=XSD.float)))
+        graphLotes += nouLote
+        graphLotes.serialize(destination="../data/LotesPendientesDB", format='turtle')
+
+        delete = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                                        PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
+                                        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                                        DELETE
+                                        where {
+                                            ?ProductoPendiente rdf:type default:ProductoPendiente .
+                                            ?ProductoPendiente default:Prioridad ?Prioridad .
+                                        FILTER(?Prioridad = 1)}"""
+
+        graph_delete = graph.query(delete)
+        graph_delete.serialize(destination="../data/ProductosPendientesDB", format='turtle')
 
     return
+
+def crearLotesThread():
+    thread = threading.Thread(target=crearLotes)
+    thread.start()
+    thread.join()
+    sleep(500)
+
+    crearLotesThread()
 
 
 @app.route("/Stop")
@@ -326,12 +430,15 @@ def centroLogistico1Behaviour(queue):
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
+    thread = threading.Thread(target=crearLotesThread)
+    thread.start()
     ab1 = Process(target=centroLogistico1Behaviour, args=(queue,))
     ab1.start()
 
     # Run server
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     # Wait behaviors
     ab1.join()
+    thread.join()
     print('The End')
