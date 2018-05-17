@@ -50,6 +50,9 @@
         <Class IRI="#OfertaDeTransporte"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#PeticionAgregarProducto"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#PeticionCompra"/>
     </Declaration>
     <Declaration>
@@ -244,6 +247,10 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#EnviarUnLote"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PeticionAgregarProducto"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
@@ -597,11 +604,23 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Descripcion"/>
+        <Class IRI="#PeticionAgregarProducto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Descripcion"/>
         <Class IRI="#Producto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Descripcion"/>
+        <Class IRI="#ProductoExterno"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Direccion"/>
         <Class IRI="#Direccion"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#EnviadoPorTienda"/>
+        <Class IRI="#PeticionAgregarProducto"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#EnviadoPorTienda"/>
@@ -621,7 +640,15 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Nombre"/>
+        <Class IRI="#PeticionAgregarProducto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Nombre"/>
         <Class IRI="#Producto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Nombre"/>
+        <Class IRI="#ProductoExterno"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Nombre"/>
@@ -630,6 +657,14 @@
     <DataPropertyDomain>
         <DataProperty IRI="#Pagado"/>
         <Class IRI="#PeticionCompra"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Peso"/>
+        <Class IRI="#PeticionAgregarProducto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Peso"/>
+        <Class IRI="#ProductoExterno"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Peso"/>
@@ -644,7 +679,15 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Precio"/>
+        <Class IRI="#PeticionAgregarProducto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Precio"/>
         <Class IRI="#Producto"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Precio"/>
+        <Class IRI="#ProductoExterno"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#PrecioMaximo"/>
@@ -701,6 +744,10 @@
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>
         <Class IRI="#Factura"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Tarjeta"/>
+        <Class IRI="#PeticionAgregarProducto"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>

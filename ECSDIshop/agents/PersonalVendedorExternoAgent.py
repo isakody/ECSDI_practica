@@ -113,22 +113,33 @@ def index():
                 desdeCentros = True;
             contenido = ECSDI['ProductoExterno'+str(getMessageCount())]
             grafoContenido = Graph();
-            grafoContenido.add(contenido, RDF.type,ECSDI.Producto)
-            grafoContenido.add(contenido,RDF.type,ECSDI.ProductoExterno)
-            grafoContenido.add(contenido,ECSDI.Nombre,Literal(nombreProducto,datatype=XSD.string))
-            grafoContenido.add(contenido,ECSDI.Precio,Literal(precio,datatype=XSD.float))
-            grafoContenido.add(contenido,ECSDI.Peso,Literal(peso,datatype=XSD.float))
-            grafoContenido.add(contenido,ECSDI.Descripcion,Literal(descripcion,datatype=XSD.string))
+            grafoContenido.add((contenido, RDF.type,ECSDI.Producto))
+            grafoContenido.add((contenido,RDF.type,ECSDI.ProductoExterno))
+            grafoContenido.add((contenido,ECSDI.Nombre,Literal(nombreProducto,datatype=XSD.string)))
+            grafoContenido.add((contenido,ECSDI.Precio,Literal(precio,datatype=XSD.float)))
+            grafoContenido.add((contenido,ECSDI.Peso,Literal(peso,datatype=XSD.float)))
+            grafoContenido.add((contenido,ECSDI.Descripcion,Literal(descripcion,datatype=XSD.string)))
 
             sujetoVendedor = ECSDI['Vendedor'+str(getMessageCount())]
-            grafoContenido.add(sujetoVendedor,RDF.type,ECSDI.Vendedor)
-            grafoContenido.add(sujetoVendedor,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int))
-            grafoContenido.add(contenido,ECSDI.VendidoPor,URIRef(sujetoVendedor))
+            grafoContenido.add((sujetoVendedor,RDF.type,ECSDI.Vendedor))
+            grafoContenido.add((sujetoVendedor,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
+            grafoContenido.add((contenido,ECSDI.VendidoPor,URIRef(sujetoVendedor)))
 
+            graph = Graph()
+            ontologyFile = open("../data/PruebaDB")
+            graph.parse(ontologyFile, format='turtle')
 
-            
+            print("Graph 1")
+            for a, b, c in graph:
+                print(a, b, c)
 
+            graph += grafoContenido
 
+            print("Graph 2")
+            for a, b, c in graph:
+                print(a, b, c)
+
+            graph.serialize(destination="../data/PruebaDB", format='turtle')
 
             return render_template('procesandoArticulo.html')
 
