@@ -53,6 +53,9 @@
         <Class IRI="#PeticionAgregarProducto"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#PeticionAgregarStock"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#PeticionCompra"/>
     </Declaration>
     <Declaration>
@@ -138,6 +141,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#FormadaPor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Incorpora"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#Muestra"/>
@@ -251,6 +257,10 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#PeticionAgregarProducto"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PeticionAgregarStock"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
@@ -480,6 +490,10 @@
         <Class IRI="#Factura"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#Incorpora"/>
+        <Class IRI="#PeticionAgregarStock"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#Muestra"/>
         <Class IRI="#RespuestaDeBusqueda"/>
     </ObjectPropertyDomain>
@@ -557,6 +571,10 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#FormadaPor"/>
         <Class IRI="#Producto"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#Incorpora"/>
+        <Class IRI="#Stock"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#Muestra"/>
