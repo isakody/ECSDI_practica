@@ -275,33 +275,6 @@ def responderPeticionEnvio(grafoEntrada, content):
     return grafoFaltan
 
 
-def crearLote(grafoEnviar, contentEnviar):
-    direccion = grafoEnviar.value(subject=contentEnviar, predicate=ECSDI.Direccion)
-    direccion2 = grafoEnviar.value(subject=direccion, predicate=ECSDI.Direccion)
-    codigopostal = grafoEnviar.value(subject=direccion, predicate=ECSDI.CodigoPostal)
-
-    grafoLote = Graph()
-    content = ECSDI['LoteProductos' + str(getMessageCount())]
-    grafoLote.add((content, RDF.type, ECSDI.LoteProductos))
-
-    peso = 0
-    prioridad = 0
-
-    for prodPendiente in grafoEnviar.subjects(RDF.type, ECSDI.ProductoPendiente):
-        prioridad = grafoEnviar.value(subject=prodPendiente, predicate=ECSDI.Prioridad)
-        nombre = grafoEnviar.value(subject=prodPendiente, predicate=ECSDI.Prioridad)
-        sujetoP = ECSDI['ProductoPendiente' + str(getMessageCount())]
-        grafoLote.add((sujetoP, RDF.type, ECSDI.Producto))
-        grafoLote.add((sujetoP, ECSDI.Nombre, nombre))
-        grafoLote.add((content, ECSDI.CompuestoPor, URIRef(sujetoP)))
-        peso += grafoEnviar.value(subject=prodPendiente, predicate=ECSDI.Peso)
-
-    grafoLote.add((content, ECSDI.Peso, peso))
-    grafoLote.value((content, ECSDI.Prioridad, prioridad))
-
-    transportista = getAgentInfo(agn.TransportistaDirectoryService, DirectoryAgent, CentroLogisticoAgent, getMessageCount())
-
-
 # Aixo servira per agafar els productes pendents i ordenar-los en lots
 def crearLotes():
     graph = Graph()
@@ -317,62 +290,64 @@ def crearLotes():
 
     graph_query = []
 
+    nouLote = Graph()
+    nouLote.bind('ECSDI', ECSDI)
+
+    contentLote = ECSDI['LoteProductos' + str(getMessageCount())]
+    nouLote.add((contentLote, RDF.type, ECSDI.LoteProductos))
+    pesoLote = 0
+
     for producto_pendiente in graph.subjects(predicate=RDF.type, object=ECSDI.ProductoPendiente):
         print(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
         if int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad)) == 1:
+            print("Holi, soc dintre del IF")
+
+            ## Agafem els atributs del producte pendent
             producto_direccion = graph.value(subject=producto_pendiente, predicate=ECSDI.EnviarA)
-            query_node = {'Producto': producto_pendiente,
-                          'Nombre': graph.value(subject=producto_pendiente, predicate=ECSDI.Nombre),
-                          'Peso': graph.value(subject=producto_pendiente, predicate=ECSDI.Peso),
-                          'Direccion': producto_direccion,
-                          'Address': graph.value(subject=producto_direccion, predicate=ECSDI.Direccion),
-                          'CodigoPostal': graph.value(subject=producto_direccion, predicate=ECSDI.CodigoPostal)}
-            graph_query.append(query_node)
+            producto_nombre = graph.value(subject=producto_pendiente, predicate=ECSDI.Nombre)
+            peso = graph.value(subject=producto_pendiente, predicate=ECSDI.Peso)
+            producto_adress = graph.value(subject=producto_direccion, predicate=ECSDI.Direccion)
+            producto_codigo_postal = graph.value(subject=producto_direccion, predicate=ECSDI.CodigoPostal)
 
-
-    if len(graph_query) != 0:
-        nouLote = Graph()
-        nouLote.bind('ECSDI', ECSDI)
-
-        contentLote = ECSDI['LoteProductos' + str(getMessageCount())]
-        nouLote.add((contentLote, RDF.type, ECSDI.LoteProductos))
-        pesoLote = 0
-
-        for pendiente in graph_query:
-            productoPendiente = pendiente['Producto']
-            peso = pendiente['Peso']
-            nombre = pendiente['Nombre']
-            direccion = pendiente['Direccion']
-            direccion2 = pendiente['Address']
-            codigoPostal = pendiente['CodigoPostal']
+            ## Afegim el producte al graf nouLote
+            nouLote.add((producto_pendiente, RDF.type, ECSDI.ProductoPendiente))
+            nouLote.add((producto_pendiente, ECSDI.Nombre, Literal(producto_nombre, datatype=XSD.string)))
+            nouLote.add((producto_direccion, RDF.type, ECSDI.Direccion))
+            nouLote.add((producto_direccion, ECSDI.Direccion, Literal(producto_adress, datatype=XSD.string)))
+            nouLote.add((producto_direccion, ECSDI.CodigoPostal, Literal(producto_codigo_postal, datatype=XSD.int)))
+            nouLote.add((producto_pendiente, ECSDI.EnviarA, producto_direccion))
+            nouLote.add((contentLote, ECSDI.CompuestoPor, producto_pendiente))
 
             pesoLote = peso + pesoLote
+            print (pesoLote)
 
+            for item in graph.objects(subject=producto_pendiente):
+                graph.remove((producto_pendiente, None, item))
 
-            nouLote.add((productoPendiente, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
-            nouLote.add((direccion, ECSDI.Direccion, Literal(direccion2, datatype=XSD.string )))
-            nouLote.add((direccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
-            nouLote.add((productoPendiente, ECSDI.EnviarA, direccion))
-            nouLote.add((contentLote, ECSDI.CompuestoPor, productoPendiente))
+            for item in graph.objects(subject=producto_direccion):
+                graph.remove((producto_direccion, None, item))
 
+        else:
+            print("Holi, soc dintre del ELSE")
+            prioridad = int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
+            prioridad = prioridad - 1
+            graph.add((producto_pendiente, ECSDI.Prioridad, Literal(prioridad, datatype=XSD.int)))
 
-        nouLote.add((contentLote, ECSDI.Peso, Literal(pesoLote, datatype=XSD.float)))
+    nouLote.add((contentLote, ECSDI.Peso, Literal(pesoLote, datatype=XSD.float)))
+
+    print("nouLote")
+    for a, b, c in nouLote:
+        print(a, b, c)
+
+    if pesoLote != 0:
         graphLotes += nouLote
-        graphLotes.serialize(destination="../data/LotesPendientesDB", format='turtle')
 
-        delete = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
-                                        PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
-                                        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-                                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                                        DELETE
-                                        where {
-                                            ?ProductoPendiente rdf:type default:ProductoPendiente .
-                                            ?ProductoPendiente default:Prioridad ?Prioridad .
-                                        FILTER(?Prioridad = 1)}"""
+    print("Lotes Pendientes")
+    for a, b, c in graphLotes:
+        print(a, b, c)
 
-        graph_delete = graph.query(delete)
-        graph_delete.serialize(destination="../data/ProductosPendientesDB", format='turtle')
+    graphLotes.serialize(destination="../data/LotesPendientesDB", format='turtle')
+    graph.serialize(destination="../data/ProductosPendientesDB", format='turtle')
 
     return
 
