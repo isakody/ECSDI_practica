@@ -111,35 +111,28 @@ def index():
             desdeCentros = False
             if request.form.getlist('lugarEnvio')[0] == 'envio':
                 desdeCentros = True;
-            contenido = ECSDI['ProductoExterno'+str(getMessageCount())]
+
+
+
+            contenido = ECSDI['PeticionAgregarProducto'+str(getMessageCount())]
             grafoContenido = Graph();
-            grafoContenido.add((contenido, RDF.type,ECSDI.Producto))
-            grafoContenido.add((contenido,RDF.type,ECSDI.ProductoExterno))
+            grafoContenido.add((contenido, RDF.type,ECSDI.PeticionAgregarProducto))
+
             grafoContenido.add((contenido,ECSDI.Nombre,Literal(nombreProducto,datatype=XSD.string)))
             grafoContenido.add((contenido,ECSDI.Precio,Literal(precio,datatype=XSD.float)))
             grafoContenido.add((contenido,ECSDI.Peso,Literal(peso,datatype=XSD.float)))
             grafoContenido.add((contenido,ECSDI.Descripcion,Literal(descripcion,datatype=XSD.string)))
+            grafoContenido.add((contenido,ECSDI.UnidadesEnStock,Literal(numeroUnidades,datatype=XSD.int)))
+            grafoContenido.add((contenido,ECSDI.EnviadoPorTienda,Literal(desdeCentros,XSD.boolean)))
 
-            sujetoVendedor = ECSDI['Vendedor'+str(getMessageCount())]
-            grafoContenido.add((sujetoVendedor,RDF.type,ECSDI.Vendedor))
-            grafoContenido.add((sujetoVendedor,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
-            grafoContenido.add((contenido,ECSDI.VendidoPor,URIRef(sujetoVendedor)))
+            agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
 
-            graph = Graph()
-            ontologyFile = open("../data/PruebaDB")
-            graph.parse(ontologyFile, format='turtle')
+            grafoBusqueda = send_message(
+                build_message(grafoContenido, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
+                              msgcnt=getMessageCount(),
+                              content=contenido), agente.address)
 
-            print("Graph 1")
-            for a, b, c in graph:
-                print(a, b, c)
 
-            graph += grafoContenido
-
-            print("Graph 2")
-            for a, b, c in graph:
-                print(a, b, c)
-
-            graph.serialize(destination="../data/PruebaDB", format='turtle')
 
             return render_template('procesandoArticulo.html')
 
