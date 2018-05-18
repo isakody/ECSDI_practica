@@ -109,7 +109,7 @@ def index():
             numeroUnidades = request.form['numeroUnidades']
             precio = request.form['precio']
             desdeCentros = False
-            if request.form.getlist('lugarEnvio')[0] == 'envio':
+            if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
                 desdeCentros = True;
 
 
@@ -123,9 +123,10 @@ def index():
             grafoContenido.add((contenido,ECSDI.Peso,Literal(peso,datatype=XSD.float)))
             grafoContenido.add((contenido,ECSDI.Descripcion,Literal(descripcion,datatype=XSD.string)))
             grafoContenido.add((contenido,ECSDI.UnidadesEnStock,Literal(numeroUnidades,datatype=XSD.int)))
-            grafoContenido.add((contenido,ECSDI.EnviadoPorTienda,Literal(desdeCentros,XSD.boolean)))
+            grafoContenido.add((contenido,ECSDI.EnviadoPorTienda,Literal(desdeCentros,datatype=XSD.boolean)))
+            grafoContenido.add((contenido,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
 
-            agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
+            agente = getAgentInfo(agn.GestorExternoAgent, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
 
             grafoBusqueda = send_message(
                 build_message(grafoContenido, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
