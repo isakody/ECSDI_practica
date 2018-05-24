@@ -1,790 +1,308 @@
 @prefix : <http://www.owl-ontologies.com/ECSDIstore#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.owl-ontologies.com/ECSDIstore> .
 
-<http://www.owl-ontologies.com/ECSDIstore> rdf:type owl:Ontology .
+<http://www.owl-ontologies.com/ECSDIstore> a owl:Ontology .
 
-
-#################################################################
-#
-#    Object Properties
-#
-#################################################################
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#CompuestoPor
-
-:CompuestoPor rdf:type owl:ObjectProperty ;
-              
-              rdfs:domain :LoteProductos ;
-              
-              rdfs:range :Producto .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#ConstaDe
-
-:ConstaDe rdf:type owl:ObjectProperty ;
-          
-          rdfs:domain :CentroLogistico ;
-          
-          rdfs:range :Stock .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Contiene
-
-:Contiene rdf:type owl:ObjectProperty ;
-          
-          rdfs:domain :Compra ;
-          
-          rdfs:range :Producto .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#De
-
-:De rdf:type owl:ObjectProperty ;
-    
-    rdfs:range :Compra ;
-    
-    rdfs:domain :PeticionCompra .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#DestinadaA
-
-:DestinadaA rdf:type owl:ObjectProperty ;
-            
-            rdfs:range :Direccion ;
-            
-            rdfs:domain :PeticionOfertaTransporte .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Destino
-
-:Destino rdf:type owl:ObjectProperty ;
-         
-         rdfs:domain :Compra ;
-         
-         rdfs:range :Direccion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#EnviarA
-
-:EnviarA rdf:type owl:ObjectProperty ;
-         
-         rdfs:range :Direccion ;
-         
-         rdfs:domain :ProductoPendiente .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#EnvioDe
-
-:EnvioDe rdf:type owl:ObjectProperty ;
-         
-         rdfs:range :Compra ;
-         
-         rdfs:domain :PeticionEnvioACentroLogístico .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Faltan
-
-:Faltan rdf:type owl:ObjectProperty ;
-        
-        rdfs:range :Producto ;
-        
-        rdfs:domain :RespuestaEnvioDesdeCentroLogistico .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#FormadaPor
-
-:FormadaPor rdf:type owl:ObjectProperty ;
-            
-            rdfs:domain :Factura ;
-            
-            rdfs:range :Producto .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Ofrece
-
-:Ofrece rdf:type owl:ObjectProperty ;
-        
-        rdfs:range :OfertaDeTransporte ;
-        
-        rdfs:domain :Transportista .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Para
-
-:Para rdf:type owl:ObjectProperty ;
-      
-      rdfs:range :LoteProductos ;
-      
-      rdfs:domain [ rdf:type owl:Class ;
-                    owl:unionOf ( :OfertaDeTransporte
-                                  :PeticionOfertaTransporte
-                                )
-                  ] .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PendienteDeSerEnviado
-
-:PendienteDeSerEnviado rdf:type owl:ObjectProperty ;
-                       
-                       rdfs:domain :EnviarUnLote ;
-                       
-                       rdfs:range :LoteProductos .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PerteneceA
-
-:PerteneceA rdf:type owl:ObjectProperty ;
-            
-            rdfs:range :Producto ;
-            
-            rdfs:domain :Valoracion ;
-            
-            rdfs:subPropertyOf owl:topObjectProperty .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Productos
-
-:Productos rdf:type owl:ObjectProperty ;
-           
-           rdfs:domain :PeticionRegistroProductos ;
-           
-           rdfs:range :ProductoExterno .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#ProximoA
-
-:ProximoA rdf:type owl:ObjectProperty ;
-          
-          rdfs:domain :CentroLogistico ;
-          
-          rdfs:range :Direccion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RestringidaPor
-
-:RestringidaPor rdf:type owl:ObjectProperty ;
-                
-                rdfs:domain :BuscarProducto ;
-                
-                rdfs:range :Restricciones .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RetornaUn
-
-:RetornaUn rdf:type owl:ObjectProperty ;
-           
-           rdfs:domain :PeticionRetorno ;
-           
-           rdfs:range :Producto .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Tiene
-
-:Tiene rdf:type owl:ObjectProperty ;
-       
-       rdfs:range :Producto ;
-       
-       rdfs:domain :Stock .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#TieneProductos
-
-:TieneProductos rdf:type owl:ObjectProperty ;
-                
-                rdfs:range :Producto ;
-                
-                rdfs:domain :RespuestaDeBusqueda .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#TieneUn
-
-:TieneUn rdf:type owl:ObjectProperty ;
-         
-         rdfs:domain :Envio ;
-         
-         rdfs:range :LoteProductos .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#VendidoPor
-
-:VendidoPor rdf:type owl:ObjectProperty ;
-            
-            rdfs:domain :ProductoExterno ;
-            
-            rdfs:range :Vendedor .
-
-
-
-###  http://www.w3.org/2002/07/owl#topObjectProperty
-
-owl:topObjectProperty rdf:type owl:ReflexiveProperty ,
-                               owl:SymmetricProperty ,
-                               owl:TransitiveProperty ;
-                      
-                      owl:inverseOf owl:topObjectProperty .
-
-
-
-
-
-#################################################################
-#
-#    Data properties
-#
-#################################################################
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#CodigoPostal
-
-:CodigoPostal rdf:type owl:DatatypeProperty ,
-                       owl:FunctionalProperty ;
-              
-              rdfs:domain :Direccion ;
-              
-              rdfs:range xsd:int .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Descripcion
-
-:Descripcion rdf:type owl:DatatypeProperty ,
-                      owl:FunctionalProperty ;
-             
-             rdfs:domain :Producto ;
-             
-             rdfs:range xsd:string .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Direccion
-
-:Direccion rdf:type owl:Class ,
-                    owl:DatatypeProperty ,
-                    owl:FunctionalProperty ;
-           
-           rdfs:domain :Direccion ;
-           
-           rdfs:range xsd:string .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#FechaEntrega
-
-:FechaEntrega rdf:type owl:DatatypeProperty ,
-                       owl:FunctionalProperty ;
-              
-              rdfs:domain :OfertaDeTransporte ;
-              
-              rdfs:range xsd:dateTime .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#FechaEntregaMaxima
-
-:FechaEntregaMaxima rdf:type owl:DatatypeProperty ,
-                             owl:FunctionalProperty ;
-                    
-                    rdfs:domain :IntervaloDeEntrega ;
-                    
-                    rdfs:range xsd:dateTime .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Id
-
-:Id rdf:type owl:DatatypeProperty ,
-             owl:FunctionalProperty ;
-    
-    rdfs:domain :Producto ;
-    
+:CodigoPostal a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Direccion ;
     rdfs:range xsd:int .
 
+:CompuestoPor a owl:ObjectProperty ;
+    rdfs:domain :LoteProductos ;
+    rdfs:range :Producto .
+
+:ConstaDe a owl:ObjectProperty ;
+    rdfs:domain :CentroLogistico ;
+    rdfs:range :Stock .
+
+:Contiene a owl:ObjectProperty ;
+    rdfs:domain :Compra ;
+    rdfs:range :Producto .
+
+:De a owl:ObjectProperty ;
+    rdfs:domain :PeticionCompra ;
+    rdfs:range :Compra .
+
+:Descripcion a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Producto ;
+    rdfs:range xsd:string .
+
+:DestinadaA a owl:ObjectProperty ;
+    rdfs:domain :PeticionOfertaTransporte ;
+    rdfs:range :Direccion .
+
+:Destino a owl:ObjectProperty ;
+    rdfs:domain :Compra ;
+    rdfs:range :Direccion .
+
+:EnviarA a owl:ObjectProperty ;
+    rdfs:domain :ProductoPendiente ;
+    rdfs:range :Direccion .
+
+:EnvioDe a owl:ObjectProperty ;
+    rdfs:domain :PeticionEnvioACentroLogístico ;
+    rdfs:range :Compra .
+
+:Faltan a owl:ObjectProperty ;
+    rdfs:domain :RespuestaEnvioDesdeCentroLogistico ;
+    rdfs:range :Producto .
+
+:FechaEntrega a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :OfertaDeTransporte ;
+    rdfs:range xsd:dateTime .
+
+:FechaEntregaMaxima a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :IntervaloDeEntrega ;
+    rdfs:range xsd:dateTime .
+
+:FormadaPor a owl:ObjectProperty ;
+    rdfs:domain :Factura ;
+    rdfs:range :Producto .
+
+:Id a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Producto ;
+    rdfs:range xsd:int .
+
+:Nombre a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Producto ;
+    rdfs:range xsd:string .
+
+:Ofrece a owl:ObjectProperty ;
+    rdfs:domain :Transportista ;
+    rdfs:range :OfertaDeTransporte .
+
+:Pagado a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :PeticionCompra ;
+    rdfs:range xsd:boolean .
+
+:Para a owl:ObjectProperty ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :OfertaDeTransporte :PeticionOfertaTransporte ) ] ;
+    rdfs:range :LoteProductos .
+
+:PendienteDeSerEnviado a owl:ObjectProperty ;
+    rdfs:domain :EnviarUnLote ;
+    rdfs:range :LoteProductos .
+
+:PerteneceA a owl:ObjectProperty ;
+    rdfs:domain :Valoracion ;
+    rdfs:range :Producto ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+:Peso a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :LoteProductos :Producto ) ] ;
+    rdfs:range xsd:float .
+
+:PeticionTransporte a owl:Class ;
+    rdfs:subClassOf :Accion .
+
+:Precio a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Producto ;
+    rdfs:range xsd:float .
+
+:PrecioMaximo a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :RestriccionDePrecio ;
+    rdfs:range xsd:float .
+
+:PrecioMinimo a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :RestriccionDePrecio ;
+    rdfs:range xsd:float .
+
+:PrecioTotal a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :Factura :PeticionCompra :PeticionTransferencia ) ] ;
+    rdfs:range xsd:float .
+
+:Prioridad a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :LoteProductos,
+        :PeticionCompra,
+        :PeticionEnvioACentroLogístico,
+        :ProductoExterno,
+        :RespuestaEnvioDesdeCentroLogistico ;
+    rdfs:range xsd:int .
+
+:Productos a owl:ObjectProperty ;
+    rdfs:domain :PeticionRegistroProductos ;
+    rdfs:range :ProductoExterno .
+
+:ProximoA a owl:ObjectProperty ;
+    rdfs:domain :CentroLogistico ;
+    rdfs:range :Direccion .
+
+:Puntuacion a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Valoracion ;
+    rdfs:range xsd:int .
 
+:PuntuacionMaxima a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :RestriccionDeValoracion ;
+    rdfs:range xsd:int .
 
-###  http://www.owl-ontologies.com/ECSDIstore#Nombre
+:PuntuacionMinima a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :RestriccionDeValoracion ;
+    rdfs:range xsd:int .
 
-:Nombre rdf:type owl:DatatypeProperty ,
-                 owl:FunctionalProperty ;
-        
-        rdfs:domain :Producto ;
-        
-        rdfs:range xsd:string .
+:RespuestaCompra a owl:Class ;
+    rdfs:subClassOf :Respuesta .
 
+:RespuestaOfertaTransporte a owl:Class ;
+    rdfs:subClassOf :Respuesta .
 
+:RespuestaTransferencia a owl:Class ;
+    rdfs:subClassOf :Respuesta .
 
-###  http://www.owl-ontologies.com/ECSDIstore#Pagado
+:RestriccionDeNombre a owl:Class ;
+    rdfs:subClassOf :Restricciones .
 
-:Pagado rdf:type owl:DatatypeProperty ,
-                 owl:FunctionalProperty ;
-        
-        rdfs:domain :PeticionCompra ;
-        
-        rdfs:range xsd:boolean .
+:RestringidaPor a owl:ObjectProperty ;
+    rdfs:domain :BuscarProducto ;
+    rdfs:range :Restricciones .
 
+:RetornaUn a owl:ObjectProperty ;
+    rdfs:domain :PeticionRetorno ;
+    rdfs:range :Producto .
 
+:Stock1 a :Stock,
+        owl:NamedIndividual ;
+    :Tiene :Producto2 ;
+    :UnidadesEnStok "999999"^^xsd:int .
 
-###  http://www.owl-ontologies.com/ECSDIstore#Peso
+:Tarjeta a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :Factura :PeticionCompra :PeticionTransferencia ) ] ;
+    rdfs:range xsd:int .
 
-:Peso rdf:type owl:DatatypeProperty ,
-               owl:FunctionalProperty ;
-      
-      rdfs:range xsd:float ;
-      
-      rdfs:domain [ rdf:type owl:Class ;
-                    owl:unionOf ( :LoteProductos
-                                  :Producto
-                                )
-                  ] .
+:Tiene a owl:ObjectProperty ;
+    rdfs:domain :Stock ;
+    rdfs:range :Producto .
 
+:TieneProductos a owl:ObjectProperty ;
+    rdfs:domain :RespuestaDeBusqueda ;
+    rdfs:range :Producto .
 
+:TieneUn a owl:ObjectProperty ;
+    rdfs:domain :Envio ;
+    rdfs:range :LoteProductos .
 
-###  http://www.owl-ontologies.com/ECSDIstore#Precio
+:UnidadesEnStok a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Stock ;
+    rdfs:range xsd:int .
 
-:Precio rdf:type owl:DatatypeProperty ,
-                 owl:FunctionalProperty ;
-        
-        rdfs:domain :Producto ;
-        
-        rdfs:range xsd:float .
+:VendidoPor a owl:ObjectProperty ;
+    rdfs:domain :ProductoExterno ;
+    rdfs:range :Vendedor .
 
+:BuscarProducto a owl:Class ;
+    rdfs:subClassOf :Accion .
 
+:EnviarUnLote a owl:Class ;
+    rdfs:subClassOf :Accion .
 
-###  http://www.owl-ontologies.com/ECSDIstore#PrecioMaximo
+:Envio a owl:Class .
 
-:PrecioMaximo rdf:type owl:DatatypeProperty ,
-                       owl:FunctionalProperty ;
-              
-              rdfs:domain :RestriccionDePrecio ;
-              
-              rdfs:range xsd:float .
+:IntervaloDeEntrega a owl:Class ;
+    rdfs:subClassOf :Restricciones .
 
+:PeticionRegistroProductos a owl:Class ;
+    rdfs:subClassOf :Accion .
 
+:PeticionRetorno a owl:Class ;
+    rdfs:subClassOf :Accion .
 
-###  http://www.owl-ontologies.com/ECSDIstore#PrecioMinimo
+:Producto2 a :Producto,
+        owl:NamedIndividual ;
+    :Descripcion "Esto es un mouse"^^xsd:string ;
+    :Id "2"^^xsd:int ;
+    :Nombre "Mouse"^^xsd:string ;
+    :Peso "1.0"^^xsd:float ;
+    :Precio "32.0"^^xsd:float .
 
-:PrecioMinimo rdf:type owl:DatatypeProperty ,
-                       owl:FunctionalProperty ;
-              
-              rdfs:domain :RestriccionDePrecio ;
-              
-              rdfs:range xsd:float .
+:ProductoPendiente a owl:Class ;
+    rdfs:subClassOf :Producto .
 
+:RespuestaDeBusqueda a owl:Class ;
+    rdfs:subClassOf :Respuesta .
 
+:Transportista a owl:Class .
 
-###  http://www.owl-ontologies.com/ECSDIstore#PrecioTotal
+:Vendedor a owl:Class .
 
-:PrecioTotal rdf:type owl:DatatypeProperty ,
-                      owl:FunctionalProperty ;
-             
-             rdfs:range xsd:float ;
-             
-             rdfs:domain [ rdf:type owl:Class ;
-                           owl:unionOf ( :Factura
-                                         :PeticionCompra
-                                         :PeticionTransferencia
-                                       )
-                         ] .
+:CentroLogistico a owl:Class .
 
+:PeticionEnvioACentroLogístico a owl:Class ;
+    rdfs:subClassOf :Accion .
 
+:PeticionOfertaTransporte a owl:Class ;
+    rdfs:subClassOf :Accion .
 
-###  http://www.owl-ontologies.com/ECSDIstore#Prioridad
+:PeticionTransferencia a owl:Class ;
+    rdfs:subClassOf :Accion .
 
-:Prioridad rdf:type owl:DatatypeProperty ,
-                    owl:FunctionalProperty ;
-           
-           rdfs:domain :LoteProductos ,
-                       :PeticionCompra ,
-                       :PeticionEnvioACentroLogístico ,
-                       :ProductoExterno ,
-                       :RespuestaEnvioDesdeCentroLogistico ;
-           
-           rdfs:range xsd:int .
+:RespuestaEnvioDesdeCentroLogistico a owl:Class ;
+    rdfs:subClassOf :Respuesta .
 
+:RestriccionDePrecio a owl:Class ;
+    rdfs:subClassOf :Restricciones .
 
+:RestriccionDeValoracion a owl:Class ;
+    rdfs:subClassOf :Restricciones .
 
-###  http://www.owl-ontologies.com/ECSDIstore#Puntuacion
+:Valoracion a owl:Class .
 
-:Puntuacion rdf:type owl:DatatypeProperty ,
-                     owl:FunctionalProperty ;
-            
-            rdfs:domain :Valoracion ;
-            
-            rdfs:range xsd:int .
+owl:topObjectProperty a owl:ReflexiveProperty,
+        owl:SymmetricProperty,
+        owl:TransitiveProperty ;
+    owl:inverseOf owl:topObjectProperty .
 
+:Factura a owl:Class .
 
+:OfertaDeTransporte a owl:Class .
 
-###  http://www.owl-ontologies.com/ECSDIstore#PuntuacionMaxima
+:ProductoExterno a owl:Class ;
+    rdfs:subClassOf :Producto .
 
-:PuntuacionMaxima rdf:type owl:DatatypeProperty ,
-                           owl:FunctionalProperty ;
-                  
-                  rdfs:domain :RestriccionDeValoracion ;
-                  
-                  rdfs:range xsd:int .
+:Compra a owl:Class .
 
+:Stock a owl:Class .
 
+:PeticionCompra a owl:Class ;
+    rdfs:subClassOf :Accion .
 
-###  http://www.owl-ontologies.com/ECSDIstore#PuntuacionMinima
+:Respuesta a owl:Class .
 
-:PuntuacionMinima rdf:type owl:DatatypeProperty ,
-                           owl:FunctionalProperty ;
-                  
-                  rdfs:domain :RestriccionDeValoracion ;
-                  
-                  rdfs:range xsd:int .
+:Restricciones a owl:Class .
 
+:Direccion a owl:Class,
+        owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:domain :Direccion ;
+    rdfs:range xsd:string .
 
+:LoteProductos a owl:Class .
 
-###  http://www.owl-ontologies.com/ECSDIstore#Tarjeta
+:Accion a owl:Class .
 
-:Tarjeta rdf:type owl:DatatypeProperty ,
-                  owl:FunctionalProperty ;
-         
-         rdfs:range xsd:int ;
-         
-         rdfs:domain [ rdf:type owl:Class ;
-                       owl:unionOf ( :Factura
-                                     :PeticionCompra
-                                     :PeticionTransferencia
-                                   )
-                     ] .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#UnidadesEnStok
-
-:UnidadesEnStok rdf:type owl:DatatypeProperty ,
-                         owl:FunctionalProperty ;
-                
-                rdfs:domain :Stock ;
-                
-                rdfs:range xsd:int .
-
-
-
-
-
-#################################################################
-#
-#    Classes
-#
-#################################################################
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Accion
-
-:Accion rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#BuscarProducto
-
-:BuscarProducto rdf:type owl:Class ;
-                
-                rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#CentroLogistico
-
-:CentroLogistico rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Compra
-
-:Compra rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Direccion
-
-:Direccion rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#EnviarUnLote
-
-:EnviarUnLote rdf:type owl:Class ;
-              
-              rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Envio
-
-:Envio rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Factura
-
-:Factura rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#IntervaloDeEntrega
-
-:IntervaloDeEntrega rdf:type owl:Class ;
-                    
-                    rdfs:subClassOf :Restricciones .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#LoteProductos
-
-:LoteProductos rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#OfertaDeTransporte
-
-:OfertaDeTransporte rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PeticionCompra
-
-:PeticionCompra rdf:type owl:Class ;
-                
-                rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PeticionEnvioACentroLogístico
-
-:PeticionEnvioACentroLogístico rdf:type owl:Class ;
-                               
-                               rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PeticionOfertaTransporte
-
-:PeticionOfertaTransporte rdf:type owl:Class ;
-                          
-                          rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PeticionRegistroProductos
-
-:PeticionRegistroProductos rdf:type owl:Class ;
-                           
-                           rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PeticionRetorno
-
-:PeticionRetorno rdf:type owl:Class ;
-                 
-                 rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PeticionTransferencia
-
-:PeticionTransferencia rdf:type owl:Class ;
-                       
-                       rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#PeticionTransporte
-
-:PeticionTransporte rdf:type owl:Class ;
-                    
-                    rdfs:subClassOf :Accion .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Producto
-
-:Producto rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#ProductoExterno
-
-:ProductoExterno rdf:type owl:Class ;
-                 
-                 rdfs:subClassOf :Producto .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#ProductoPendiente
-
-:ProductoPendiente rdf:type owl:Class ;
-                   
-                   rdfs:subClassOf :Producto .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Respuesta
-
-:Respuesta rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RespuestaCompra
-
-:RespuestaCompra rdf:type owl:Class ;
-                 
-                 rdfs:subClassOf :Respuesta .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RespuestaDeBusqueda
-
-:RespuestaDeBusqueda rdf:type owl:Class ;
-                     
-                     rdfs:subClassOf :Respuesta .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RespuestaEnvioDesdeCentroLogistico
-
-:RespuestaEnvioDesdeCentroLogistico rdf:type owl:Class ;
-                                    
-                                    rdfs:subClassOf :Respuesta .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RespuestaOfertaTransporte
-
-:RespuestaOfertaTransporte rdf:type owl:Class ;
-                           
-                           rdfs:subClassOf :Respuesta .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RespuestaTransferencia
-
-:RespuestaTransferencia rdf:type owl:Class ;
-                        
-                        rdfs:subClassOf :Respuesta .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RestriccionDeNombre
-
-:RestriccionDeNombre rdf:type owl:Class ;
-                     
-                     rdfs:subClassOf :Restricciones .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RestriccionDePrecio
-
-:RestriccionDePrecio rdf:type owl:Class ;
-                     
-                     rdfs:subClassOf :Restricciones .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#RestriccionDeValoracion
-
-:RestriccionDeValoracion rdf:type owl:Class ;
-                         
-                         rdfs:subClassOf :Restricciones .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Restricciones
-
-:Restricciones rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Stock
-
-:Stock rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Transportista
-
-:Transportista rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Valoracion
-
-:Valoracion rdf:type owl:Class .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Vendedor
-
-:Vendedor rdf:type owl:Class .
-
-
-
-
-
-#################################################################
-#
-#    Individuals
-#
-#################################################################
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Producto2
-
-:Producto2 rdf:type :Producto ,
-                    owl:NamedIndividual ;
-           
-           :Peso "1.0"^^xsd:float ;
-           
-           :Id "2"^^xsd:int ;
-           
-           :Precio "32.0"^^xsd:float ;
-           
-           :Descripcion "Esto es un mouse"^^xsd:string ;
-           
-           :Nombre "Mouse"^^xsd:string .
-
-
-
-###  http://www.owl-ontologies.com/ECSDIstore#Stock1
-
-:Stock1 rdf:type :Stock ,
-                 owl:NamedIndividual ;
-        
-        :UnidadesEnStok "999999"^^xsd:int ;
-        
-        :Tiene :Producto2 .
-
-
-
-
-###  Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net
+:Producto a owl:Class .
 

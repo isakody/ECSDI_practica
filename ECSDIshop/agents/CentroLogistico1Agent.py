@@ -192,6 +192,9 @@ def responderPeticionEnvio(grafoEntrada, content):
         graph = Graph()
         ontologyFile = open('../data/StockDB')
         graph.parse(ontologyFile, format='turtle')
+        graph.serialize(destination='../data/StockDB', format='turtle')
+        ontologyFile = open('../data/StockDB')
+        graph.parse(ontologyFile, format='turtle')
 
         addAnd = False;
 
