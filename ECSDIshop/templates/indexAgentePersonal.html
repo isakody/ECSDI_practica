@@ -21,9 +21,22 @@
             <td><a href="./recommend">Productos recomendados</a></td>
         </tr>
         <tr>
-            <td><h2>Estos son algunos de nuestros productos estrella:</h2></td>
+            <td>Para devolver un producto especifica tu tarjeta con la que has comprado algún producto:</td>
         </tr>
         <tr>
+            <td>
+                <form method="post" action="/purchased" >
+                <input type="text" name="tarjeta" placeholder="Tarjeta..."/><br>
+                <input type="submit" name="return" value="submit">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td><h2>Estos son algunos de nuestros productos estrella:</h2></td>
+        </tr>
+
+        <tr>
+
             {%if products%}
                 <table style="width:85%; border-collapse:collapse;" align="center" border="1px solid black">
                   <tr align="left">

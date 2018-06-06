@@ -237,6 +237,13 @@ def recommend():
 
     return render_template('showRecommendations.html', products=pedirRecomendacion())
 
+@app.route("/purchased",methods=['GET', 'POST'])
+def getProductsToReturn():
+    if request.method == 'POST':
+        if request.form['return'] == 'submit':
+            print(request.form['tarjeta'])
+
+
 def pedirRecomendacion():
     sujetoRecomendacion = ECSDI["RecomendarProducto" + str(getMessageCount())]
     grafo = Graph();
