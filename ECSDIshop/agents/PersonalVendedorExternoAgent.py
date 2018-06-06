@@ -110,12 +110,12 @@ def index():
             precio = request.form['precio']
             desdeCentros = False
             if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
-                desdeCentros = True;
+                desdeCentros = True
 
 
 
             contenido = ECSDI['PeticionAgregarProducto'+str(getMessageCount())]
-            grafoContenido = Graph();
+            grafoContenido = Graph()
             grafoContenido.add((contenido, RDF.type,ECSDI.PeticionAgregarProducto))
 
             grafoContenido.add((contenido,ECSDI.Nombre,Literal(nombreProducto,datatype=XSD.string)))

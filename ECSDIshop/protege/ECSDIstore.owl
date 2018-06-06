@@ -35,9 +35,6 @@
         <Class IRI="#Direccion"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#EnviarUnLote"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Envio"/>
     </Declaration>
     <Declaration>
@@ -60,6 +57,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="#PeticionEnvioACentroLogístico"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionEnvioLote"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PeticionOfertaTransporte"/>
@@ -255,10 +255,6 @@
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#EnviarUnLote"/>
-        <Class IRI="#Accion"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#PeticionAgregarProducto"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
@@ -272,6 +268,10 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#PeticionEnvioACentroLogístico"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PeticionEnvioLote"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
@@ -513,7 +513,7 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#PendienteDeSerEnviado"/>
-        <Class IRI="#EnviarUnLote"/>
+        <Class IRI="#PeticionEnvioLote"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#PerteneceA"/>
@@ -874,11 +874,6 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#BuscarProducto</IRI>
         <Literal datatypeIRI="&rdf;PlainLiteral">Petición de búsqueda de productos.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#EnviarUnLote</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Petición de envío de lote desde CentroLogístico a Transportista.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
