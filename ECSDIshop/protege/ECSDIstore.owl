@@ -83,6 +83,9 @@
         <Class IRI="#ProductoPendiente"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#RecomendarProducto"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Respuesta"/>
     </Declaration>
     <Declaration>
@@ -294,6 +297,10 @@
     <SubClassOf>
         <Class IRI="#ProductoPendiente"/>
         <Class IRI="#Producto"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RecomendarProducto"/>
+        <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#RespuestaDeBusqueda"/>
@@ -778,6 +785,10 @@
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>
         <Class IRI="#Vendedor"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#UnidadesEnStok"/>
+        <Class IRI="#PeticionAgregarProducto"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#UnidadesEnStok"/>
