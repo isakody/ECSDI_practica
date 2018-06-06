@@ -97,7 +97,8 @@ def getMessageCount():
 # Función que devuelve la página principal de ECSDIstore
 @app.route("/")
 def index():
-    return render_template('indexAgentePersonal.html')
+
+    return render_template('indexAgentePersonal.html',products=pedirRecomendacion())
 
 # Función que atiende a peticiones GET Y POST de busqueda, GET para coger la página que nos permite ver el filtro
 # y post para procesar las peticiones de filtrado
@@ -233,9 +234,13 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
 @app.route("/recommend")
 def recommend():
-    sujetoRecomendacion = ECSDI["RecomendarProducto"+str(getMessageCount())]
+
+    return render_template('showRecommendations.html', products=pedirRecomendacion())
+
+def pedirRecomendacion():
+    sujetoRecomendacion = ECSDI["RecomendarProducto" + str(getMessageCount())]
     grafo = Graph();
-    grafo.add((sujetoRecomendacion,RDF.type,ECSDI.RecomendacionProducto))
+    grafo.add((sujetoRecomendacion, RDF.type, ECSDI.RecomendacionProducto))
     agente = getAgentInfo(agn.PromotorDeProductos, DirectoryAgent, UserPersonalAgent, getMessageCount())
     # Enviamos petición de filtrado al agente filtrador
     grafoBusqueda = send_message(
@@ -266,8 +271,7 @@ def recommend():
             elif p == RDF.type:
                 producto["Sujeto"] = s
             listaDeProductos[posicionDeSujetos[s]] = producto
-    return render_template('showRecommendations.html', products=listaDeProductos)
-
+    return listaDeProductos
 # Función de parado del agente
 @app.route("/Stop")
 def stop():

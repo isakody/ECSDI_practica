@@ -16,6 +16,27 @@
         <tr>
             <td><a href="./recommend">Productos recomendados</a></td>
         </tr>
+        <tr>
+            <td><h2>Estos són algunos de nuestros productos estrella:</h2></td>
+        </tr>
+        <tr>
+            {%if products%}
+                <table style="width:85%; border-collapse:collapse;" align="center" border="1px solid black">
+                  <tr align="left">
+                    <th style="padding:15px">Nombre</th>
+                    <th style="padding:15px">Precio</th>
+                    <th style="padding:15px">Descripción</th>
+                  </tr>
+                  {% for product in products %}
+                    <tr>
+                        <td style="padding:15px">{{ product.Nombre }}</td>
+                        <td style="padding:15px">{{ product.Precio }}</td>
+                        <td style="padding:15px">{{ product.Descripcion }}</td>
+                    </tr>
+                  {% endfor %}
+                </table>
+            {%endif%}
+        </tr>
     </table>
 </body>
 </html>
