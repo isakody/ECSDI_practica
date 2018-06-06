@@ -217,5 +217,4 @@ if __name__ == '__main__':
 
     # Wait behaviors
     ab1.join()
-    thread.join()
     print('The End')
