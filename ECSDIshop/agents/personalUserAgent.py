@@ -231,6 +231,22 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
     return respuestaVenta
 
+@app.route("/recommend")
+def recommend():
+    sujetoRecomendacion = ECSDI["RecomendarProducto"+str(getMessageCount())]
+    grafo = Graph();
+    grafo.add((sujetoRecomendacion,RDF.type,ECSDI.RecomendacionProducto))
+    agente = getAgentInfo(agn.PromotorDeProductos, DirectoryAgent, UserPersonalAgent, getMessageCount())
+    # Enviamos petición de filtrado al agente filtrador
+    grafoBusqueda = send_message(
+        build_message(grafo, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                      msgcnt=getMessageCount(),
+                      content=sujetoRecomendacion), agente.address)
+
+
+    for a, b ,c in grafoBusqueda:
+        print a, b, c
+
 # Función de parado del agente
 @app.route("/Stop")
 def stop():
