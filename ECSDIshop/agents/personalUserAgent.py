@@ -243,9 +243,30 @@ def recommend():
                       msgcnt=getMessageCount(),
                       content=sujetoRecomendacion), agente.address)
 
-
-    for a, b ,c in grafoBusqueda:
-        print a, b, c
+    listaDeProductos = []
+    posicionDeSujetos = {}
+    indice = 0
+    for s, p, o in grafoBusqueda:
+        if s not in posicionDeSujetos:
+            posicionDeSujetos[s] = indice
+            indice += 1
+            listaDeProductos.append({})
+        if s in posicionDeSujetos:
+            producto = listaDeProductos[posicionDeSujetos[s]]
+            if p == ECSDI.Nombre:
+                producto["Nombre"] = o
+            elif p == ECSDI.Precio:
+                producto["Precio"] = o
+            elif p == ECSDI.Descripcion:
+                producto["Descripcion"] = o
+            elif p == ECSDI.Id:
+                producto["Id"] = o
+            elif p == ECSDI.Peso:
+                producto["Peso"] = o
+            elif p == RDF.type:
+                producto["Sujeto"] = s
+            listaDeProductos[posicionDeSujetos[s]] = producto
+    return render_template('showRecommendations.html', products=listaDeProductos)
 
 # Función de parado del agente
 @app.route("/Stop")

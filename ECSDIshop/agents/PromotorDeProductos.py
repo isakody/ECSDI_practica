@@ -13,6 +13,7 @@ import sys
 import thread
 import threading
 from multiprocessing import Queue, Process
+from random import randint
 from time import sleep
 
 from flask import Flask, request
@@ -136,7 +137,11 @@ def communication():
                                                   sender=DirectoryAgent.uri, msgcnt=getMessageCount())
         else:
             graph = Graph()
-            ontologyFile = open('../data/ProductsDB.owl')
+            seleccion = randint(0, 1)
+            if seleccion == 1:
+                ontologyFile = open('../data/ProductsDB.owl')
+            else:
+                ontologyFile = open('../data/ComprasDB')
             graph.parse(ontologyFile, format='turtle')
             query =  """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                         PREFIX owl: <http://www.w3.org/2002/07/owl#>

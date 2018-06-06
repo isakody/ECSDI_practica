@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommended products</title>
+</head>
+<body>
+<h1>Estos son los productos en los que puedes estar interesado:</h1>
+    {%if products%}
+                <table style="width:85%; border-collapse:collapse;" align="center" border="1px solid black">
+                  <tr align="left">
+                    <th style="padding:15px">Nombre</th>
+                    <th style="padding:15px">Precio</th>
+                    <th style="padding:15px">Descripción</th>
+                  </tr>
+                  {% for product in products %}
+                    <tr>
+                        <td style="padding:15px">{{ product.Nombre }}</td>
+                        <td style="padding:15px">{{ product.Precio }}</td>
+                        <td style="padding:15px">{{ product.Descripcion }}</td>
+                    </tr>
+                  {% endfor %}
+                </table>
+    {%endif%}
+</body>
+</html>
