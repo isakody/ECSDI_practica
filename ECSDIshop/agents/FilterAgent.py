@@ -11,6 +11,7 @@ import argparse
 import socket
 import sys
 from multiprocessing import Queue, Process
+from threading import Thread
 
 from flask import Flask, request
 from rdflib import URIRef, XSD
@@ -219,11 +220,9 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
         addAnd = True
 
 
-
     if PrecioMin is not None:
         if addAnd:
             query += """ && """
-            addAnd = False
         query += """?Precio >= """ + str(PrecioMin)
         addAnd = True
 
@@ -231,7 +230,6 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     if PrecioMax is not None:
         if addAnd:
             query += """ && """
-            addAnd = False
         query += """?Precio <= """ + str(PrecioMax)
 
     query += """)}"""
@@ -239,6 +237,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     graph_query = graph.query(query)
     products_graph = Graph()
     products_graph.bind('ECSDI', ECSDI)
+    products_filtro = Graph()
     for product in graph_query:
         product_nombre = product.Nombre
         product_precio = product.Precio
@@ -251,7 +250,29 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
         products_graph.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
         products_graph.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
 
+        sujetofiltrado = ECSDI['ProductoFiltrado' + str(getMessageCount())]
+        products_filtro.add((sujetofiltrado, RDF.type, ECSDI.Producto))
+        products_filtro.add((sujetofiltrado, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
+        products_filtro.add((sujetofiltrado, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
+        products_filtro.add((sujetofiltrado, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
+
+    thread = Thread(target=registrarFiltro, args=(products_filtro,))
+    thread.start()
+
     return products_graph
+
+
+def registrarFiltro(grafo):
+    ontologyFile = open('../data/FiltrosDB')
+
+    grafoFiltros = Graph()
+    grafoFiltros.bind('default', ECSDI)
+    grafoFiltros.parse(ontologyFile, format='turtle')
+    grafoFiltros += grafo
+
+    # Guardem el graf
+    grafoFiltros.serialize(destination='../data/FiltrosDB', format='turtle')
+
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
@@ -260,7 +281,7 @@ if __name__ == '__main__':
     ab1.start()
 
     # Run server
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     # Wait behaviors
     ab1.join()

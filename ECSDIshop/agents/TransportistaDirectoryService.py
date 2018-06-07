@@ -25,7 +25,7 @@ from utils.ACLMessages import build_message, get_message_properties
 from utils.Agent import Agent
 from utils.FlaskServer import shutdown_server
 from utils.Logging import config_logger
-from utils.OntologyNamespaces import ACL, DSO
+from utils.OntologyNamespaces import ACL, DSO, ECSDI
 
 __author__ = 'ECSDIstore'
 
@@ -64,11 +64,38 @@ dsgraph.bind('dso', DSO)
 
 agn = Namespace("http://www.agentes.org#")
 TransportistaDirectoryAgent = Agent('TransportistaDirectoryAgent',
-                       agn.TransportistaDirectory,
+                       agn.TransportistaDirectoryAgent,
                        'http://%s:%d/Register' % (hostname, port),
                        'http://%s:%d/Stop' % (hostname, port))
+
+# Directory agent address
+DirectoryAgent = Agent('DirectoryAgent',
+                       agn.Directory,
+                       'http://%s:9000/Register' % hostname,
+                       'http://%s:9000/Stop' % hostname)
+
 app = Flask(__name__)
 mss_cnt = 0
+
+#función incremental de numero de mensajes
+def getMessageCount():
+    global mss_cnt
+    mss_cnt += 1
+    return mss_cnt
+
+def register_message():
+    """
+    Envia un mensaje de registro al servicio de registro
+    usando una performativa Request y una accion Register del
+    servicio de directorio
+
+    :return:
+    """
+
+    logger.info('Nos registramos')
+
+    gr = registerAgent(TransportistaDirectoryAgent, DirectoryAgent, TransportistaDirectoryAgent.uri, getMessageCount())
+    return gr
 
 
 @app.route("/Register")
@@ -88,7 +115,7 @@ def register():
         # Si la hay extraemos el nombre del agente (FOAF.Name), el URI del agente
         # su direccion y su tipo
 
-        logger.info('Peticion de registro')
+        logger.info('Peticion de registro transportista')
 
         agn_add = gm.value(subject=content, predicate=DSO.Address)
         agn_name = gm.value(subject=content, predicate=FOAF.Name)
@@ -145,6 +172,7 @@ def register():
             g.add((rsp_obj, FOAF.name, agn_name))
             g.add((bag, URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#_') + str(num), rsp_obj))
             logger.info("Agente encontrado: " + agn_name)
+            num += 1
 
 
         if rsearch is not None:
@@ -196,6 +224,7 @@ def register():
                 gr = process_register()
             # Accion de busqueda
             elif accion == DSO.Search:
+            # TODO get peso y procesarlo para devolver el precio
                 gr = process_search()
             # No habia ninguna accion en el mensaje
             else:
@@ -215,7 +244,7 @@ def info():
     global dsgraph
     global mss_cnt
 
-    dsgraph.serialize(format='turtle')
+    return render_template('info.html', nmess=mss_cnt, graph=dsgraph.serialize(format='turtle'))
 
 
 @app.route("/Stop")
@@ -235,16 +264,18 @@ def tidyup():
     """
 
 
-def agentbehavior1():
+def TransportistaDirectoryBehaviour():
     """
     Behaviour que simplemente espera mensajes de una cola y los imprime
     hasta que llega un 0 a la cola
     """
 
+    qr = register_message()
+
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviours como procesos
-    ab1 = Process(target=agentbehavior1)
+    ab1 = Process(target=TransportistaDirectoryBehaviour)
     ab1.start()
 
     # Ponemos en marcha el servidor Flask

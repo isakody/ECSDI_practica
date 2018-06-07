@@ -139,25 +139,24 @@ def communication():
             graph = Graph()
             seleccion = randint(0, 1)
             if seleccion == 1:
-                ontologyFile = open('../data/ProductsDB.owl')
+                ontologyFile = open('../data/FiltrosDB')
             else:
                 ontologyFile = open('../data/ComprasDB')
             graph.parse(ontologyFile, format='turtle')
             query =  """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                        
                         PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                        SELECT ?Producto ?Nombre ?Precio ?Descripcion ?Id ?Peso
+                        SELECT ?Producto ?Nombre ?Precio ?Descripcion
                         where {
                             ?Producto rdf:type default:Producto .
                             ?Producto default:Nombre ?Nombre .
                             ?Producto default:Precio ?Precio .
                             ?Producto default:Descripcion ?Descripcion .
-                            ?Producto default:Id ?Id .
-                            ?Producto default:Peso ?Peso
+
                         }
-                        GROUP BY ?Producto ORDER BY DESC(COUNT(*)) LIMIT 10"""
+                        GROUP BY ?Nombre ORDER BY DESC(COUNT(*)) LIMIT 10"""
 
             resultadoConsulta = graph.query(query)
             resultadoComunicacion = Graph()
@@ -165,13 +164,11 @@ def communication():
                 product_nombre = product.Nombre
                 product_precio = product.Precio
                 product_descripcion = product.Descripcion
-                product_peso = product.Peso
                 sujeto = product.Producto
                 resultadoComunicacion.add((sujeto, RDF.type, ECSDI.Producto))
                 resultadoComunicacion.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
                 resultadoComunicacion.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
                 resultadoComunicacion.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
-                resultadoComunicacion.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
 
     logger.info('Respondemos a la petición de busqueda')
     serialize = resultadoComunicacion.serialize(format='xml')

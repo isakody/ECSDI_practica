@@ -6,6 +6,7 @@
 
 default:PeticionCompra17 a default:PeticionCompra ;
     default:De default:Compra19 ;
+    default:Pagado false ;
     default:PrecioTotal "32.0"^^xsd:float ;
     default:Prioridad "1"^^xsd:int ;
     default:Tarjeta "123456"^^xsd:int .

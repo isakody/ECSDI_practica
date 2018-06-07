@@ -136,15 +136,15 @@ def communication():
     return serialize, 200
 
 def procesarCompra(grafo,contenido):
-    thread1 = threading.Thread(target=registrarCompra,args=(grafo,))
+    #todo convertir compra en un Envio
+    thread1 = threading.Thread(target=registrarEnvio,args=(grafo,))
     thread1.start()
     thread2 = threading.Thread(target=solicitarEnvio,args=(grafo,contenido))
     thread2.start()
 
 def solicitarEnvio(grafo,contenido):
     grafoCopia = Graph()
-    for a,b,c in grafo:
-        grafoCopia.add((a,b,c))
+    grafoCopia.bind('default', ECSDI);
     direccion = grafo.subjects(object=ECSDI.Direccion)
     codigoPostal = None
     for d in direccion:
@@ -160,7 +160,7 @@ def solicitarEnvio(grafo,contenido):
 
         for a, b, c in grafoCopia:
             if a == contenido:
-                if b == ECSDI.De:
+                if b == ECSDI.De: #Compra
                     grafoCopia.remove((a, b, c))
                     grafoCopia.add((sujeto, ECSDI.EnvioDe, c))
                 else:
@@ -176,18 +176,19 @@ def solicitarEnvio(grafo,contenido):
                               content=sujeto), a.address)
 
 
-def registrarCompra(grafo):
+def registrarEnvio(grafo):
     compra = grafo.value(predicate=RDF.type,object=ECSDI.PeticionCompra)
     grafo.add((compra,ECSDI.Pagado,Literal(False,datatype=XSD.boolean)))
-    logger.info("Registrando la compra")
-    ontologyFile = open('../data/ComprasDB')
+    logger.info("Registrando el envio")
+    ontologyFile = open('../data/EnviosDB')
 
-    grafoCompras = Graph()
-    grafoCompras.parse(ontologyFile, format='turtle')
-    grafoCompras += grafo
+    grafoEnvios = Graph()
+    grafoEnvios.bind('default', ECSDI)
+    grafoEnvios.parse(ontologyFile, format='turtle')
+    grafoEnvios += grafo
 
     # Guardem el graf
-    grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
+    grafoEnvios.serialize(destination='../data/EnviosDB', format='turtle')
 
 @app.route("/Stop")
 def stop():
@@ -283,8 +284,8 @@ def cobrar():
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
-    thread = threading.Thread(target=cobrar)
-    thread.start()
+    #thread = threading.Thread(target=cobrar)
+    #thread.start()
     ab1 = Process(target=enviadorBehavior, args=(queue,))
     ab1.start()
 
@@ -293,6 +294,6 @@ if __name__ == '__main__':
 
     # Wait behaviors
     ab1.join()
-    thread.join()
+    #thread.join()
 
     print('The End')

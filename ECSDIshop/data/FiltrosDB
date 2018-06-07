@@ -1,0 +1,21 @@
+@prefix default: <http://www.owl-ontologies.com/ECSDIstore#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+default:ProductoFiltrado1 a default:Producto ;
+    default:Descripcion "Esto es un Mouse"^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string ;
+    default:Precio "32.0"^^xsd:float .
+
+default:ProductoFiltrado2 a default:Producto ;
+    default:Descripcion "Esto es un teclado"^^xsd:string ;
+    default:Nombre "Teclado"^^xsd:string ;
+    default:Precio "55.0"^^xsd:float .
+
+default:ProductoFiltrado3 a default:Producto ;
+    default:Descripcion "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Patatas"^^xsd:string ;
+    default:Precio "308.0"^^xsd:float .
+

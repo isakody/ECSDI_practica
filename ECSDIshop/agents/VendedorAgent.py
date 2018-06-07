@@ -94,14 +94,27 @@ def getMessageCount():
     global mss_cnt
     mss_cnt += 1
     return mss_cnt
+
 def enviarCompra(grafoEntrada,content):
-    print("Enviando compra guei")
     # Enviar mensaje con la compra a enviador
     enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent, getMessageCount())
     resultadoComunicacion = send_message(build_message(grafoEntrada,
                                                        perf=ACL.request, sender=VendedorAgent.uri,
                                                        receiver=enviador.uri,
                                                        msgcnt=getMessageCount(), content=content), enviador.address)
+
+def registrarCompra(grafoEntrada):
+    ontologyFile = open('../data/ComprasDB')
+
+    grafoCompras = Graph()
+    grafoCompras.bind('default', ECSDI)
+    grafoCompras.parse(ontologyFile, format='turtle')
+    grafoCompras += grafoEntrada
+
+    # Guardem el graf
+    grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
+
+
 #funcion llamada en /comm
 @app.route("/comm")
 def communication():
@@ -139,56 +152,57 @@ def communication():
                     grafoEntrada.remove((item, None, None))
 
 
-                tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
-
-                grafoFactura = Graph()
-                grafoFactura.bind('ECSDI', ECSDI)
-                sujeto =  ECSDI['Factura'+ str(getMessageCount())]
-                grafoFactura.add((sujeto, RDF.type, ECSDI.Factura))
-                grafoFactura.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta , datatype=XSD.int)))
-
-                relacion = grafoEntrada.value(subject=content, predicate=ECSDI.De)
-
-                factura = """FACTURA PARA """ + tarjeta + """\n"""
-                precioTotal = 0
-                for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
-
-                    grafoFactura.add((producto, RDF.type, ECSDI.Producto))
-
-                    nombreProducto = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
-                    grafoFactura.add((producto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
-                    factura += nombreProducto
-                    factura += """:  """
-
-                    precioProducto = grafoEntrada.value(subject=producto, predicate=ECSDI.Precio)
-                    grafoFactura.add((producto, ECSDI.Precio, Literal(float(precioProducto), datatype=XSD.float)))
-                    factura += str(precioProducto)
-                    factura += """\n"""
-                    precioTotal += float(precioProducto)
-
-                    grafoFactura.add((sujeto, ECSDI.FormadaPor, URIRef(producto)))
-
-                factura += """TOTAL:  """ + str(precioTotal)
-                grafoFactura.add((sujeto, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
-                suj = grafoEntrada.value(predicate=RDF.type, object=ECSDI.PeticionCompra)
-                grafoEntrada.add((suj, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
-                thread = Thread(target=enviarCompra, args=(grafoEntrada, content))
-                thread.start()
-
-
-
-                # content = ECSDI['RespuestaCompra' + str(getMessageCount())]
-
-
-                resultadoComunicacion = grafoFactura
-
-                # resultadoComunicacion.add((content, RDF.type, ECSDI.RespuestaCompra))
+                resultadoComunicacion =  vender(grafoEntrada, content)
 
 
     #no retronamos nada
     logger.info('Respondemos a la petición de compra')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
+
+def vender(grafoEntrada, content):
+
+    # Guardar Compra
+    thread = Thread(target=registrarCompra, args=(grafoEntrada,))
+    thread.start()
+
+    tarjeta = grafoEntrada.value(subject=content, predicate=ECSDI.Tarjeta)
+
+    grafoFactura = Graph()
+    grafoFactura.bind('default', ECSDI)
+
+    # Crear factura
+    sujeto = ECSDI['Factura' + str(getMessageCount())]
+    grafoFactura.add((sujeto, RDF.type, ECSDI.Factura))
+    grafoFactura.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.int)))
+
+    compra = grafoEntrada.value(subject=content, predicate=ECSDI.De)
+
+    precioTotal = 0
+    for producto in grafoEntrada.objects(subject=compra, predicate=ECSDI.Contiene):
+        grafoFactura.add((producto, RDF.type, ECSDI.Producto))
+
+        nombreProducto = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
+        grafoFactura.add((producto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
+
+        precioProducto = grafoEntrada.value(subject=producto, predicate=ECSDI.Precio)
+        grafoFactura.add((producto, ECSDI.Precio, Literal(float(precioProducto), datatype=XSD.float)))
+        precioTotal += float(precioProducto)
+
+        grafoFactura.add((sujeto, ECSDI.FormadaPor, URIRef(producto)))
+
+
+    grafoFactura.add((sujeto, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
+    suj = grafoEntrada.value(predicate=RDF.type, object=ECSDI.PeticionCompra)
+    grafoEntrada.add((suj, ECSDI.PrecioTotal, Literal(precioTotal, datatype=XSD.float)))
+
+    # Enviar compra a Enviador
+    thread = Thread(target=enviarCompra, args=(grafoEntrada, content))
+    thread.start()
+
+
+
+    return grafoFactura
 
 @app.route("/Stop")
 def stop():
@@ -244,7 +258,7 @@ if __name__ == '__main__':
     ab1.start()
 
     # Run server
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     # Wait behaviors
     ab1.join()
