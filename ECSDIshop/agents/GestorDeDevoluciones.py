@@ -176,8 +176,16 @@ def communication():
             elif accion == ECSDI.RetornarProductos:
 
                 #TODO quitar productos de envios y sacar la fuquing direccion que no se como
-                direccionRetorno = grafoEntrada.value(predicate=ECSDI.Direccion)
-                codigoPostal = grafoEntrada.value(predicate=ECSDI.CodigoPostal)
+                for a, b, c in grafoEntrada:
+                    print a, b, c
+                direccion= grafoEntrada.objects(predicate=ECSDI.Direccion)
+                direccionRetorno = None;
+                for d in direccion:
+                    direccionRetorno = d;
+                codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
+                codigoPostal = None;
+                for c in codigo:
+                    codigoPostal = c;
                 print(codigoPostal, direccionRetorno)
                 thread1 = threading.Thread(target=solicitarEnvio,args=(direccionRetorno,codigoPostal))
                 thread1.start()

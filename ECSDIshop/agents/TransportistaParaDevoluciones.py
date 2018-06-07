@@ -100,8 +100,6 @@ def communication():
     message = request.args['content']
     grafoEntrada = Graph()
     grafoEntrada.parse(data=message)
-    for s, p, o in grafoEntrada:
-        print(s,p,o)
     messageProperties = get_message_properties(grafoEntrada)
 
     resultadoComunicacion = None
@@ -118,11 +116,18 @@ def communication():
                                                   sender=DirectoryAgent.uri, msgcnt=getMessageCount())
         else:
             content = messageProperties['content']
+
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
             if accion == ECSDI.PeticionRecogida:
-                direccion = grafoEntrada.value(subject=None,predicate=ECSDI.Direccion,object=None)
-                codigoPostal = grafoEntrada.value(subject=None,predicate=ECSDI.CodigoPostal,object=None)
-                logger.info("Registrada petición de recogida en "+str(direccion)+". Con Codigo Postal: "+ str(codigoPostal))
+                direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
+                direccionRetorno = None;
+                for d in direccion:
+                    direccionRetorno = d;
+                codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
+                codigoPostal = None;
+                for c in codigo:
+                    codigoPostal = c;
+                logger.info("Registrada petición de recogida en "+str(direccionRetorno)+". Con Codigo Postal: "+ str(codigoPostal))
 
                 resultadoComunicacion = Graph()
 
