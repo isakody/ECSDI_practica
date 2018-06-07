@@ -74,6 +74,9 @@
         <Class IRI="#PeticionRecogerDevolucion"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#PeticionRecogida"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#PeticionRegistroProductos"/>
     </Declaration>
     <Declaration>
@@ -144,6 +147,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#De"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Desde"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#DestinadaA"/>
@@ -315,6 +321,10 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#PeticionRecogerDevolucion"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PeticionRecogida"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
@@ -524,6 +534,10 @@
         <Class IRI="#PeticionCompra"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#Desde"/>
+        <Class IRI="#PeticionRecogida"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#DestinadaA"/>
         <Class IRI="#PeticionOfertaTransporte"/>
     </ObjectPropertyDomain>
@@ -621,6 +635,10 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#De"/>
         <Class IRI="#Compra"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#Desde"/>
+        <Class IRI="#Direccion"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#DestinadaA"/>
