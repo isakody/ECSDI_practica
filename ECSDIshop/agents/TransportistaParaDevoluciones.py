@@ -49,7 +49,7 @@ else:
     hostname = socket.gethostname()
 
 if args.dport is None:
-    dport = 9020
+    dport = 9000
 else:
     dport = args.dport
 
@@ -68,14 +68,14 @@ mss_cnt = 0
 
 # Data Agent
 # Datos del Agente
-Transportista1Agent = Agent('Transportista1Agent',
-                    agn.Transportista1Agent,
+TransportistaDevolucionesAgent = Agent('TransportistaDevolucionesAgent',
+                    agn.TransportistaDevolucionesAgent,
                     'http://%s:%d/comm' % (hostname, port),
                     'http://%s:%d/Stop' % (hostname, port))
 
 # Directory agent address
-TransportistaDirectoryAgent = Agent('TransportistaDirectoryAgent',
-                       agn.TransportistaDirectory,
+DirectoryAgent = Agent('DirectoryAgent',
+                       agn.Directory,
                        'http://%s:%d/Register' % (dhostname, dport),
                        'http://%s:%d/Stop' % (dhostname, dport))
 
@@ -109,17 +109,22 @@ def communication():
     if messageProperties is None:
         # Respondemos que no hemos entendido el mensaje
         resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                              sender=Transportista1Agent.uri, msgcnt=getMessageCount())
+                                              sender=TransportistaDevolucionesAgent.uri, msgcnt=getMessageCount())
     else:
         # Obtenemos la performativa
         if messageProperties['performative'] != ACL.request:
             # Si no es un request, respondemos que no hemos entendido el mensaje
             resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                                  sender=TransportistaDirectoryAgent.uri, msgcnt=getMessageCount())
+                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
         else:
             content = messageProperties['content']
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-            resultadoComunicacion = Graph()
+            if accion == ECSDI.PeticionRecogida:
+                direccion = grafoEntrada.value(subject=None,predicate=ECSDI.Direccion,object=None)
+                codigoPostal = grafoEntrada.value(subject=None,predicate=ECSDI.CodigoPostal,object=None)
+                logger.info("Registrada petición de recogida en "+str(direccion)+". Con Codigo Postal: "+ str(codigoPostal))
+
+                resultadoComunicacion = Graph()
 
 
 
@@ -174,7 +179,7 @@ def register_message():
 
     logger.info('Nos registramos')
 
-    gr = registerAgent(Transportista1Agent, TransportistaDirectoryAgent, Transportista1Agent.uri, getMessageCount())
+    gr = registerAgent(TransportistaDevolucionesAgent, DirectoryAgent, TransportistaDevolucionesAgent.uri, getMessageCount())
     return gr
 
 if __name__ == '__main__':

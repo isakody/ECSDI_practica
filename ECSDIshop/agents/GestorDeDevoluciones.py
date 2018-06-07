@@ -175,9 +175,10 @@ def communication():
                     resultadoComunicacion.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
             elif accion == ECSDI.RetornarProductos:
 
-                #TODO quitar productos de envios
-                direccionRetorno = grafoEntrada.value(subject=None,predicate=ECSDI.Direccion,object=None)
-                codigoPostal = grafoEntrada.value(subject=None,predicate=ECSDI.CodigoPostal,object=None)
+                #TODO quitar productos de envios y sacar la fuquing direccion que no se como
+                direccionRetorno = grafoEntrada.value(predicate=ECSDI.Direccion)
+                codigoPostal = grafoEntrada.value(predicate=ECSDI.CodigoPostal)
+                print(codigoPostal, direccionRetorno)
                 thread1 = threading.Thread(target=solicitarEnvio,args=(direccionRetorno,codigoPostal))
                 thread1.start()
                 logger.info("Solicitando envio")
@@ -199,8 +200,13 @@ def solicitarEnvio(direccionRetorno,codigoPostal):
     peticion.add((sujetoDireccion, ECSDI.Direccion, Literal(direccionRetorno, datatype=XSD.string)))
     peticion.add((sujetoDireccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
     peticion.add((accion, ECSDI.Desde, URIRef(sujetoDireccion)))
-    print(direccionRetorno, codigoPostal)
 
+    agente = getAgentInfo(agn.TransportistaDevolucionesAgent, DirectoryAgent, GestorDeDevolucionesAgent, getMessageCount())
+
+    grafoBusqueda = send_message(
+        build_message(peticion, perf=ACL.request, sender=GestorDeDevolucionesAgent.uri, receiver=agente.uri,
+                      msgcnt=getMessageCount(),
+                      content=accion), agente.address)
 
 @app.route("/Stop")
 def stop():
