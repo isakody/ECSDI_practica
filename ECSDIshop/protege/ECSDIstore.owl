@@ -65,6 +65,9 @@
         <Class IRI="#PeticionOfertaTransporte"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#PeticionProductosComprados"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#PeticionProductosEnviados"/>
     </Declaration>
     <Declaration>
@@ -119,6 +122,9 @@
         <Class IRI="#Restricciones"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#RetornarProductos"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Stock"/>
     </Declaration>
     <Declaration>
@@ -126,6 +132,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="#Vendedor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Auna"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#CompuestoPor"/>
@@ -141,6 +150,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#Destino"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#DireccionadoA"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#EnviarA"/>
@@ -294,6 +306,10 @@
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#PeticionProductosComprados"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#PeticionProductosEnviados"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
@@ -352,6 +368,10 @@
     <SubClassOf>
         <Class IRI="#RestriccionDeValoracion"/>
         <Class IRI="#Restricciones"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RetornarProductos"/>
+        <Class IRI="#Accion"/>
     </SubClassOf>
     <ClassAssertion>
         <Class IRI="#Producto"/>
@@ -488,6 +508,10 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#Auna"/>
+        <Class IRI="#RetornarProductos"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#CompuestoPor"/>
         <Class IRI="#LoteProductos"/>
     </ObjectPropertyDomain>
@@ -506,6 +530,10 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Destino"/>
         <Class IRI="#Compra"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#DireccionadoA"/>
+        <Class IRI="#RetornarProductos"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#EnviarA"/>
@@ -579,6 +607,10 @@
         <Class IRI="#ProductoExterno"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#Auna"/>
+        <Class IRI="#Producto"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#CompuestoPor"/>
         <Class IRI="#ProductoPendiente"/>
     </ObjectPropertyRange>
@@ -596,6 +628,10 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#Destino"/>
+        <Class IRI="#Direccion"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#DireccionadoA"/>
         <Class IRI="#Direccion"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
