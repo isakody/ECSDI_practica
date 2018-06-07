@@ -239,9 +239,76 @@ def recommend():
 
 @app.route("/purchased",methods=['GET', 'POST'])
 def getProductsToReturn():
+    global listaDeProductos
     if request.method == 'POST':
         if request.form['return'] == 'submit':
-            print(request.form['tarjeta'])
+            grafoDeContenido = Graph()
+            accion = ECSDI["PeticionProductosComprados"+str(getMessageCount())]
+            grafoDeContenido.add((accion,RDF.type,ECSDI.PeticionProductosComprados))
+            agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
+            # Enviamos petición de filtrado al agente filtrador
+            grafoBusqueda = send_message(
+                build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                              msgcnt=getMessageCount(),
+                              content=accion), agente.address)
+
+            listaDeProductos = []
+            posicionDeSujetos = {}
+            indice = 0
+            for s, p, o in grafoBusqueda:
+                if s not in posicionDeSujetos:
+                    posicionDeSujetos[s] = indice
+                    indice += 1
+                    listaDeProductos.append({})
+                if s in posicionDeSujetos:
+                    producto = listaDeProductos[posicionDeSujetos[s]]
+                    if p == ECSDI.Nombre:
+                        producto["Nombre"] = o
+                    elif p == ECSDI.Precio:
+                        producto["Precio"] = o
+                    elif p == ECSDI.Descripcion:
+                        producto["Descripcion"] = o
+                    elif p == ECSDI.Id:
+                        producto["Id"] = o
+                    elif p == ECSDI.Peso:
+                        producto["Peso"] = o
+                    elif p == RDF.type:
+                        producto["Sujeto"] = s
+                    listaDeProductos[posicionDeSujetos[s]] = producto
+            return render_template('return.html', products=listaDeProductos)
+        elif request.form['return'] == 'Submit':
+            listaDeDevoluciones = []
+            for producto in request.form.getlist("checkbox"):
+                listaDeDevoluciones.append(listaDeProductos[int(producto)])
+            accion = ECSDI["RetornarProductos"+str(getMessageCount())]
+            grafoDeContenido = Graph()
+            grafoDeContenido.add((accion,RDF.type,ECSDI.RetornarProductos))
+            direccion = request.form['direccion']
+            codigoPostal = int(request.form['codigoPostal'])
+
+            for producto in listaDeDevoluciones :
+                sujetoProducto = producto['Sujeto']
+                grafoDeContenido.add((sujetoProducto, RDF.type, ECSDI.Producto))
+                grafoDeContenido.add((sujetoProducto, ECSDI.Descripcion, producto['Descripcion']))
+                grafoDeContenido.add((sujetoProducto, ECSDI.Nombre, producto['Nombre']))
+                grafoDeContenido.add((sujetoProducto, ECSDI.Precio, producto['Precio']))
+                grafoDeContenido.add((sujetoProducto, ECSDI.Peso, producto['Peso']))
+                grafoDeContenido.add((accion, ECSDI.Auna, URIRef(sujetoProducto)))
+
+
+            sujetoDireccion = ECSDI['Direccion' + str(getMessageCount())]
+            grafoDeContenido.add((sujetoDireccion, RDF.type, ECSDI.Direccion))
+            grafoDeContenido.add((sujetoDireccion, ECSDI.Direccion, Literal(direccion, datatype=XSD.string)))
+            grafoDeContenido.add((sujetoDireccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
+            grafoDeContenido.add((accion,ECSDI.DireccionadoA,URIRef(sujetoDireccion)))
+            agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
+
+            grafoBusqueda = send_message(
+                build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                              msgcnt=getMessageCount(),
+                              content=accion), agente.address)
+
+            return render_template('procesandoRetorno.html')
 
 
 def pedirRecomendacion():
