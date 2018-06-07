@@ -65,6 +65,12 @@
         <Class IRI="#PeticionOfertaTransporte"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#PeticionProductosEnviados"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionRecogerDevolucion"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#PeticionRegistroProductos"/>
     </Declaration>
     <Declaration>
@@ -96,6 +102,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="#RespuestaOfertaTransporte"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaProductosEnviados"/>
     </Declaration>
     <Declaration>
         <Class IRI="#RestriccionDeNombre"/>
@@ -159,6 +168,12 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#PerteneceA"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ProductoADevolver"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ProductoEnviado"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#Productos"/>
@@ -279,6 +294,14 @@
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#PeticionProductosEnviados"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PeticionRecogerDevolucion"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#PeticionRegistroProductos"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
@@ -312,6 +335,10 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#RespuestaOfertaTransporte"/>
+        <Class IRI="#Respuesta"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RespuestaProductosEnviados"/>
         <Class IRI="#Respuesta"/>
     </SubClassOf>
     <SubClassOf>
@@ -520,6 +547,14 @@
         <Class IRI="#Valoracion"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ProductoADevolver"/>
+        <Class IRI="#PeticionRecogerDevolucion"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ProductoEnviado"/>
+        <Class IRI="#RespuestaProductosEnviados"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#Productos"/>
         <Class IRI="#PeticionRegistroProductos"/>
     </ObjectPropertyDomain>
@@ -597,6 +632,10 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#PerteneceA"/>
+        <Class IRI="#Producto"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#ProductoEnviado"/>
         <Class IRI="#Producto"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -777,6 +816,10 @@
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>
         <Class IRI="#PeticionCompra"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Tarjeta"/>
+        <Class IRI="#PeticionProductosEnviados"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>
