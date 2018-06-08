@@ -884,6 +884,10 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>
+        <Class IRI="#PeticionProductosComprados"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#Tarjeta"/>
         <Class IRI="#PeticionProductosEnviados"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
