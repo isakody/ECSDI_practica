@@ -92,6 +92,9 @@
         <Class IRI="#Producto"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#ProductoEnviado"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#ProductoExterno"/>
     </Declaration>
     <Declaration>
@@ -168,6 +171,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#EnvioDe"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#EsDe"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#Faltan"/>
@@ -345,6 +351,10 @@
     <SubClassOf>
         <Class IRI="#PeticionTransferencia"/>
         <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ProductoEnviado"/>
+        <Class IRI="#Producto"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#ProductoExterno"/>
@@ -569,6 +579,10 @@
         <Class IRI="#PeticionEnvioACentroLogístico"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#EsDe"/>
+        <Class IRI="#ProductoEnviado"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#Faltan"/>
         <Class IRI="#RespuestaEnvioDesdeCentroLogistico"/>
     </ObjectPropertyDomain>
@@ -672,6 +686,10 @@
         <Class IRI="#Compra"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#EsDe"/>
+        <Class IRI="#Compra"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#Faltan"/>
         <Class IRI="#Producto"/>
     </ObjectPropertyRange>
@@ -758,6 +776,10 @@
     <DataPropertyDomain>
         <DataProperty IRI="#FechaEntrega"/>
         <Class IRI="#OfertaDeTransporte"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#FechaEntrega"/>
+        <Class IRI="#PeticionEnvio"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Id"/>
