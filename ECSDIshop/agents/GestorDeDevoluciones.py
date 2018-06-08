@@ -15,6 +15,7 @@ import threading
 from multiprocessing import Queue, Process
 from random import randint
 from time import sleep
+from datetime import datetime, timedelta
 
 from flask import Flask, request
 from rdflib import URIRef, XSD
@@ -141,60 +142,120 @@ def communication():
             # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
             if accion == ECSDI.PeticionProductosComprados:
                 graph = Graph()
-                ontologyFile = open('../data/ProductsDB.owl')
-                #TODO hacer query para buscar en Envios y no en Productos
+                ontologyFile = open('../data/EnviosDB')
+                tarjeta = None
+                tarjetaObjects = grafoEntrada.objects(subject=content, predicate=ECSDI.Tarjeta)
+                for t in tarjetaObjects:
+                    tarjeta = t
+
                 graph.parse(ontologyFile, format='turtle')
                 query =  """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                            PREFIX owl: <http://www.w3.org/2002/07/owl#>
                             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                            SELECT ?Producto ?Nombre ?Precio ?Descripcion ?Id ?Peso
+                            SELECT ?PeticionEnvio ?Producto ?Nombre ?Precio ?Descripcion ?Peso ?Tarjeta ?Compra ?FechaEntrega
                             where {
-                                ?Producto rdf:type default:Producto .
+                                ?PeticionEnvio rdf:type default:PeticionEnvio .
+                                ?PeticionEnvio default:Tarjeta ?Tarjeta .
+                                ?PeticionEnvio default:De ?Compra .
+                                ?PeticionEnvio default:FechaEntrega ?FechaEntrega .
+                                ?Compra default:Contiene ?Producto .       
                                 ?Producto default:Nombre ?Nombre .
                                 ?Producto default:Precio ?Precio .
                                 ?Producto default:Descripcion ?Descripcion .
-                                ?Producto default:Id ?Id .
-                                ?Producto default:Peso ?Peso
-                            }
-                            GROUP BY ?Producto ORDER BY DESC(COUNT(*)) LIMIT 10"""
+                                ?Producto default:Peso ?Peso .
+                                FILTER("""
+
+                query += """?Tarjeta = """ + str(tarjeta)
+                query += """ && ?FechaEntrega > '""" + str(datetime.now() - timedelta(days=15)) + """'^^xsd:date"""
+                query += """)}"""
+
 
                 resultadoConsulta = graph.query(query)
                 resultadoComunicacion = Graph()
+
+
                 for product in resultadoConsulta:
                     product_nombre = product.Nombre
                     product_precio = product.Precio
                     product_descripcion = product.Descripcion
                     product_peso = product.Peso
-                    sujeto = product.Producto
-                    resultadoComunicacion.add((sujeto, RDF.type, ECSDI.Producto))
+                    sujeto =  ECSDI['ProductoEnviado' + str(getMessageCount())]
+                    resultadoComunicacion.add((sujeto, RDF.type, ECSDI.ProductoEnviado))
                     resultadoComunicacion.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
                     resultadoComunicacion.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
                     resultadoComunicacion.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
                     resultadoComunicacion.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
+                    resultadoComunicacion.add((sujeto, ECSDI.EsDe, product.Compra))
             elif accion == ECSDI.RetornarProductos:
-
-                #TODO quitar productos de envios y sacar la fuquing direccion que no se como
-                for a, b, c in grafoEntrada:
-                    print a, b, c
                 direccion= grafoEntrada.objects(predicate=ECSDI.Direccion)
-                direccionRetorno = None;
+                direccionRetorno = None
                 for d in direccion:
-                    direccionRetorno = d;
+                    direccionRetorno = d
                 codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
-                codigoPostal = None;
+                codigoPostal = None
                 for c in codigo:
-                    codigoPostal = c;
+                    codigoPostal = c
                 print(codigoPostal, direccionRetorno)
                 thread1 = threading.Thread(target=solicitarEnvio,args=(direccionRetorno,codigoPostal))
                 thread1.start()
+                thread2 = threading.Thread(target=borrarProductosRetornados, args=(grafoEntrada,content))
+                thread2.start()
                 logger.info("Solicitando envio")
                 resultadoComunicacion = Graph()
 
     logger.info('Respondemos a la petición de devolucion')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
+
+def borrarProductosRetornados(grafo, content):
+    ontologyFile = open('../data/EnviosDB')
+
+    products = grafo.objects(subject=content, predicate= ECSDI.Auna)
+    print("entro")
+
+    for a, b, c in grafo:
+        print a, b, c
+
+    grafoEnvios = Graph()
+    grafoEnvios.bind('default', ECSDI)
+    grafoEnvios.parse(ontologyFile, format='turtle')
+
+    for product in products:
+        print("entro2")
+        print(product)
+        compra = grafo.value(subject=product, predicate=ECSDI.EsDe)
+        print(compra)
+        nombre = grafo.value(subject=product, predicate=ECSDI.Nombre)
+        print(nombre)
+
+        query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT ?Producto ?Nombre  
+            WHERE {  
+                ?Producto rdf:type default:Producto . 
+                ?Producto default:Nombre ?Nombre .
+                FILTER("""
+
+        query += """?Nombre = '""" + nombre + """'"""
+        query += """)}"""
+
+        graph_query = grafoEnvios.query(query)
+
+        producto = None
+        for p in graph_query:
+            producto = p.Producto
+        print(producto)
+
+        grafoEnvios.remove((compra, None, producto))
+
+
+
+
+    # Guardem el graf
+    grafoEnvios.serialize(destination='../data/EnviosDB', format='turtle')
 
 def solicitarEnvio(direccionRetorno,codigoPostal):
     #TODO pedir un transportista qualquiera y enviar la petición de recodiga

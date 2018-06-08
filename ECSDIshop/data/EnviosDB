@@ -4,24 +4,24 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-default:PeticionCompra17 a default:PeticionCompra ;
-    default:De default:Compra19 ;
+default:PeticionEnvio42 a default:PeticionEnvio ;
+    default:De default:Compra111 ;
+    default:FechaEntrega "2018-06-08"^^xsd:date ;
     default:Pagado false ;
-    default:PrecioTotal "32.0"^^xsd:float ;
+    default:PrecioTotal "308.0"^^xsd:float ;
     default:Prioridad "1"^^xsd:int ;
-    default:Tarjeta "123456"^^xsd:int .
+    default:Tarjeta "567890"^^xsd:int .
 
-default:Compra19 a default:Compra ;
-    default:Contiene default:Producto2 ;
-    default:Destino default:Direccion18 .
+default:Producto1 a default:Producto ;
+    default:Descripcion "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Patatas"^^xsd:string ;
+    default:Peso "23.0"^^xsd:float ;
+    default:Precio "308.0"^^xsd:float .
 
-default:Direccion18 a default:Direccion ;
-    default:CodigoPostal "1234"^^xsd:int ;
-    default:Direccion "123"^^xsd:string .
+default:Compra111 a default:Compra ;
+    default:Destino default:Direccion110 .
 
-default:Producto2 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string ;
-    default:Peso "1.0"^^xsd:float ;
-    default:Precio "32.0"^^xsd:float .
+default:Direccion110 a default:Direccion ;
+    default:CodigoPostal "112"^^xsd:int ;
+    default:Direccion "122"^^xsd:string .
 

@@ -14,6 +14,7 @@ import sys
 import threading
 from multiprocessing import Queue, Process
 from time import sleep
+from datetime import datetime, timedelta
 
 from flask import Flask, request
 from rdflib import URIRef, XSD, RDF
@@ -123,21 +124,20 @@ def communication():
             content = messageProperties['content']
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
             # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
-            if accion == ECSDI.PeticionCompra:
-                logger.info("Procesando peticion de compra")
+            if accion == ECSDI.PeticionEnvio:
+                logger.info("Procesando peticion de envio")
                 # Eliminar los ACLMessage
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
                     grafoEntrada.remove((item, None, None))
 
-                procesarCompra(grafoEntrada,content)
+                procesarEnvio(grafoEntrada, content)
 
     logger.info('Respondemos a la petición de venta')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 
-def procesarCompra(grafo,contenido):
-    #todo convertir compra en un Envio
-    thread1 = threading.Thread(target=registrarEnvio,args=(grafo,))
+def procesarEnvio(grafo, contenido):
+    thread1 = threading.Thread(target=registrarEnvio,args=(grafo,contenido))
     thread1.start()
     thread2 = threading.Thread(target=solicitarEnvio,args=(grafo,contenido))
     thread2.start()
@@ -154,7 +154,7 @@ def solicitarEnvio(grafo,contenido):
     if codigoPostal != None:
         agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), codigoPostal)
         grafoCopia.remove((contenido,ECSDI.Tarjeta,None))
-        grafoCopia.remove((contenido,RDF.type,ECSDI.PeticionCompra))
+        grafoCopia.remove((contenido,RDF.type,ECSDI.PeticionEnvio))
         sujeto = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
         grafoCopia.add((sujeto, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
 
@@ -176,9 +176,12 @@ def solicitarEnvio(grafo,contenido):
                               content=sujeto), a.address)
 
 
-def registrarEnvio(grafo):
-    compra = grafo.value(predicate=RDF.type,object=ECSDI.PeticionCompra)
-    grafo.add((compra,ECSDI.Pagado,Literal(False,datatype=XSD.boolean)))
+def registrarEnvio(grafo, contenido):
+    envio = grafo.value(predicate=RDF.type,object=ECSDI.PeticionEnvio)
+    grafo.add((envio,ECSDI.Pagado,Literal(False,datatype=XSD.boolean)))
+    prioridad = grafo.value(subject=contenido, predicate=ECSDI.Prioridad)
+    fecha = datetime.now() + timedelta(days=int(prioridad))
+    grafo.add((envio,ECSDI.FechaEntrega,Literal(fecha, datatype=XSD.date)))
     logger.info("Registrando el envio")
     ontologyFile = open('../data/EnviosDB')
 

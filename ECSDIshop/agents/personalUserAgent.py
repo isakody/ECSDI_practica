@@ -245,6 +245,8 @@ def getProductsToReturn():
             grafoDeContenido = Graph()
             accion = ECSDI["PeticionProductosComprados"+str(getMessageCount())]
             grafoDeContenido.add((accion,RDF.type,ECSDI.PeticionProductosComprados))
+            tarjeta = request.form['tarjeta']
+            grafoDeContenido.add((accion, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.int)))
             agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
             # Enviamos petición de filtrado al agente filtrador
             grafoBusqueda = send_message(
@@ -274,6 +276,8 @@ def getProductsToReturn():
                         producto["Peso"] = o
                     elif p == RDF.type:
                         producto["Sujeto"] = s
+                    elif p == ECSDI.EsDe:
+                        producto["Compra"] = o
                     listaDeProductos[posicionDeSujetos[s]] = producto
             return render_template('return.html', products=listaDeProductos)
         elif request.form['return'] == 'Submit':
@@ -288,11 +292,12 @@ def getProductsToReturn():
 
             for producto in listaDeDevoluciones :
                 sujetoProducto = producto['Sujeto']
-                grafoDeContenido.add((sujetoProducto, RDF.type, ECSDI.Producto))
+                grafoDeContenido.add((sujetoProducto, RDF.type, ECSDI.ProductoEnviado))
                 grafoDeContenido.add((sujetoProducto, ECSDI.Descripcion, producto['Descripcion']))
                 grafoDeContenido.add((sujetoProducto, ECSDI.Nombre, producto['Nombre']))
                 grafoDeContenido.add((sujetoProducto, ECSDI.Precio, producto['Precio']))
                 grafoDeContenido.add((sujetoProducto, ECSDI.Peso, producto['Peso']))
+                grafoDeContenido.add((sujetoProducto, ECSDI.EsDe, producto['Compra']))
                 grafoDeContenido.add((accion, ECSDI.Auna, URIRef(sujetoProducto)))
 
 

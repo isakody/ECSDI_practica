@@ -97,11 +97,21 @@ def getMessageCount():
 
 def enviarCompra(grafoEntrada,content):
     # Enviar mensaje con la compra a enviador
+
+    grafoEntrada.remove((content, RDF.type, ECSDI.PeticionCompra))
+    sujeto = ECSDI['PeticionEnvio' + str(getMessageCount())]
+    grafoEntrada.add((sujeto, RDF.type, ECSDI.PeticionEnvio))
+
+    for a, b, c in grafoEntrada:
+        if a == content:
+            grafoEntrada.remove((a, b, c))
+            grafoEntrada.add((sujeto, b, c))
+
     enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent, getMessageCount())
     resultadoComunicacion = send_message(build_message(grafoEntrada,
                                                        perf=ACL.request, sender=VendedorAgent.uri,
                                                        receiver=enviador.uri,
-                                                       msgcnt=getMessageCount(), content=content), enviador.address)
+                                                       msgcnt=getMessageCount(), content=sujeto), enviador.address)
 
 def registrarCompra(grafoEntrada):
     ontologyFile = open('../data/ComprasDB')
