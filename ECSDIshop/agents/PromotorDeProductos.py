@@ -8,6 +8,7 @@ Tiene una funcion AgentBehavior1 que se lanza como un thread concurrente
 Asume que el agente de registro esta en el puerto 9000
 """
 import argparse
+import datetime
 import socket
 import sys
 import thread
@@ -24,6 +25,7 @@ from utils.Agent import Agent
 from utils.FlaskServer import shutdown_server
 from utils.Logging import config_logger
 from utils.OntologyNamespaces import ECSDI
+from datetime import datetime, timedelta
 __author__ = 'ECSDIstore'
 
 # Definimos los parametros de la linea de comandos
@@ -190,7 +192,7 @@ def stop():
 
 def comprobarYValorar():
     graph = Graph()
-    ontologyFile = open('../data/ComprasDB')
+    ontologyFile = open('../data/EnviosDB')
     graph.parse(ontologyFile, format='turtle')
     query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
@@ -198,10 +200,17 @@ def comprobarYValorar():
                             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                             SELECT DISTINCT ?Producto ?Nombre ?Precio ?Descripcion
                             where {
-                                ?Producto rdf:type default:Producto .
-                                
-
-                            }"""
+                                ?PeticionEnvio rdf:type default:PeticionEnvio .
+                                ?PeticionEnvio default:Tarjeta ?Tarjeta .
+                                ?PeticionEnvio default:De ?Compra .
+                                ?PeticionEnvio default:FechaEntrega ?FechaEntrega .
+                                ?Compra default:Contiene ?Producto .
+                                ?Producto default:Nombre ?Nombre .
+                                ?Producto default:Precio ?Precio .
+                                ?Producto default:Descripcion ?Descripcion .
+                            FILTER("""
+    query += """ ?FechaEntrega > '""" + str(datetime.now() - timedelta(days=1)) + """'^^xsd:date"""
+    query += """)}"""
 
     resultadoConsulta = graph.query(query)
     grafoConsulta = Graph()
