@@ -168,6 +168,7 @@ def communication():
 
                 query += """?Tarjeta = """ + str(tarjeta)
                 query += """ && ?FechaEntrega > '""" + str(datetime.now() - timedelta(days=15)) + """'^^xsd:date"""
+                query += """ && ?FechaEntrega < '""" + str(datetime.now() + timedelta(days=1)) + """'^^xsd:date"""
                 query += """)}"""
 
 
