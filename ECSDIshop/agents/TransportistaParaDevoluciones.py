@@ -118,7 +118,7 @@ def communication():
             content = messageProperties['content']
 
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-            if accion == ECSDI.PeticionRecogida:
+            if accion == ECSDI.PeticionRecogerDevolucion:
                 direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
                 direccionRetorno = None;
                 for d in direccion:

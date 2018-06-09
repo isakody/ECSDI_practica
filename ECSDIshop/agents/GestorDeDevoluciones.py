@@ -263,8 +263,8 @@ def solicitarEnvio(direccionRetorno,codigoPostal):
     logger.info("need to implement ask for transport")
 
     peticion = Graph()
-    accion = ECSDI["PeticionRecodida"+str(getMessageCount())]
-    peticion.add((accion,RDF.type,ECSDI.PeticionRecogida))
+    accion = ECSDI["PeticionRecogerDevolucion"+str(getMessageCount())]
+    peticion.add((accion,RDF.type,ECSDI.PeticionRecogerDevolucion))
     sujetoDireccion = ECSDI['Direccion' + str(getMessageCount())]
     peticion.add((sujetoDireccion, RDF.type, ECSDI.Direccion))
     peticion.add((sujetoDireccion, ECSDI.Direccion, Literal(direccionRetorno, datatype=XSD.string)))
