@@ -4,24 +4,241 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-default:PeticionEnvio42 a default:PeticionEnvio ;
-    default:De default:Compra111 ;
-    default:FechaEntrega "2018-06-08"^^xsd:date ;
+default:PeticionEnvio10 a default:PeticionEnvio ;
+    default:De default:Compra24,
+        default:Compra40 ;
+    default:FechaEntrega "2018-06-12"^^xsd:date,
+        "2018-06-21T11:46:28.674000"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "32.0"^^xsd:float,
+        "87.0"^^xsd:float ;
+    default:Prioridad "3"^^xsd:int,
+        "12"^^xsd:int ;
+    default:Tarjeta "345"^^xsd:int,
+        "1234"^^xsd:int .
+
+default:PeticionEnvio14 a default:PeticionEnvio ;
+    default:De default:Compra51 ;
+    default:FechaEntrega "2018-06-11"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "32.0"^^xsd:float ;
+    default:Prioridad "2"^^xsd:int ;
+    default:Tarjeta "1234"^^xsd:int .
+
+default:PeticionEnvio18 a default:PeticionEnvio ;
+    default:De default:Compra59 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "55.0"^^xsd:float ;
+    default:Prioridad "1"^^xsd:int ;
+    default:Tarjeta "2345"^^xsd:int .
+
+default:PeticionEnvio2 a default:PeticionEnvio ;
+    default:De default:Compra24,
+        default:Compra8 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date,
+        "2018-06-13"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "32.0"^^xsd:float,
+        "308.0"^^xsd:float ;
+    default:Prioridad "1"^^xsd:int,
+        "4"^^xsd:int ;
+    default:Tarjeta "123"^^xsd:int,
+        "1234"^^xsd:int .
+
+default:PeticionEnvio22 a default:PeticionEnvio ;
+    default:De default:Compra67 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date ;
     default:Pagado false ;
     default:PrecioTotal "308.0"^^xsd:float ;
     default:Prioridad "1"^^xsd:int ;
-    default:Tarjeta "567890"^^xsd:int .
+    default:Tarjeta "11"^^xsd:int .
+
+default:PeticionEnvio26 a default:PeticionEnvio ;
+    default:De default:Compra75 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "32.0"^^xsd:float ;
+    default:Prioridad "1"^^xsd:int ;
+    default:Tarjeta "345678"^^xsd:int .
+
+default:PeticionEnvio30 a default:PeticionEnvio ;
+    default:De default:Compra83 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "55.0"^^xsd:float ;
+    default:Prioridad "1"^^xsd:int ;
+    default:Tarjeta "123"^^xsd:int .
+
+default:PeticionEnvio34 a default:PeticionEnvio ;
+    default:De default:Compra91 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "308.0"^^xsd:float ;
+    default:Prioridad "1"^^xsd:int ;
+    default:Tarjeta "1234"^^xsd:int .
+
+default:PeticionEnvio38 a default:PeticionEnvio ;
+    default:De default:Compra99 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "308.0"^^xsd:float ;
+    default:Prioridad "1"^^xsd:int ;
+    default:Tarjeta "234"^^xsd:int .
+
+default:PeticionEnvio42 a default:PeticionEnvio ;
+    default:De default:Compra107,
+        default:Compra111 ;
+    default:FechaEntrega "2018-06-10"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "308.0"^^xsd:float ;
+    default:Prioridad "1"^^xsd:int ;
+    default:Tarjeta "1234"^^xsd:int,
+        "567890"^^xsd:int .
+
+default:PeticionEnvio6 a default:PeticionEnvio ;
+    default:De default:Compra16,
+        default:Compra32 ;
+    default:FechaEntrega "2018-06-11"^^xsd:date,
+        "2018-06-12"^^xsd:date ;
+    default:Pagado false ;
+    default:PrecioTotal "55.0"^^xsd:float ;
+    default:Prioridad "2"^^xsd:int,
+        "3"^^xsd:int ;
+    default:Tarjeta "1234"^^xsd:int,
+        "12345"^^xsd:int .
+
+default:Compra107 a default:Compra ;
+    default:Contiene default:Producto1 ;
+    default:Destino default:Direccion106 .
+
+default:Compra111 a default:Compra ;
+    default:Contiene default:Producto1 ;
+    default:Destino default:Direccion110 .
+
+default:Compra16 a default:Compra ;
+    default:Contiene default:Producto3 ;
+    default:Destino default:Direccion15 .
+
+default:Compra32 a default:Compra ;
+    default:Contiene default:Producto3 ;
+    default:Destino default:Direccion31 .
+
+default:Compra40 a default:Compra ;
+    default:Contiene default:Producto2,
+        default:Producto3 ;
+    default:Destino default:Direccion39 .
+
+default:Compra51 a default:Compra ;
+    default:Contiene default:Producto2 ;
+    default:Destino default:Direccion50 .
+
+default:Compra59 a default:Compra ;
+    default:Contiene default:Producto3 ;
+    default:Destino default:Direccion58 .
+
+default:Compra67 a default:Compra ;
+    default:Contiene default:Producto1 ;
+    default:Destino default:Direccion66 .
+
+default:Compra75 a default:Compra ;
+    default:Contiene default:Producto2 ;
+    default:Destino default:Direccion74 .
+
+default:Compra8 a default:Compra ;
+    default:Contiene default:Producto2 ;
+    default:Destino default:Direccion7 .
+
+default:Compra83 a default:Compra ;
+    default:Contiene default:Producto3 ;
+    default:Destino default:Direccion82 .
+
+default:Compra91 a default:Compra ;
+    default:Contiene default:Producto1 ;
+    default:Destino default:Direccion90 .
+
+default:Compra99 a default:Compra ;
+    default:Contiene default:Producto1 ;
+    default:Destino default:Direccion98 .
+
+default:Direccion106 a default:Direccion ;
+    default:CodigoPostal "13"^^xsd:int ;
+    default:Direccion "234"^^xsd:string .
+
+default:Direccion110 a default:Direccion ;
+    default:CodigoPostal "112"^^xsd:int ;
+    default:Direccion "122"^^xsd:string .
+
+default:Direccion15 a default:Direccion ;
+    default:CodigoPostal "23456"^^xsd:int ;
+    default:Direccion "23456"^^xsd:string .
+
+default:Direccion23 a default:Direccion ;
+    default:CodigoPostal "111"^^xsd:int,
+        "234"^^xsd:int ;
+    default:Direccion "11"^^xsd:string,
+        "123456"^^xsd:string .
+
+default:Direccion31 a default:Direccion ;
+    default:CodigoPostal "11"^^xsd:int ;
+    default:Direccion "11"^^xsd:string .
+
+default:Direccion39 a default:Direccion ;
+    default:CodigoPostal "234"^^xsd:int ;
+    default:Direccion "22343q"^^xsd:string .
+
+default:Direccion50 a default:Direccion ;
+    default:CodigoPostal "123"^^xsd:int ;
+    default:Direccion "12"^^xsd:string .
+
+default:Direccion58 a default:Direccion ;
+    default:CodigoPostal "123"^^xsd:int ;
+    default:Direccion "2345"^^xsd:string .
+
+default:Direccion66 a default:Direccion ;
+    default:CodigoPostal "1"^^xsd:int ;
+    default:Direccion "1"^^xsd:string .
+
+default:Direccion7 a default:Direccion ;
+    default:CodigoPostal "123"^^xsd:int ;
+    default:Direccion "123"^^xsd:string .
+
+default:Direccion74 a default:Direccion ;
+    default:CodigoPostal "345"^^xsd:int ;
+    default:Direccion "345"^^xsd:string .
+
+default:Direccion82 a default:Direccion ;
+    default:CodigoPostal "12"^^xsd:int ;
+    default:Direccion "12"^^xsd:string .
+
+default:Direccion90 a default:Direccion ;
+    default:CodigoPostal "1234"^^xsd:int ;
+    default:Direccion "1234"^^xsd:string .
+
+default:Direccion98 a default:Direccion ;
+    default:CodigoPostal "1234"^^xsd:int ;
+    default:Direccion "123"^^xsd:string .
+
+default:Compra24 a default:Compra ;
+    default:Contiene default:Producto1,
+        default:Producto2 ;
+    default:Destino default:Direccion23 .
+
+default:Producto2 a default:Producto ;
+    default:Descripcion "Esto es un Mouse"^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string ;
+    default:Peso "1.0"^^xsd:float ;
+    default:Precio "32.0"^^xsd:float .
+
+default:Producto3 a default:Producto ;
+    default:Descripcion "Esto es un teclado"^^xsd:string ;
+    default:Nombre "Teclado"^^xsd:string ;
+    default:Peso "2.0"^^xsd:float ;
+    default:Precio "55.0"^^xsd:float .
 
 default:Producto1 a default:Producto ;
     default:Descripcion "Esto son Patatas"^^xsd:string ;
     default:Nombre "Patatas"^^xsd:string ;
     default:Peso "23.0"^^xsd:float ;
     default:Precio "308.0"^^xsd:float .
-
-default:Compra111 a default:Compra ;
-    default:Destino default:Direccion110 .
-
-default:Direccion110 a default:Direccion ;
-    default:CodigoPostal "112"^^xsd:int ;
-    default:Direccion "122"^^xsd:string .
 

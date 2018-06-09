@@ -163,7 +163,6 @@ def register():
 
         for agn_uri in rsearch:
             agn_uri2 = agn_uri[0]
-            print(agn_uri)
             agn_add = dsgraph.value(subject=agn_uri2, predicate=DSO.Address)
             agn_name = dsgraph.value(subject=agn_uri2, predicate=FOAF.name)
 
@@ -224,9 +223,11 @@ def register():
                 gr = process_register()
             # Accion de busqueda
             elif accion == DSO.Search:
-                cp = gm.value(subject=content, predicate=ECSDI.CodigoPostal)
-                print(cp)
-                gr = process_search(cp)
+                cp = gm.objects(subject=content, predicate=ECSDI.CodigoPostal)
+                codigoPostal = None
+                for c in cp:
+                    codigoPostal = c
+                gr = process_search(codigoPostal)
             # No habia ninguna accion en el mensaje
             else:
                 gr = build_message(Graph(),

@@ -144,7 +144,7 @@ def getCentroLogisticoPorProximidad(agentType, directoryAgent, sender, messageCo
 
     gmess.add((ask_obj, RDF.type, DSO.Search))
     gmess.add((ask_obj, DSO.AgentType, agentType))
-    gmess.add((ask_obj,ECSDI.PostCode,Literal(postCode,datatype=XSD.int)))
+    gmess.add((ask_obj, ECSDI.CodigoPostal,Literal(postCode,datatype=XSD.int)))
     gr = send_message(
         build_message(gmess, perf=ACL.request, sender=sender.uri, receiver=directoryAgent.uri, msgcnt=messageCount,
                       content=ask_obj),

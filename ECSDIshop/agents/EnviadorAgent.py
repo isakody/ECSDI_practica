@@ -143,7 +143,7 @@ def procesarEnvio(grafo, contenido):
     thread2.start()
 
 def solicitarEnvio(grafo,contenido):
-    grafoCopia = Graph()
+    grafoCopia = grafo
     grafoCopia.bind('default', ECSDI);
     direccion = grafo.subjects(object=ECSDI.Direccion)
     codigoPostal = None
@@ -151,14 +151,15 @@ def solicitarEnvio(grafo,contenido):
         codigoPostal = grafo.value(subject=d,predicate=ECSDI.CodigoPostal)
     centroLogisticoAgente = getAgentInfo(agn.CentroLogisticoDirectoryAgent, DirectoryAgent, EnviadorAgent, getMessageCount())
     prioridad = grafo.value(subject=contenido,predicate=ECSDI.Prioridad)
-    if codigoPostal != None:
-        agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), codigoPostal)
+    if codigoPostal is not None:
+        agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), int(codigoPostal))
         grafoCopia.remove((contenido,ECSDI.Tarjeta,None))
         grafoCopia.remove((contenido,RDF.type,ECSDI.PeticionEnvio))
         sujeto = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
         grafoCopia.add((sujeto, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
 
         for a, b, c in grafoCopia:
+            print a, b, c
             if a == contenido:
                 if b == ECSDI.De: #Compra
                     grafoCopia.remove((a, b, c))
