@@ -159,6 +159,7 @@ def communication():
 
             resultadoConsulta = graph.query(query)
             resultadoComunicacion = Graph()
+            sujeto = ECSDI["RespuestaRecomendacion"+str(getMessageCount())]
             for product in resultadoConsulta:
                 product_nombre = product.Nombre
                 product_precio = product.Precio
