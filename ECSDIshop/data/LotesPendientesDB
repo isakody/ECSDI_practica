@@ -1,24 +1,7 @@
-@prefix : <http://www.owl-ontologies.com/ECSDIstore#> .
+@prefix default: <http://www.owl-ontologies.com/ECSDIstore#> .
 @prefix ns1: <http://www.owl-ontologies.com/ECSDIstore.owl#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-<http://www.owl-ontologies.com/ECSDIstore> a owl:Ontology .
-
-ns1:LoteProductos1 a ns1:LoteProductos ;
-    ns1:CompuestoPor ns1:ProductoPendiente2 ;
-    ns1:Peso "1.0"^^xsd:float .
-
-ns1:LoteProductos2 a ns1:LoteProductos ;
-    ns1:CompuestoPor ns1:ProductoPendiente2 ;
-    ns1:Peso "1.0"^^xsd:float .
-
-ns1:Direccion5 ns1:CodigoPostal "2"^^xsd:int ;
-    ns1:Direccion "a"^^xsd:string .
-
-ns1:ProductoPendiente2 ns1:EnviarA ns1:Direccion5 ;
-    ns1:Nombre "Mouse"^^xsd:string .
 
