@@ -317,9 +317,9 @@ def getProductsToReturn():
 
 
 def pedirRecomendacion():
-    sujetoRecomendacion = ECSDI["RecomendarProducto" + str(getMessageCount())]
+    sujetoRecomendacion = ECSDI["PeticionRecomendacion" + str(getMessageCount())]
     grafo = Graph();
-    grafo.add((sujetoRecomendacion, RDF.type, ECSDI.RecomendacionProducto))
+    grafo.add((sujetoRecomendacion, RDF.type, ECSDI.PeticionRecomendacion))
     agente = getAgentInfo(agn.PromotorDeProductos, DirectoryAgent, UserPersonalAgent, getMessageCount())
     # Enviamos petición de filtrado al agente filtrador
     grafoBusqueda = send_message(
