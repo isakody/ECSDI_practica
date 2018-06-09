@@ -159,6 +159,7 @@ def communication():
 
             resultadoConsulta = graph.query(query)
             resultadoComunicacion = Graph()
+            sujeto2 = ECSDI["RespuestaRecomendacion"+str(getMessageCount())]
             for product in resultadoConsulta:
                 product_nombre = product.Nombre
                 product_precio = product.Precio
@@ -168,6 +169,7 @@ def communication():
                 resultadoComunicacion.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
                 resultadoComunicacion.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
                 resultadoComunicacion.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
+                resultadoComunicacion.add((sujeto2,ECSDI.Recomienda,URIRef(sujeto)))
 
     logger.info('Respondemos a la petición de busqueda')
     serialize = resultadoComunicacion.serialize(format='xml')
@@ -186,7 +188,58 @@ def stop():
     shutdown_server()
     return "Stopping server"
 
+def comprobarYValorar():
+    graph = Graph()
+    ontologyFile = open('../data/ComprasDB')
+    graph.parse(ontologyFile, format='turtle')
+    query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                            PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
+                            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                            SELECT DISTINCT ?Producto ?Nombre ?Precio ?Descripcion
+                            where {
+                                ?Producto rdf:type default:Producto .
+                                
 
+                            }"""
+
+    resultadoConsulta = graph.query(query)
+    grafoConsulta = Graph()
+    accion = ECSDI["PeticionValoracion"+str(getMessageCount())]
+    grafoConsulta.add((accion,RDF.type,ECSDI.PeticionValoracion))
+    graph2 = Graph()
+    ontologyFile2 = open('../data/ValoracionesDB')
+    graph2.parse(ontologyFile2, format='turtle')
+    productList = []
+    for a, b,c in graph2:
+        productList.append(a)
+    contador = 0
+    for g in resultadoConsulta:
+        if g.Producto not in productList:
+            contador = contador + 1
+            grafoConsulta.add((g.Producto,RDF.type,ECSDI.Producto))
+            grafoConsulta.add((accion,ECSDI.Valora,URIRef(g.Producto)))
+    if contador != 0:
+        agente = getAgentInfo(agn.UserPersonalAgent, DirectoryAgent, PromotorDeProductosAgent, getMessageCount())
+        resultadoComunicacion = send_message(build_message(grafoConsulta,
+                                                           perf=ACL.request, sender=PromotorDeProductosAgent.uri,
+                                                           receiver=agente.uri,
+                                                           msgcnt=getMessageCount(), content=accion), agente.address)
+
+        for s, o, p in resultadoComunicacion:
+            if o == ECSDI.Valoracion:
+                graph2.add((s,o,p))
+
+        graph2.serialize(destination='../data/ValoracionesDB', format='turtle')
+
+
+def solicitarValoraciones():
+    thread = threading.Thread(target=comprobarYValorar)
+    thread.start()
+    thread.join()
+    sleep(120)
+
+    solicitarValoraciones()
 def tidyUp():
     """
     Previous actions for the agent.
@@ -210,6 +263,8 @@ def PromotorBehaviour(queue):
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
+    thread = threading.Thread(target=solicitarValoraciones)
+    thread.start()
     ab1 = Process(target=PromotorBehaviour, args=(queue,))
     ab1.start()
 
@@ -218,4 +273,5 @@ if __name__ == '__main__':
 
     # Wait behaviors
     ab1.join()
+    thread.join()
     print('The End')

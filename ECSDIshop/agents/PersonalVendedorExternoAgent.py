@@ -112,26 +112,20 @@ def index():
             if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
                 desdeCentros = True
 
+            graph = Graph()
+            ontologyFile = open('../data/ProductsDB.owl')
+            graph.parse(ontologyFile, format='turtle')
+            graph.bind("default",ECSDI)
+            sujeto = ECSDI['ProductoExterno'+str(getMessageCount())]
+            graph.add((sujeto, RDF.type, ECSDI.ProductoExterno))
+            graph.add((sujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
+            graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
+            graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
+            graph.add((sujeto,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.string)))
+            graph.add((sujeto,ECSDI.desdeCentros,Literal(desdeCentros,datatype=XSD.boolean)))
+            graph.serialize(destination='../data/ProductsDB.owl', format='turtle')
 
 
-            contenido = ECSDI['PeticionAgregarProducto'+str(getMessageCount())]
-            grafoContenido = Graph()
-            grafoContenido.add((contenido, RDF.type,ECSDI.PeticionAgregarProducto))
-
-            grafoContenido.add((contenido,ECSDI.Nombre,Literal(nombreProducto,datatype=XSD.string)))
-            grafoContenido.add((contenido,ECSDI.Precio,Literal(precio,datatype=XSD.float)))
-            grafoContenido.add((contenido,ECSDI.Peso,Literal(peso,datatype=XSD.float)))
-            grafoContenido.add((contenido,ECSDI.Descripcion,Literal(descripcion,datatype=XSD.string)))
-            grafoContenido.add((contenido,ECSDI.UnidadesEnStock,Literal(numeroUnidades,datatype=XSD.int)))
-            grafoContenido.add((contenido,ECSDI.EnviadoPorTienda,Literal(desdeCentros,datatype=XSD.boolean)))
-            grafoContenido.add((contenido,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
-
-            agente = getAgentInfo(agn.GestorExternoAgent, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
-
-            grafoBusqueda = send_message(
-                build_message(grafoContenido, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
-                              msgcnt=getMessageCount(),
-                              content=contenido), agente.address)
 
 
 

@@ -10,7 +10,7 @@ Agente que interactua con el usuario.
 import random
 
 import sys
-from utils.ACLMessages import getAgentInfo, build_message, send_message, get_message_properties
+from utils.ACLMessages import *
 from utils.OntologyNamespaces import ECSDI
 import argparse
 import socket
@@ -243,8 +243,8 @@ def getProductsToReturn():
     if request.method == 'POST':
         if request.form['return'] == 'submit':
             grafoDeContenido = Graph()
-            accion = ECSDI["PeticionProductosComprados"+str(getMessageCount())]
-            grafoDeContenido.add((accion,RDF.type,ECSDI.PeticionProductosComprados))
+            accion = ECSDI["PeticionProductosEnviados"+str(getMessageCount())]
+            grafoDeContenido.add((accion,RDF.type,ECSDI.PeticionProductosEnviados))
             tarjeta = request.form['tarjeta']
             grafoDeContenido.add((accion, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.int)))
             agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
@@ -317,9 +317,9 @@ def getProductsToReturn():
 
 
 def pedirRecomendacion():
-    sujetoRecomendacion = ECSDI["RecomendarProducto" + str(getMessageCount())]
+    sujetoRecomendacion = ECSDI["PeticionRecomendacion" + str(getMessageCount())]
     grafo = Graph();
-    grafo.add((sujetoRecomendacion, RDF.type, ECSDI.RecomendacionProducto))
+    grafo.add((sujetoRecomendacion, RDF.type, ECSDI.PeticionRecomendacion))
     agente = getAgentInfo(agn.PromotorDeProductos, DirectoryAgent, UserPersonalAgent, getMessageCount())
     # Enviamos petición de filtrado al agente filtrador
     grafoBusqueda = send_message(
@@ -377,7 +377,42 @@ def comunicacion():
     """
     Entrypoint de comunicacion del agente
     """
-    return "Ruta de comunicación"
+    message = request.args['content']
+    grafoEntrada = Graph()
+    grafoEntrada.parse(data=message)
+    messageProperties = get_message_properties(grafoEntrada)
+
+    resultadoComunicacion = None
+
+    if messageProperties is None:
+        # Respondemos que no hemos entendido el mensaje
+        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                              sender=UserPersonalAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProperties['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                                  sender=UserPersonalAgent.uri, msgcnt=getMessageCount())
+        else:
+            content = messageProperties['content']
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
+            if accion == ECSDI.PeticionValoracion :
+                productos = grafoEntrada.objects(predicate=ECSDI.Valora)
+                grafoValoraciones = Graph()
+                accion2 = ECSDI['RespuestaValoracion'+str(getMessageCount())]
+                grafoValoraciones.add((accion2,RDF.type,ECSDI.RespuestaValoracion))
+                for p in productos:
+                    randomNumber = random.randint(0, 5)
+                    grafoValoraciones.add((p,RDF.type,ECSDI.Producto))
+                    grafoValoraciones.add((p,ECSDI.Valoracion,Literal(randomNumber,datatype=XSD.int)))
+                    grafoValoraciones.add((accion2,ECSDI.Valora,URIRef(p)))
+
+
+                resultadoComunicacion = grafoValoraciones;
+    logger.info('Respondemos a la petición de envio')
+    serialize = resultadoComunicacion.serialize(format='xml')
+    return serialize, 200
 
 #función llamada antes de cerrar el servidor
 def tidyUp():
@@ -397,6 +432,21 @@ def agentbehavior1():
 
     :return:
     """
+    gr = register_message()
+def register_message():
+    """
+    Envia un mensaje de registro al servicio de registro
+    usando una performativa Request y una accion Register del
+    servicio de directorio
+
+    :param gmess:
+    :return:
+    """
+
+    logger.info('Nos registramos')
+
+    gr = registerAgent(UserPersonalAgent, DirectoryAgent, UserPersonalAgent.uri, getMessageCount())
+    return gr
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors
