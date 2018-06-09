@@ -190,3 +190,23 @@ def getTransportistas(agentType, directoryAgent, sender, messageCount):
             agents += [agent]
 
     return agents
+
+def registerCentroLogistico(agent, directoryAgent, typeOfAgent, messageCount,codigoPostal):
+    gmess = Graph()
+
+    gmess.bind('foaf', FOAF)
+    gmess.bind('dso', DSO)
+    reg_obj = agn[agent.name + '-Register']
+    gmess.add((reg_obj, RDF.type, DSO.Register))
+    gmess.add((reg_obj, DSO.Uri, agent.uri))
+    gmess.add((reg_obj, FOAF.Name, Literal(agent.name)))
+    gmess.add((reg_obj, DSO.Address, Literal(agent.address)))
+    gmess.add((reg_obj, DSO.AgentType, typeOfAgent))
+    gmess.add((reg_obj, ECSDI.CodigoPostal,Literal(codigoPostal,datatype=XSD.int)))
+    # Lo metemos en un envoltorio FIPA-ACL y lo enviamos
+    gr = send_message(build_message(gmess, perf=ACL.request,
+                      sender=agent.uri,
+                      receiver=directoryAgent.uri,
+                      content=reg_obj,
+                      msgcnt=messageCount),
+        directoryAgent.address)

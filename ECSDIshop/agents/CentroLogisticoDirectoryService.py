@@ -120,7 +120,8 @@ def register():
         agn_name = gm.value(subject=content, predicate=FOAF.Name)
         agn_uri = gm.value(subject=content, predicate=DSO.Uri)
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
-        agn_cp = gm.value(subject=content,predicate=DSO.PostalCode)
+        agn_cp = gm.value(subject=content,predicate=ECSDI.CodigoPostal)
+
 
         # Añadimos la informacion en el grafo de registro vinculandola a la URI
         # del agente y registrandola como tipo FOAF.Agent
