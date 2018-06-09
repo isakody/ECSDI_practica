@@ -112,6 +112,19 @@ def index():
             if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
                 desdeCentros = True
 
+            graph = Graph()
+            ontologyFile = open('../data/ProductsDB.owl')
+            graph.parse(ontologyFile, format='turtle')
+            graph.bind("default",ECSDI)
+            sujeto = ECSDI['ProductoExterno'+str(getMessageCount())]
+            graph.add((sujeto, RDF.type, ECSDI.ProductoExterno))
+            graph.add((sujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
+            graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
+            graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
+            graph.add((sujeto,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.string)))
+            graph.add((sujeto,ECSDI.desdeCentros,Literal(desdeCentros,datatype=XSD.boolean)))
+            graph.serialize(destination='../data/ProductsDB.owl', format='turtle')
+
 
 
 
