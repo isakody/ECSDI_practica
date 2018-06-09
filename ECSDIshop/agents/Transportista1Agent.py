@@ -11,6 +11,7 @@ import argparse
 import socket
 import sys
 from multiprocessing import Queue, Process
+from datetime import datetime, timedelta
 
 from flask import Flask, request
 from rdflib import URIRef, XSD
@@ -120,13 +121,19 @@ def communication():
 
             if accion == ECSDI.PeticionOfertaTransporte:
                 logger.info('Peticion Oferta Transporte')
+                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+                    grafoEntrada.remove((item, None, None))
 
-            for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
-                grafoEntrada.remove((item, None, None))
+                oferta = prepararOferta(grafoEntrada, content)
 
-            oferta = prepararOferta(grafoEntrada, content)
+                resultadoComunicacion = oferta
 
-            resultadoComunicacion = oferta
+            elif accion == ECSDI.PeticionEnvioLote:
+                logger.info('Peticion Envio Lote')
+                logger.info('Su pedido llegara el dia:')
+                logger.info(str(datetime.now() + timedelta(days=1)))
+                logger.info('Soy el transportista:')
+                logger.info(Transportista1Agent.name)
 
     logger.info('Respondemos a la petición de oferta')
     serialize = resultadoComunicacion.serialize(format='xml')
@@ -151,8 +158,8 @@ def prepararOferta(grafoEntrada, content):
     return grafoOferta
 
 def calcularOferta(peso):
-
-    return 100
+    oferta = 5 + peso*2
+    return oferta
 
 @app.route("/Stop")
 def stop():

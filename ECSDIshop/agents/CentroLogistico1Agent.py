@@ -9,13 +9,12 @@ Asume que el agente de registro esta en el puerto 9000
 """
 import argparse
 import socket
-import sys
 import threading
 from multiprocessing import Queue, Process
 from time import sleep
 
 from flask import Flask, request
-from rdflib import URIRef, XSD
+from rdflib import *
 
 from utils.ACLMessages import *
 from utils.Agent import Agent
@@ -170,11 +169,6 @@ def responderPeticionEnvio(grafoEntrada, content):
     direccion2 = grafoEntrada.value(subject=direccion, predicate=ECSDI.Direccion)
     codigopostal = grafoEntrada.value(subject=direccion, predicate=ECSDI.CodigoPostal)
 
-    print("Prioritat, relacio i direccio")
-    print(prioritat)
-    print(relacion)
-    print(direccion)
-
     grafoFaltan = Graph()
     grafoFaltan.bind('default', ECSDI)
     contentR = ECSDI['RespuestaEnvioDesdeCentroLogistico' + str(getMessageCount())]
@@ -221,10 +215,6 @@ def responderPeticionEnvio(grafoEntrada, content):
 
         graph_query = graph.query(query)
 
-        for a in graph_query:
-            print(a)
-
-
         for stock in graph_query:
             unitats = stock.UnidadesEnStok
             producto = stock.Producto
@@ -232,15 +222,6 @@ def responderPeticionEnvio(grafoEntrada, content):
             nombre = stock.Nombre
             precio = stock.Precio
             peso = stock.Peso
-
-            print("Stock:")
-            print(unitats)
-            print(producto)
-            print(descripcion)
-            print(nombre)
-            print(precio)
-            print(peso)
-
 
             if unitats == 0:
                 grafoFaltan.add((producto, RDF.type, ECSDI.Producto))
@@ -277,9 +258,6 @@ def crearLotes():
     ontologyFile = open("../data/ProductosPendientesDB")
     graph.parse(ontologyFile, format='turtle')
 
-    for a,b,c in graph:
-        print(a,b,c)
-
     graph_query = []
 
     nouLote = Graph()
@@ -291,9 +269,7 @@ def crearLotes():
 
     # todo canviar a sparql ??
     for producto_pendiente in graph.subjects(predicate=RDF.type, object=ECSDI.ProductoPendiente):
-        print(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
         if int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad)) == 1:
-            print("Holi, soc dintre del IF")
 
             ## Agafem els atributs del producte pendent
             producto_direccion = graph.value(subject=producto_pendiente, predicate=ECSDI.EnviarA)
@@ -312,7 +288,6 @@ def crearLotes():
             nouLote.add((contentLote, ECSDI.CompuestoPor, producto_pendiente))
 
             pesoLote = peso + pesoLote
-            print (pesoLote)
 
             for item in graph.objects(subject=producto_pendiente):
                 graph.remove((producto_pendiente, None, item))
@@ -321,17 +296,12 @@ def crearLotes():
                 graph.remove((producto_direccion, None, item))
 
         else:
-            print("Holi, soc dintre del ELSE")
             prioridad = int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
             graph.remove((producto_pendiente, ECSDI.Prioridad, prioridad))
             prioridad = prioridad - 1
             graph.add((producto_pendiente, ECSDI.Prioridad, Literal(prioridad, datatype=XSD.int)))
 
     nouLote.add((contentLote, ECSDI.Peso, Literal(pesoLote, datatype=XSD.float)))
-
-    print("nouLote")
-    for a, b, c in nouLote:
-        print(a, b, c)
 
     if pesoLote != 0:
         thread = threading.Thread(target=enviarLote, args=(nouLote,contentLote,))
@@ -347,7 +317,6 @@ def enviarLote(nouLote, contentLote):
     agentes = getTransportistas(agn.Transportista1Agent, transportistaDirectory, CentroLogisticoAgent,
                                               getMessageCount())
 
-    print(agentes)
 
     grafoPeticion = nouLote
     grafoPeticion.bind('default', ECSDI)
@@ -363,9 +332,8 @@ def enviarLote(nouLote, contentLote):
             build_message(grafoPeticion, perf=ACL.request, sender=CentroLogisticoAgent.uri, receiver=transportista.uri,
                           msgcnt=getMessageCount(),
                           content=contentPeticion), transportista.address)
-        print("oferta ")
+
         for o in respuesta.objects(predicate=ECSDI.Precio):
-            print(o)
             ofertas[i] = o
         i += 1
 
@@ -382,7 +350,6 @@ def enviarLote(nouLote, contentLote):
     if imin != -1:
         transportista = agentes[imin]
         confirmarTransporte(transportista, nouLote, contentLote)
-        # TODO confirmar oferta aceptada
 
 def confirmarTransporte(transportista, nouLote, contentLote):
     grafoPeticion = nouLote
