@@ -94,7 +94,7 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
-#funcion llamada en /comm
+
 @app.route("/comm")
 def communication():
     message = request.args['content']
@@ -119,16 +119,42 @@ def communication():
         else:
             content = messageProperties['content']
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-            resultadoComunicacion = Graph()
 
+            if accion == ECSDI.PeticionOfertaTransporte:
+                logger.info('Peticion Oferta Transporte')
 
+            for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+                grafoEntrada.remove((item, None, None))
 
+            oferta = prepararOferta(grafoEntrada, content)
 
+            resultadoComunicacion = oferta
 
-    #no retronamos nada
-    logger.info('Respondemos a la petición de envio')
+    logger.info('Respondemos a la petición de oferta')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
+
+#funcion llamada en /comm
+def prepararOferta(grafoEntrada, content):
+    lote = grafoEntrada.value(subject=content, predicate=ECSDI.Para)
+    peso = grafoEntrada.value(subject=lote, predicate=ECSDI.Peso)
+    print("Peso lote")
+    print peso
+
+    precio = calcularOferta(peso)
+
+    grafoOferta = Graph()
+    grafoOferta.bind('default', ECSDI)
+    contentOferta = ECSDI['RespuestaOfertaTransporte'+ str(getMessageCount())]
+    grafoOferta.add((contentOferta, RDF.type, ECSDI.RespuestaOfertaTransporte))
+    grafoOferta.add((contentOferta, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
+
+
+    return grafoOferta
+
+def calcularOferta(peso):
+
+    return 100
 
 @app.route("/Stop")
 def stop():
