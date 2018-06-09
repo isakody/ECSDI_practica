@@ -153,6 +153,10 @@ def solicitarEnvio(grafo,contenido):
     prioridad = grafo.value(subject=contenido,predicate=ECSDI.Prioridad)
     if codigoPostal is not None:
         agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), int(codigoPostal))
+
+        for a in agentes:
+            print(a)
+
         grafoCopia.remove((contenido,ECSDI.Tarjeta,None))
         grafoCopia.remove((contenido,RDF.type,ECSDI.PeticionEnvio))
         sujeto = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
@@ -169,12 +173,28 @@ def solicitarEnvio(grafo,contenido):
                     grafoCopia.add((sujeto,b,c))
 
 
-        for a in agentes:
+        for ag in agentes:
+            print(ag)
             logger.info("Solicitando peticion de envio a centro logistico")
             respuesta = send_message(
-                build_message(grafoCopia, perf=ACL.request, sender=EnviadorAgent.uri, receiver=a.uri,
+                build_message(grafoCopia, perf=ACL.request, sender=EnviadorAgent.uri, receiver=ag.uri,
                               msgcnt=getMessageCount(),
-                              content=sujeto), a.address)
+                              content=sujeto), ag.address)
+
+            for item in respuesta.subjects(RDF.type, ACL.FipaAclMessage):
+                respuesta.remove((item, None, None))
+
+            grafoCopia = respuesta
+            # coger de respuesta los productos que faltan y enviarselo al siguiente.
+            for a, b, c in grafoCopia:
+                print a, b, c
+                if a == contenido:
+                    if b == ECSDI.Falta:  # Compra
+                        grafoCopia.remove((a, b, c))
+                        grafoCopia.add((sujeto, ECSDI.EnvioDe, c))
+                    else:
+                        grafoCopia.remove((a, b, c))
+                        grafoCopia.add((sujeto, b, c))
 
 
 def registrarEnvio(grafo, contenido):

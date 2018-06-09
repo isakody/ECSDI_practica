@@ -5,254 +5,506 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 default:ProductoFiltrado1 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string,
-        "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Patatas"^^xsd:string,
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string,
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Barco"^^xsd:string,
         "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
+    default:Precio "20.0"^^xsd:float,
         "55.0"^^xsd:float,
-        "308.0"^^xsd:float .
+        "20000.0"^^xsd:float .
 
 default:ProductoFiltrado10 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+    default:Descripcion "Esto es un Cable"^^xsd:string,
+        "Esto es un Ordenador"^^xsd:string,
+        "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string,
+        "Ordenador"^^xsd:string,
+        "Patatas"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float,
+        "308.0"^^xsd:float,
+        "1000.0"^^xsd:float .
 
 default:ProductoFiltrado11 a default:Producto ;
-    default:Descripcion "Esto es un teclado"^^xsd:string,
-        "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string,
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string,
+        "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
+        "Nuria Bruch"^^xsd:string,
         "Teclado"^^xsd:string ;
     default:Precio "55.0"^^xsd:float,
-        "308.0"^^xsd:float .
+        "20000.0"^^xsd:float,
+        "23000000.0"^^xsd:float .
 
 default:ProductoFiltrado12 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Patatas"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "308.0"^^xsd:float .
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
+        "Nuria Bruch"^^xsd:string ;
+    default:Precio "20000.0"^^xsd:float,
+        "23000000.0"^^xsd:float .
 
 default:ProductoFiltrado13 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float .
+    default:Descripcion "Esto es un Cable"^^xsd:string,
+        "Esto es un Mouse"^^xsd:string,
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Cable"^^xsd:string,
+        "Mouse"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float,
+        "20.0"^^xsd:float,
+        "32.0"^^xsd:float .
 
 default:ProductoFiltrado14 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
+    default:Descripcion "Esto es un Ordenador"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string,
+        "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string,
+        "Patatas"^^xsd:string,
+        "Teclado"^^xsd:string ;
+    default:Precio "55.0"^^xsd:float,
+        "308.0"^^xsd:float,
+        "1000.0"^^xsd:float .
 
 default:ProductoFiltrado15 a default:Producto ;
-    default:Descripcion "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Teclado"^^xsd:string ;
-    default:Precio "55.0"^^xsd:float .
+    default:Descripcion "Esto es un Mouse"^^xsd:string,
+        "Esto es un Platano"^^xsd:string,
+        "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string,
+        "Nuria Bruch"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "32.0"^^xsd:float,
+        "23000000.0"^^xsd:float .
 
 default:ProductoFiltrado16 a default:Producto ;
     default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Mouse"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float,
+        "32.0"^^xsd:float .
 
 default:ProductoFiltrado17 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
-
-default:ProductoFiltrado18 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
-
-default:ProductoFiltrado19 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
-
-default:ProductoFiltrado2 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string,
+    default:Descripcion "Esto es un Platano"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string,
         "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Patatas"^^xsd:string,
+    default:Nombre "Patatas"^^xsd:string,
+        "Platano"^^xsd:string,
         "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
+    default:Precio "1.0"^^xsd:float,
         "55.0"^^xsd:float,
         "308.0"^^xsd:float .
 
+default:ProductoFiltrado18 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string,
+        "Esto es un Ordenador"^^xsd:string,
+        "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string,
+        "Ordenador"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "5.0"^^xsd:float,
+        "1000.0"^^xsd:float .
+
+default:ProductoFiltrado19 a default:Producto ;
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Cable"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
+        "Cable"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float,
+        "20000.0"^^xsd:float .
+
+default:ProductoFiltrado2 a default:Producto ;
+    default:Descripcion "Esto es un Ordenador"^^xsd:string,
+        "Esto es un Platano"^^xsd:string,
+        "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string,
+        "Patatas"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "308.0"^^xsd:float,
+        "1000.0"^^xsd:float .
+
 default:ProductoFiltrado20 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Ordenador"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
+        "Ordenador"^^xsd:string ;
+    default:Precio "1000.0"^^xsd:float,
+        "20000.0"^^xsd:float .
 
 default:ProductoFiltrado21 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
-
-default:ProductoFiltrado22 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
-
-default:ProductoFiltrado23 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Patatas"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "308.0"^^xsd:float .
-
-default:ProductoFiltrado24 a default:Producto ;
-    default:Descripcion "Esto es un teclado"^^xsd:string,
+    default:Descripcion "Esto es un Teclado"^^xsd:string,
         "Esto son Patatas"^^xsd:string ;
     default:Nombre "Patatas"^^xsd:string,
         "Teclado"^^xsd:string ;
     default:Precio "55.0"^^xsd:float,
         "308.0"^^xsd:float .
 
-default:ProductoFiltrado25 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float .
-
-default:ProductoFiltrado26 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
-
-default:ProductoFiltrado27 a default:Producto ;
-    default:Descripcion "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Teclado"^^xsd:string ;
-    default:Precio "55.0"^^xsd:float .
-
-default:ProductoFiltrado28 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
-
-default:ProductoFiltrado29 a default:Producto ;
+default:ProductoFiltrado22 a default:Producto ;
     default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
+        "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "32.0"^^xsd:float .
+
+default:ProductoFiltrado23 a default:Producto ;
+    default:Descripcion "Esto es un Mouse"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string ;
     default:Nombre "Mouse"^^xsd:string,
         "Teclado"^^xsd:string ;
     default:Precio "32.0"^^xsd:float,
         "55.0"^^xsd:float .
 
-default:ProductoFiltrado3 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string,
-        "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Patatas"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float,
+default:ProductoFiltrado24 a default:Producto ;
+    default:Descripcion "Esto es un Ordenador"^^xsd:string,
+        "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "1000.0"^^xsd:float .
+
+default:ProductoFiltrado25 a default:Producto ;
+    default:Descripcion "Esto son Patatas"^^xsd:string,
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Patatas"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float,
         "308.0"^^xsd:float .
 
+default:ProductoFiltrado26 a default:Producto ;
+    default:Descripcion "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Nuria Bruch"^^xsd:string ;
+    default:Precio "23000000.0"^^xsd:float .
+
+default:ProductoFiltrado27 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string,
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Cable"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float,
+        "20.0"^^xsd:float .
+
+default:ProductoFiltrado28 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string,
+        "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "5.0"^^xsd:float .
+
+default:ProductoFiltrado29 a default:Producto ;
+    default:Descripcion "Esto son Patatas"^^xsd:string,
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Patatas"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float,
+        "308.0"^^xsd:float .
+
+default:ProductoFiltrado3 a default:Producto ;
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Cable"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
+        "Cable"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float,
+        "20000.0"^^xsd:float .
+
 default:ProductoFiltrado30 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
         "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+    default:Precio "55.0"^^xsd:float,
+        "20000.0"^^xsd:float .
 
 default:ProductoFiltrado31 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Ordenador"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
+        "Ordenador"^^xsd:string ;
+    default:Precio "1000.0"^^xsd:float,
+        "20000.0"^^xsd:float .
 
 default:ProductoFiltrado32 a default:Producto ;
     default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Mouse"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float,
+        "32.0"^^xsd:float .
 
 default:ProductoFiltrado33 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
+    default:Descripcion "Esto es un Ordenador"^^xsd:string,
+        "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "1000.0"^^xsd:float .
 
 default:ProductoFiltrado34 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
+    default:Descripcion "Esto es un Teclado"^^xsd:string,
+        "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Patatas"^^xsd:string,
+        "Teclado"^^xsd:string ;
+    default:Precio "55.0"^^xsd:float,
+        "308.0"^^xsd:float .
 
 default:ProductoFiltrado35 a default:Producto ;
-    default:Descripcion "Esto es un teclado"^^xsd:string ;
+    default:Descripcion "Esto es un Mouse"^^xsd:string,
+        "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string,
+        "Nuria Bruch"^^xsd:string ;
+    default:Precio "32.0"^^xsd:float,
+        "23000000.0"^^xsd:float .
+
+default:ProductoFiltrado36 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string,
+        "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string,
+        "Nuria Bruch"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float,
+        "23000000.0"^^xsd:float .
+
+default:ProductoFiltrado37 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float .
+
+default:ProductoFiltrado38 a default:Producto ;
+    default:Descripcion "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float .
+
+default:ProductoFiltrado39 a default:Producto ;
+    default:Descripcion "Esto es un Teclado"^^xsd:string ;
     default:Nombre "Teclado"^^xsd:string ;
     default:Precio "55.0"^^xsd:float .
 
-default:ProductoFiltrado36 a default:Producto ;
+default:ProductoFiltrado4 a default:Producto ;
+    default:Descripcion "Esto es un Platano"^^xsd:string,
+        "Esto es una Nuria "^^xsd:string,
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Nuria Bruch"^^xsd:string,
+        "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "20.0"^^xsd:float,
+        "23000000.0"^^xsd:float .
+
+default:ProductoFiltrado40 a default:Producto ;
+    default:Descripcion "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Patatas"^^xsd:string ;
+    default:Precio "308.0"^^xsd:float .
+
+default:ProductoFiltrado41 a default:Producto ;
+    default:Descripcion "Esto es un Barco"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string ;
+    default:Precio "20000.0"^^xsd:float .
+
+default:ProductoFiltrado42 a default:Producto ;
     default:Descripcion "Esto es un Mouse"^^xsd:string ;
     default:Nombre "Mouse"^^xsd:string ;
     default:Precio "32.0"^^xsd:float .
 
-default:ProductoFiltrado4 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+default:ProductoFiltrado43 a default:Producto ;
+    default:Descripcion "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float .
+
+default:ProductoFiltrado44 a default:Producto ;
+    default:Descripcion "Esto es un Ordenador"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string ;
+    default:Precio "1000.0"^^xsd:float .
+
+default:ProductoFiltrado45 a default:Producto ;
+    default:Descripcion "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Nuria Bruch"^^xsd:string ;
+    default:Precio "23000000.0"^^xsd:float .
+
+default:ProductoFiltrado46 a default:Producto ;
+    default:Descripcion "Esto es un Ordenador"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string ;
+    default:Precio "1000.0"^^xsd:float .
+
+default:ProductoFiltrado47 a default:Producto ;
+    default:Descripcion "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float .
+
+default:ProductoFiltrado48 a default:Producto ;
+    default:Descripcion "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float .
+
+default:ProductoFiltrado49 a default:Producto ;
+    default:Descripcion "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Nuria Bruch"^^xsd:string ;
+    default:Precio "23000000.0"^^xsd:float .
 
 default:ProductoFiltrado5 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+    default:Descripcion "Esto es una Nuria "^^xsd:string,
+        "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Nuria Bruch"^^xsd:string,
+        "Patatas"^^xsd:string ;
+    default:Precio "308.0"^^xsd:float,
+        "23000000.0"^^xsd:float .
 
-default:ProductoFiltrado6 a default:Producto ;
+default:ProductoFiltrado50 a default:Producto ;
+    default:Descripcion "Esto es un Teclado"^^xsd:string ;
+    default:Nombre "Teclado"^^xsd:string ;
+    default:Precio "55.0"^^xsd:float .
+
+default:ProductoFiltrado51 a default:Producto ;
+    default:Descripcion "Esto es un Mouse"^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string ;
+    default:Precio "32.0"^^xsd:float .
+
+default:ProductoFiltrado52 a default:Producto ;
     default:Descripcion "Esto son Patatas"^^xsd:string ;
     default:Nombre "Patatas"^^xsd:string ;
     default:Precio "308.0"^^xsd:float .
 
-default:ProductoFiltrado7 a default:Producto ;
-    default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
-    default:Nombre "Mouse"^^xsd:string,
+default:ProductoFiltrado53 a default:Producto ;
+    default:Descripcion "Esto es un Barco"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string ;
+    default:Precio "20000.0"^^xsd:float .
+
+default:ProductoFiltrado54 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float .
+
+default:ProductoFiltrado55 a default:Producto ;
+    default:Descripcion "Esto es un Teclado"^^xsd:string ;
+    default:Nombre "Teclado"^^xsd:string ;
+    default:Precio "55.0"^^xsd:float .
+
+default:ProductoFiltrado56 a default:Producto ;
+    default:Descripcion "Esto es un Mouse"^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string ;
+    default:Precio "32.0"^^xsd:float .
+
+default:ProductoFiltrado57 a default:Producto ;
+    default:Descripcion "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float .
+
+default:ProductoFiltrado58 a default:Producto ;
+    default:Descripcion "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Patatas"^^xsd:string ;
+    default:Precio "308.0"^^xsd:float .
+
+default:ProductoFiltrado59 a default:Producto ;
+    default:Descripcion "Esto es un Barco"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string ;
+    default:Precio "20000.0"^^xsd:float .
+
+default:ProductoFiltrado6 a default:Producto ;
+    default:Descripcion "Esto es un Barco"^^xsd:string,
+        "Esto es un Ordenador"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string,
+        "Ordenador"^^xsd:string,
         "Teclado"^^xsd:string ;
-    default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+    default:Precio "55.0"^^xsd:float,
+        "1000.0"^^xsd:float,
+        "20000.0"^^xsd:float .
+
+default:ProductoFiltrado60 a default:Producto ;
+    default:Descripcion "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Nuria Bruch"^^xsd:string ;
+    default:Precio "23000000.0"^^xsd:float .
+
+default:ProductoFiltrado61 a default:Producto ;
+    default:Descripcion "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float .
+
+default:ProductoFiltrado62 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float .
+
+default:ProductoFiltrado63 a default:Producto ;
+    default:Descripcion "Esto es un Ordenador"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string ;
+    default:Precio "1000.0"^^xsd:float .
+
+default:ProductoFiltrado64 a default:Producto ;
+    default:Descripcion "Esto es un Mouse"^^xsd:string ;
+    default:Nombre "Mouse"^^xsd:string ;
+    default:Precio "32.0"^^xsd:float .
+
+default:ProductoFiltrado65 a default:Producto ;
+    default:Descripcion "Esto es un Ordenador"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string ;
+    default:Precio "1000.0"^^xsd:float .
+
+default:ProductoFiltrado66 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string ;
+    default:Nombre "Cable"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float .
+
+default:ProductoFiltrado67 a default:Producto ;
+    default:Descripcion "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string ;
+    default:Precio "20.0"^^xsd:float .
+
+default:ProductoFiltrado68 a default:Producto ;
+    default:Descripcion "Esto es un Barco"^^xsd:string ;
+    default:Nombre "Barco"^^xsd:string ;
+    default:Precio "20000.0"^^xsd:float .
+
+default:ProductoFiltrado69 a default:Producto ;
+    default:Descripcion "Esto es un Teclado"^^xsd:string ;
+    default:Nombre "Teclado"^^xsd:string ;
+    default:Precio "55.0"^^xsd:float .
+
+default:ProductoFiltrado7 a default:Producto ;
+    default:Descripcion "Esto es un Cable"^^xsd:string,
+        "Esto es un Mouse"^^xsd:string,
+        "Esto son unos Auriculares"^^xsd:string ;
+    default:Nombre "Auriculares"^^xsd:string,
+        "Cable"^^xsd:string,
+        "Mouse"^^xsd:string ;
+    default:Precio "5.0"^^xsd:float,
+        "20.0"^^xsd:float,
+        "32.0"^^xsd:float .
+
+default:ProductoFiltrado70 a default:Producto ;
+    default:Descripcion "Esto es una Nuria "^^xsd:string ;
+    default:Nombre "Nuria Bruch"^^xsd:string ;
+    default:Precio "23000000.0"^^xsd:float .
+
+default:ProductoFiltrado71 a default:Producto ;
+    default:Descripcion "Esto son Patatas"^^xsd:string ;
+    default:Nombre "Patatas"^^xsd:string ;
+    default:Precio "308.0"^^xsd:float .
+
+default:ProductoFiltrado72 a default:Producto ;
+    default:Descripcion "Esto es un Platano"^^xsd:string ;
+    default:Nombre "Platano"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float .
 
 default:ProductoFiltrado8 a default:Producto ;
     default:Descripcion "Esto es un Mouse"^^xsd:string,
-        "Esto es un teclado"^^xsd:string ;
+        "Esto es una Nuria "^^xsd:string ;
     default:Nombre "Mouse"^^xsd:string,
-        "Teclado"^^xsd:string ;
+        "Nuria Bruch"^^xsd:string ;
     default:Precio "32.0"^^xsd:float,
-        "55.0"^^xsd:float .
+        "23000000.0"^^xsd:float .
 
 default:ProductoFiltrado9 a default:Producto ;
-    default:Descripcion "Esto son Patatas"^^xsd:string ;
-    default:Nombre "Patatas"^^xsd:string ;
-    default:Precio "308.0"^^xsd:float .
+    default:Descripcion "Esto es un Ordenador"^^xsd:string,
+        "Esto es un Platano"^^xsd:string,
+        "Esto es un Teclado"^^xsd:string ;
+    default:Nombre "Ordenador"^^xsd:string,
+        "Platano"^^xsd:string,
+        "Teclado"^^xsd:string ;
+    default:Precio "1.0"^^xsd:float,
+        "55.0"^^xsd:float,
+        "1000.0"^^xsd:float .
 

@@ -454,7 +454,7 @@ if __name__ == '__main__':
     ab1.start()
 
     # Ponemos en marcha el servidor
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     # Esperamos a que acaben los behaviors
     ab1.join()

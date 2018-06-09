@@ -40,7 +40,7 @@ args = parser.parse_args()
 
 # Configuration stuff
 if args.port is None:
-    port = 9005
+    port = 9022
 else:
     port = args.port
 
@@ -103,7 +103,7 @@ def communication():
     grafoEntrada.parse(data=message)
     messageProperties = get_message_properties(grafoEntrada)
 
-    resultadoComunicacion = None
+    resultadoComunicacion = Graph()
 
     if messageProperties is None:
         # Respondemos que no hemos entendido el mensaje
@@ -146,7 +146,7 @@ def prepararOferta(grafoEntrada, content):
     print("Peso lote")
     print peso
 
-    precio = calcularOferta(peso)
+    precio = calcularOferta(float(peso))
 
     grafoOferta = Graph()
     grafoOferta.bind('default', ECSDI)
@@ -158,7 +158,7 @@ def prepararOferta(grafoEntrada, content):
     return grafoOferta
 
 def calcularOferta(peso):
-    oferta = 5 + peso*2
+    oferta = 5.0 + peso*2
     return oferta
 
 @app.route("/Stop")
@@ -173,7 +173,7 @@ def stop():
     return "Stopping server"
 
 #funcion llamada al principio de un agente
-def enviadorBehavior(queue):
+def transportistaBehavior(queue):
 
     """
     Agent Behaviour in a concurrent thread.
@@ -211,11 +211,11 @@ def register_message():
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
-    ab1 = Process(target=enviadorBehavior, args=(queue,))
+    ab1 = Process(target=transportistaBehavior, args=(queue,))
     ab1.start()
 
     # Run server
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     # Wait behaviors
     ab1.join()

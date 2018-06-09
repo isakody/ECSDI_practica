@@ -163,6 +163,7 @@ def communication():
 def responderPeticionEnvio(grafoEntrada, content):
 
     prioritat = grafoEntrada.value(subject=content, predicate=ECSDI.Prioridad)
+    print("Hi peticion envio")
 
     relacion = grafoEntrada.value(subject=content, predicate=ECSDI.EnvioDe)
     direccion = grafoEntrada.value(subject=relacion, predicate=ECSDI.Destino)
@@ -176,7 +177,7 @@ def responderPeticionEnvio(grafoEntrada, content):
     grafoFaltan.add((contentR, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
 
     graph = Graph()
-    ontologyFile = open('../data/StockDB')
+    ontologyFile = open('../data/Stock1DB')
     graph.parse(ontologyFile, format='turtle')
 
     ontologyFile = open("../data/ProductosPendientesDB")
@@ -187,20 +188,18 @@ def responderPeticionEnvio(grafoEntrada, content):
     grafoEnviar.bind('default', ECSDI)
 
     for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
+        print("Anem a buscar stock")
         nombreP = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
-
-        # QUERY
-        # Mirar que el que retorna la query sigui un stock amb num de tal >= 1
 
         query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                             PREFIX owl: <http://www.w3.org/2002/07/owl#>
                             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                            SELECT ?Stock ?Producto ?Nombre ?Descripcion ?Precio ?Peso ?UnidadesEnStok
+                            SELECT ?Stock ?Producto ?Nombre ?Descripcion ?Precio ?Peso ?UnidadesEnStock
                             where {
                                 ?Stock rdf:type default:Stock .
-                                ?Stock default:UnidadesEnStok ?UnidadesEnStok .
+                                ?Stock default:UnidadesEnStock ?UnidadesEnStock .
                                 ?Stock default:Tiene ?Producto .
                                 ?Producto default:Nombre ?Nombre .
                                 ?Producto default:Descripcion ?Descripcion .
@@ -216,7 +215,8 @@ def responderPeticionEnvio(grafoEntrada, content):
         graph_query = graph.query(query)
 
         for stock in graph_query:
-            unitats = stock.UnidadesEnStok
+            print("Estem mirant un stock")
+            unitats = stock.UnidadesEnStock
             producto = stock.Producto
             descripcion = stock.Descripcion
             nombre = stock.Nombre
@@ -232,8 +232,8 @@ def responderPeticionEnvio(grafoEntrada, content):
                 grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(producto)))
 
             else:
-                # TODO baixar 1 el stock
-
+                print("Tenim stock amics!")
+                print(nombre)
                 contentEnviar = ECSDI['ProductoPendiente' + str(getMessageCount())]
                 grafoEnviar.add((contentEnviar, RDF.type, ECSDI.ProductoPendiente))
                 grafoEnviar.add((contentEnviar, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
@@ -245,8 +245,13 @@ def responderPeticionEnvio(grafoEntrada, content):
                 grafoEnviar.add((direccion, ECSDI.CodigoPostal, Literal(codigopostal, datatype=XSD.int)))
                 grafoEnviar.add((contentEnviar, ECSDI.EnviarA, URIRef(direccion)))
 
+                graph.remove((stock.Stock, ECSDI.UnidadesEnStock, None))
+                uni = int(unitats) - 1
+                graph.add((stock.Stock, ECSDI.UnidadesEnStock, Literal(uni, datatype=XSD.int)))
+
     grafoPendientes += grafoEnviar
     grafoPendientes.serialize(destination="../data/ProductosPendientesDB", format='turtle')
+    graph.serialize(destination="../data/Stock1DB", format='turtle')
 
     return grafoFaltan
 
@@ -267,10 +272,10 @@ def crearLotes():
     nouLote.add((contentLote, RDF.type, ECSDI.LoteProductos))
     pesoLote = 0
 
-    # todo canviar a sparql ??
     for producto_pendiente in graph.subjects(predicate=RDF.type, object=ECSDI.ProductoPendiente):
+        print("Hi un producto pendiente")
         if int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad)) == 1:
-
+            print("Som al if")
             ## Agafem els atributs del producte pendent
             producto_direccion = graph.value(subject=producto_pendiente, predicate=ECSDI.EnviarA)
             producto_nombre = graph.value(subject=producto_pendiente, predicate=ECSDI.Nombre)
@@ -296,8 +301,10 @@ def crearLotes():
                 graph.remove((producto_direccion, None, item))
 
         else:
+            print("Som al else")
+            print(str(graph.value(subject=producto_pendiente, predicate=ECSDI.Nombre)))
             prioridad = int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
-            graph.remove((producto_pendiente, ECSDI.Prioridad, prioridad))
+            graph.remove((producto_pendiente, ECSDI.Prioridad, None))
             prioridad = prioridad - 1
             graph.add((producto_pendiente, ECSDI.Prioridad, Literal(prioridad, datatype=XSD.int)))
 
@@ -312,10 +319,13 @@ def crearLotes():
     return
 
 def enviarLote(nouLote, contentLote):
+    print("Holi 0")
     transportistaDirectory = getAgentInfo(agn.TransportistaDirectoryAgent, DirectoryAgent, CentroLogisticoAgent,
                                          getMessageCount())
-    agentes = getTransportistas(agn.Transportista1Agent, transportistaDirectory, CentroLogisticoAgent,
+    agentes = getTransportistas(agn.TransportistaAgent, transportistaDirectory, CentroLogisticoAgent,
                                               getMessageCount())
+
+    print("Holi 1")
 
 
     grafoPeticion = nouLote
@@ -324,19 +334,21 @@ def enviarLote(nouLote, contentLote):
     grafoPeticion.add((contentPeticion, RDF.type, ECSDI.PeticionOfertaTransporte))
     grafoPeticion.add((contentPeticion, ECSDI.Para, URIRef(contentLote)))
 
-    ofertas = [len(agentes)]
+    ofertas = []
     i = 0
 
     for transportista in agentes:
+        print("Holi agent: " + str(i))
         respuesta = send_message(
             build_message(grafoPeticion, perf=ACL.request, sender=CentroLogisticoAgent.uri, receiver=transportista.uri,
-                          msgcnt=getMessageCount(),
-                          content=contentPeticion), transportista.address)
+                          msgcnt=getMessageCount(), content=contentPeticion), transportista.address)
 
         for o in respuesta.objects(predicate=ECSDI.Precio):
-            ofertas[i] = o
+            ofertas.append(o)
+
         i += 1
 
+    print("Holi fora el bucle")
     min = 0
     imin = -1
     i = 0
@@ -355,13 +367,12 @@ def confirmarTransporte(transportista, nouLote, contentLote):
     grafoPeticion = nouLote
     grafoPeticion.bind('default', ECSDI)
     contentPeticion = ECSDI['PeticionEnvioLote' + str(getMessageCount())]
-    grafoPeticion.add((contentPeticion, RDF.type, ECSDI.PeticionOfertaTransporte))
+    grafoPeticion.add((contentPeticion, RDF.type, ECSDI.PeticionEnvioLote))
     grafoPeticion.add((contentPeticion, ECSDI.PendienteDeSerEnviado, URIRef(contentLote)))
 
     respuesta = send_message(
         build_message(grafoPeticion, perf=ACL.request, sender=CentroLogisticoAgent.uri, receiver=transportista.uri,
-                      msgcnt=getMessageCount(),
-                      content=contentPeticion), transportista.address)
+                      msgcnt=getMessageCount(), content=contentPeticion), transportista.address)
 
 def crearLotesThread():
     thread = threading.Thread(target=crearLotes)

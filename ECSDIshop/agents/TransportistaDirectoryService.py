@@ -129,6 +129,9 @@ def register():
         dsgraph.add((agn_uri, DSO.Address, agn_add))
         dsgraph.add((agn_uri, DSO.AgentType, agn_type))
 
+        for a, b, c in dsgraph:
+            print a, b, c
+
         logger.info('Registrado agente: ' + agn_name + ' - tipus:' + agn_type)
 
         # Generamos un mensaje de respuesta
@@ -153,7 +156,9 @@ def register():
 
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
 
-        rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
+        rsearch = dsgraph.triples((None, DSO.AgentType, None))
+
+
 
         num = 0
         g = Graph()
@@ -161,8 +166,9 @@ def register():
         bag = BNode()
         g.add((bag,RDF.type, RDF.Bag))
 
-        for agn_uri in rsearch:
-            agn_uri2 = agn_uri[0]
+        for a, b, c in rsearch:
+            print "entro"
+            agn_uri2 = a
             agn_add = dsgraph.value(subject=agn_uri2, predicate=DSO.Address)
             agn_name = dsgraph.value(subject=agn_uri2, predicate=FOAF.name)
 
@@ -224,7 +230,6 @@ def register():
                 gr = process_register()
             # Accion de busqueda
             elif accion == DSO.Search:
-            # TODO get peso y procesarlo para devolver el precio
                 gr = process_search()
             # No habia ninguna accion en el mensaje
             else:
@@ -279,7 +284,7 @@ if __name__ == '__main__':
     ab1.start()
 
     # Ponemos en marcha el servidor Flask
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     ab1.join()
     logger.info('The End')
