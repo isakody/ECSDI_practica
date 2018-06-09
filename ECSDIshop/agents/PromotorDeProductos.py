@@ -159,7 +159,7 @@ def communication():
 
             resultadoConsulta = graph.query(query)
             resultadoComunicacion = Graph()
-            sujeto = ECSDI["RespuestaRecomendacion"+str(getMessageCount())]
+            sujeto2 = ECSDI["RespuestaRecomendacion"+str(getMessageCount())]
             for product in resultadoConsulta:
                 product_nombre = product.Nombre
                 product_precio = product.Precio
@@ -169,6 +169,7 @@ def communication():
                 resultadoComunicacion.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
                 resultadoComunicacion.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
                 resultadoComunicacion.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
+                resultadoComunicacion.add((sujeto2,ECSDI.Recomienda,URIRef(sujeto)))
 
     logger.info('Respondemos a la petición de busqueda')
     serialize = resultadoComunicacion.serialize(format='xml')
