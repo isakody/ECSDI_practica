@@ -249,6 +249,18 @@ def responderPeticionEnvio(grafoEntrada, content):
                 uni = int(unitats) - 1
                 graph.add((stock.Stock, ECSDI.UnidadesEnStock, Literal(uni, datatype=XSD.int)))
 
+        if len(graph_query) == 0:
+            descripcion = grafoEntrada.value(subject=producto, predicate=ECSDI.Descripcion)
+            nombre = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
+            precio = grafoEntrada.value(subject=producto, predicate=ECSDI.Precio)
+            peso = grafoEntrada.value(subject=producto, predicate=ECSDI.Peso)
+            grafoFaltan.add((producto, RDF.type, ECSDI.Producto))
+            grafoFaltan.add((producto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
+            grafoFaltan.add((producto, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
+            grafoFaltan.add((producto, ECSDI.Precio, Literal(precio, datatype=XSD.string)))
+            grafoFaltan.add((producto, ECSDI.Peso, Literal(peso, datatype=XSD.string)))
+            grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(producto)))
+
     grafoPendientes += grafoEnviar
     grafoPendientes.serialize(destination="../data/ProductosPendientesDB", format='turtle')
     graph.serialize(destination="../data/Stock1DB", format='turtle')
@@ -359,16 +371,24 @@ def enviarLote(nouLote, contentLote):
             min = o
         i += 1
 
+    print(imin)
     if imin != -1:
         transportista = agentes[imin]
         confirmarTransporte(transportista, nouLote, contentLote)
 
 def confirmarTransporte(transportista, nouLote, contentLote):
     grafoPeticion = nouLote
+    grafoPeticion.remove((None, RDF.type, ECSDI.PeticionOfertaTransporte))
+    for item in grafoPeticion.subjects(RDF.type, ACL.FipaAclMessage):
+        grafoPeticion.remove((item, None, None))
     grafoPeticion.bind('default', ECSDI)
     contentPeticion = ECSDI['PeticionEnvioLote' + str(getMessageCount())]
     grafoPeticion.add((contentPeticion, RDF.type, ECSDI.PeticionEnvioLote))
     grafoPeticion.add((contentPeticion, ECSDI.PendienteDeSerEnviado, URIRef(contentLote)))
+
+    print ("Grafo peticion")
+    for a, b, c in grafoPeticion:
+        print a, b, c
 
     respuesta = send_message(
         build_message(grafoPeticion, perf=ACL.request, sender=CentroLogisticoAgent.uri, receiver=transportista.uri,
