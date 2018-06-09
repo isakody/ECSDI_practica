@@ -140,7 +140,7 @@ def communication():
             content = messageProperties['content']
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
             # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
-            if accion == ECSDI.PeticionProductosComprados:
+            if accion == ECSDI.PeticionProductosEnviados:
                 graph = Graph()
                 ontologyFile = open('../data/EnviosDB')
                 tarjeta = None

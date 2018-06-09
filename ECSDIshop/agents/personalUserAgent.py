@@ -243,8 +243,8 @@ def getProductsToReturn():
     if request.method == 'POST':
         if request.form['return'] == 'submit':
             grafoDeContenido = Graph()
-            accion = ECSDI["PeticionProductosComprados"+str(getMessageCount())]
-            grafoDeContenido.add((accion,RDF.type,ECSDI.PeticionProductosComprados))
+            accion = ECSDI["PeticionProductosEnviados"+str(getMessageCount())]
+            grafoDeContenido.add((accion,RDF.type,ECSDI.PeticionProductosEnviados))
             tarjeta = request.form['tarjeta']
             grafoDeContenido.add((accion, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.int)))
             agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
