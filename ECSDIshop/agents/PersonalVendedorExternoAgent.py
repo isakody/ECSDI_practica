@@ -114,25 +114,6 @@ def index():
 
 
 
-            contenido = ECSDI['PeticionAgregarProducto'+str(getMessageCount())]
-            grafoContenido = Graph()
-            grafoContenido.add((contenido, RDF.type,ECSDI.PeticionAgregarProducto))
-
-            grafoContenido.add((contenido,ECSDI.Nombre,Literal(nombreProducto,datatype=XSD.string)))
-            grafoContenido.add((contenido,ECSDI.Precio,Literal(precio,datatype=XSD.float)))
-            grafoContenido.add((contenido,ECSDI.Peso,Literal(peso,datatype=XSD.float)))
-            grafoContenido.add((contenido,ECSDI.Descripcion,Literal(descripcion,datatype=XSD.string)))
-            grafoContenido.add((contenido,ECSDI.UnidadesEnStock,Literal(numeroUnidades,datatype=XSD.int)))
-            grafoContenido.add((contenido,ECSDI.EnviadoPorTienda,Literal(desdeCentros,datatype=XSD.boolean)))
-            grafoContenido.add((contenido,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
-
-            agente = getAgentInfo(agn.GestorExternoAgent, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
-
-            grafoBusqueda = send_message(
-                build_message(grafoContenido, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
-                              msgcnt=getMessageCount(),
-                              content=contenido), agente.address)
-
 
 
             return render_template('procesandoArticulo.html')

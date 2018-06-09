@@ -235,7 +235,7 @@ def solicitarValoraciones():
     thread = threading.Thread(target=comprobarYValorar)
     thread.start()
     thread.join()
-    sleep(10)
+    sleep(120)
 
     solicitarValoraciones()
 def tidyUp():
