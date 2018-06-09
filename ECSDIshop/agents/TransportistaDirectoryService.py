@@ -21,7 +21,7 @@ from multiprocessing import Process, Queue
 from flask import Flask, request, render_template
 from rdflib import Graph, RDF, Namespace, RDFS, BNode, URIRef
 from rdflib.namespace import FOAF
-from utils.ACLMessages import build_message, get_message_properties
+from utils.ACLMessages import *
 from utils.Agent import Agent
 from utils.FlaskServer import shutdown_server
 from utils.Logging import config_logger
@@ -149,7 +149,7 @@ def register():
         # Buscamos una coincidencia exacta
         # Retornamos el primero de la lista de posibilidades
 
-        logger.info('Peticion de oferta')
+        logger.info('Peticion de busqueda')
 
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
 

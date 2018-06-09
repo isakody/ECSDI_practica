@@ -145,8 +145,6 @@ def communication():
             # Averiguamos el tipo de la accion
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
 
-            print(accion)
-
             if accion == ECSDI.PeticionEnvioACentroLogistico:
 
                 logger.info('Peticion Envio A Centro Logistico')
@@ -178,25 +176,27 @@ def responderPeticionEnvio(grafoEntrada, content):
     print(direccion)
 
     grafoFaltan = Graph()
-    grafoFaltan.bind('ECSDI', ECSDI)
+    grafoFaltan.bind('default', ECSDI)
     contentR = ECSDI['RespuestaEnvioDesdeCentroLogistico' + str(getMessageCount())]
     grafoFaltan.add((contentR, RDF.type, ECSDI.RespuestaEnvioDesdeCentroLogistico))
     grafoFaltan.add((contentR, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
+
+    graph = Graph()
+    ontologyFile = open('../data/StockDB')
+    graph.parse(ontologyFile, format='turtle')
+
+    ontologyFile = open("../data/ProductosPendientesDB")
+    grafoPendientes = Graph()
+    grafoPendientes.parse(ontologyFile, format='turtle')
+
+    grafoEnviar = Graph()
+    grafoEnviar.bind('default', ECSDI)
 
     for producto in grafoEntrada.objects(subject=relacion, predicate=ECSDI.Contiene):
         nombreP = grafoEntrada.value(subject=producto, predicate=ECSDI.Nombre)
 
         # QUERY
         # Mirar que el que retorna la query sigui un stock amb num de tal >= 1
-
-        graph = Graph()
-        ontologyFile = open('../data/StockDB')
-        graph.parse(ontologyFile, format='turtle')
-        graph.serialize(destination='../data/StockDB', format='turtle')
-        ontologyFile = open('../data/StockDB')
-        graph.parse(ontologyFile, format='turtle')
-
-        addAnd = False;
 
         query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                             PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -216,7 +216,6 @@ def responderPeticionEnvio(grafoEntrada, content):
 
         if nombreP is not None:
             query += """?Nombre = '""" + nombreP + """'"""
-            addAnd = True
 
         query += """)}"""
 
@@ -224,6 +223,7 @@ def responderPeticionEnvio(grafoEntrada, content):
 
         for a in graph_query:
             print(a)
+
 
         for stock in graph_query:
             unitats = stock.UnidadesEnStok
@@ -233,6 +233,7 @@ def responderPeticionEnvio(grafoEntrada, content):
             precio = stock.Precio
             peso = stock.Peso
 
+            print("Stock:")
             print(unitats)
             print(producto)
             print(descripcion)
@@ -250,12 +251,7 @@ def responderPeticionEnvio(grafoEntrada, content):
                 grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(producto)))
 
             else:
-                ontologyFile = open("../data/ProductosPendientesDB")
-                grafoPendientes = Graph()
-                grafoPendientes.parse(ontologyFile, format='turtle')
-
-                grafoEnviar = Graph()
-                grafoEnviar.bind('ECSDI', ECSDI)
+                # TODO baixar 1 el stock
 
                 contentEnviar = ECSDI['ProductoPendiente' + str(getMessageCount())]
                 grafoEnviar.add((contentEnviar, RDF.type, ECSDI.ProductoPendiente))
@@ -268,12 +264,8 @@ def responderPeticionEnvio(grafoEntrada, content):
                 grafoEnviar.add((direccion, ECSDI.CodigoPostal, Literal(codigopostal, datatype=XSD.int)))
                 grafoEnviar.add((contentEnviar, ECSDI.EnviarA, URIRef(direccion)))
 
-                grafoPendientes += grafoEnviar
-                grafoPendientes.serialize(destination="../data/ProductosPendientesDB", format='turtle')
-
-                # TODO baixar 1 el stock
-    #thread1 = threading.Thread(target=crearLote, args=(grafoEnviar, contentEnviar))
-    #thread1.start()
+    grafoPendientes += grafoEnviar
+    grafoPendientes.serialize(destination="../data/ProductosPendientesDB", format='turtle')
 
     return grafoFaltan
 
@@ -281,12 +273,9 @@ def responderPeticionEnvio(grafoEntrada, content):
 # Aixo servira per agafar els productes pendents i ordenar-los en lots
 def crearLotes():
     graph = Graph()
-    graphLotes = Graph()
 
     ontologyFile = open("../data/ProductosPendientesDB")
     graph.parse(ontologyFile, format='turtle')
-    ontologyFile2 = open("../data/LotesPendientesDB")
-    graphLotes.parse(ontologyFile2, format='turtle')
 
     for a,b,c in graph:
         print(a,b,c)
@@ -294,12 +283,13 @@ def crearLotes():
     graph_query = []
 
     nouLote = Graph()
-    nouLote.bind('ECSDI', ECSDI)
+    nouLote.bind('default', ECSDI)
 
     contentLote = ECSDI['LoteProductos' + str(getMessageCount())]
     nouLote.add((contentLote, RDF.type, ECSDI.LoteProductos))
     pesoLote = 0
 
+    # todo canviar a sparql ??
     for producto_pendiente in graph.subjects(predicate=RDF.type, object=ECSDI.ProductoPendiente):
         print(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
         if int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad)) == 1:
@@ -333,6 +323,7 @@ def crearLotes():
         else:
             print("Holi, soc dintre del ELSE")
             prioridad = int(graph.value(subject=producto_pendiente, predicate=ECSDI.Prioridad))
+            graph.remove((producto_pendiente, ECSDI.Prioridad, prioridad))
             prioridad = prioridad - 1
             graph.add((producto_pendiente, ECSDI.Prioridad, Literal(prioridad, datatype=XSD.int)))
 
@@ -343,16 +334,67 @@ def crearLotes():
         print(a, b, c)
 
     if pesoLote != 0:
-        graphLotes += nouLote
+        thread = threading.Thread(target=enviarLote, args=(nouLote,contentLote,))
+        thread.start()
 
-    print("Lotes Pendientes")
-    for a, b, c in graphLotes:
-        print(a, b, c)
-
-    graphLotes.serialize(destination="../data/LotesPendientesDB", format='turtle')
     graph.serialize(destination="../data/ProductosPendientesDB", format='turtle')
 
     return
+
+def enviarLote(nouLote, contentLote):
+    transportistaDirectory = getAgentInfo(agn.TransportistaDirectoryAgent, DirectoryAgent, CentroLogisticoAgent,
+                                         getMessageCount())
+    agentes = getTransportistas(agn.Transportista1Agent, transportistaDirectory, CentroLogisticoAgent,
+                                              getMessageCount())
+
+    print(agentes)
+
+    grafoPeticion = nouLote
+    grafoPeticion.bind('default', ECSDI)
+    contentPeticion = ECSDI['PeticionOfertaTransporte' + str(getMessageCount())]
+    grafoPeticion.add((contentPeticion, RDF.type, ECSDI.PeticionOfertaTransporte))
+    grafoPeticion.add((contentPeticion, ECSDI.Para, URIRef(contentLote)))
+
+    ofertas = [len(agentes)]
+    i = 0
+
+    for transportista in agentes:
+        respuesta = send_message(
+            build_message(grafoPeticion, perf=ACL.request, sender=CentroLogisticoAgent.uri, receiver=transportista.uri,
+                          msgcnt=getMessageCount(),
+                          content=contentPeticion), transportista.address)
+        print("oferta ")
+        for o in respuesta.objects(predicate=ECSDI.Precio):
+            print(o)
+            ofertas[i] = o
+        i += 1
+
+    min = 0
+    imin = -1
+    i = 0
+
+    for o in ofertas:
+        if o > min:
+            imin = i
+            min = o
+        i += 1
+
+    if imin != -1:
+        transportista = agentes[imin]
+        confirmarTransporte(transportista, nouLote, contentLote)
+        # TODO confirmar oferta aceptada
+
+def confirmarTransporte(transportista, nouLote, contentLote):
+    grafoPeticion = nouLote
+    grafoPeticion.bind('default', ECSDI)
+    contentPeticion = ECSDI['PeticionEnvioLote' + str(getMessageCount())]
+    grafoPeticion.add((contentPeticion, RDF.type, ECSDI.PeticionOfertaTransporte))
+    grafoPeticion.add((contentPeticion, ECSDI.PendienteDeSerEnviado, URIRef(contentLote)))
+
+    respuesta = send_message(
+        build_message(grafoPeticion, perf=ACL.request, sender=CentroLogisticoAgent.uri, receiver=transportista.uri,
+                      msgcnt=getMessageCount(),
+                      content=contentPeticion), transportista.address)
 
 def crearLotesThread():
     thread = threading.Thread(target=crearLotes)
