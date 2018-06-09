@@ -89,6 +89,9 @@
         <Class IRI="#PeticionTransferencia"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#PeticionValoracion"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Producto"/>
     </Declaration>
     <Declaration>
@@ -117,6 +120,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="#RespuestaProductosEnviados"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaValoracion"/>
     </Declaration>
     <Declaration>
         <Class IRI="#RestriccionDeNombre"/>
@@ -216,6 +222,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#TieneUn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Valora"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#VendidoPor"/>
@@ -353,6 +362,10 @@
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#PeticionValoracion"/>
+        <Class IRI="#Accion"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#ProductoEnviado"/>
         <Class IRI="#Producto"/>
     </SubClassOf>
@@ -383,6 +396,10 @@
     <SubClassOf>
         <Class IRI="#RespuestaProductosEnviados"/>
         <Class IRI="#Respuesta"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RespuestaValoracion"/>
+        <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#RestriccionDeNombre"/>
@@ -642,6 +659,10 @@
         <Class IRI="#Envio"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#Valora"/>
+        <Class IRI="#PeticionValoracion"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#VendidoPor"/>
         <Class IRI="#ProductoExterno"/>
     </ObjectPropertyDomain>
@@ -740,6 +761,10 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#TieneUn"/>
         <Class IRI="#LoteProductos"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#Valora"/>
+        <Class IRI="#Producto"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#VendidoPor"/>

@@ -100,8 +100,6 @@ def communication():
     message = request.args['content']
     grafoEntrada = Graph()
     grafoEntrada.parse(data=message)
-    for s, p, o in grafoEntrada:
-        print(s,p,o)
     messageProperties = get_message_properties(grafoEntrada)
 
     resultadoComunicacion = None
