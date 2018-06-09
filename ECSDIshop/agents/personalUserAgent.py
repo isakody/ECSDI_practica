@@ -406,7 +406,7 @@ def comunicacion():
                     randomNumber = random.randint(0, 5)
                     grafoValoraciones.add((p,RDF.type,ECSDI.Producto))
                     grafoValoraciones.add((p,ECSDI.Valoracion,Literal(randomNumber,datatype=XSD.int)))
-                    grafoValoraciones.add((accion2,ECSDI.Valorado,URIRef(p)))
+                    grafoValoraciones.add((accion2,ECSDI.Valora,URIRef(p)))
 
 
                 resultadoComunicacion = grafoValoraciones;
