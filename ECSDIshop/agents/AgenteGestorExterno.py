@@ -69,8 +69,8 @@ mss_cnt = 0
 
 # Data Agent
 # Datos del Agente
-GestorExternoAgent = Agent('FilterAgent',
-                    agn.GestorExternoAgent,
+GestorExternoAgent = Agent('GestorExterno',
+                    agn.GestorExterno,
                     'http://%s:%d/comm' % (hostname, port),
                     'http://%s:%d/Stop' % (hostname, port))
 
@@ -143,7 +143,7 @@ def procesarProductoExterno(graph,content):
     precio= None
     unidadesEnStock = None
     descripcion = None
-    enviadoPorTienda = False
+    desdeCentros = False
     for a,b,c in graph:
         if b == ECSDI.Nombre:
             nombre = c
@@ -153,14 +153,30 @@ def procesarProductoExterno(graph,content):
             unidadesEnStock = c
         elif b == ECSDI.Peso:
             peso = c
-        elif b == ECSDI.EnviadoPorTienda:
-            enviadoPorTienda = c
+        elif b == ECSDI.DesdeCentros:
+            desdeCentros = c
         elif b == ECSDI.Precio:
             precio = c
         elif b == ECSDI.Tarjeta:
             tarjeta = c
 
-    print(nombre,descripcion,unidadesEnStock,peso,enviadoPorTienda,precio,tarjeta)
+    print(nombre,descripcion,unidadesEnStock,peso,desdeCentros,precio,tarjeta)
+
+    graph = Graph()
+    ontologyFile = open('../data/ProductsDB.owl')
+    graph.parse(ontologyFile, format='turtle')
+    graph.bind("default", ECSDI)
+    sujeto = ECSDI['ProductoExterno' + str(getMessageCount())]
+    graph.add((sujeto, RDF.type, ECSDI.ProductoExterno))
+    graph.add((sujeto, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
+    graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
+    graph.add((sujeto, ECSDI.UnidadesEnStrock, Literal(unidadesEnStock, datatype=XSD.int)))
+    graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
+
+    graph.serialize(destination='../data/ProductsDB', format='turtle')
 
 @app.route("/Stop")
 def stop():

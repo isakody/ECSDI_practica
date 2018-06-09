@@ -112,21 +112,23 @@ def index():
             if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
                 desdeCentros = True
 
+            sujeto = ECSDI["PeticionAgregarProducto"+str(getMessageCount())]
             graph = Graph()
-            ontologyFile = open('../data/ProductsDB.owl')
-            graph.parse(ontologyFile, format='turtle')
-            graph.bind("default",ECSDI)
-            sujeto = ECSDI['ProductoExterno'+str(getMessageCount())]
-            graph.add((sujeto, RDF.type, ECSDI.ProductoExterno))
+            graph.add((sujeto, RDF.type, ECSDI.PeticionAgregarProducto))
             graph.add((sujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
             graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
             graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
-            graph.add((sujeto,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.string)))
-            graph.add((sujeto,ECSDI.desdeCentros,Literal(desdeCentros,datatype=XSD.boolean)))
-            graph.serialize(destination='../data/ProductsDB.owl', format='turtle')
+            graph.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.string)))
+            graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
+            graph.add((sujeto,ECSDI.UnidadesEnStock,Literal(numeroUnidades,datatype=XSD.int)))
+            graph.add((sujeto,ECSDI.Peso,Literal(peso,datatype=XSD.float)))
 
-
-
+            agente = getAgentInfo(agn.GestorExterno, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
+            # Enviamos petición de filtrado al agente filtrador
+            grafoBusqueda = send_message(
+                build_message(graph, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
+                              msgcnt=getMessageCount(),
+                              content=sujeto), agente.address)
 
 
             return render_template('procesandoArticulo.html')
