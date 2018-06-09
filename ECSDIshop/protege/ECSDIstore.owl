@@ -79,7 +79,7 @@
         <ObjectProperty IRI="#Contiene"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#UnidadesEnStok"/>
+        <DataProperty IRI="#UnidadesEnStock"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#CodigoPostal"/>
@@ -880,11 +880,11 @@
         <Class IRI="#PeticionTransferencia"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="#UnidadesEnStok"/>
+        <DataProperty IRI="#UnidadesEnStock"/>
         <Class IRI="#PeticionAgregarProducto"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="#UnidadesEnStok"/>
+        <DataProperty IRI="#UnidadesEnStock"/>
         <Class IRI="#Stock"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
@@ -964,7 +964,7 @@
         <Datatype abbreviatedIRI="xsd:int"/>
     </DataPropertyRange>
     <DataPropertyRange>
-        <DataProperty IRI="#UnidadesEnStok"/>
+        <DataProperty IRI="#UnidadesEnStock"/>
         <Datatype abbreviatedIRI="xsd:int"/>
     </DataPropertyRange>
     <DataPropertyRange>
