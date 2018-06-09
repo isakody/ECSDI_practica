@@ -120,6 +120,7 @@ def register():
         agn_name = gm.value(subject=content, predicate=FOAF.Name)
         agn_uri = gm.value(subject=content, predicate=DSO.Uri)
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
+        agn_cp = gm.value(subject=content,predicate=DSO.PostalCode)
 
         # Añadimos la informacion en el grafo de registro vinculandola a la URI
         # del agente y registrandola como tipo FOAF.Agent
@@ -127,6 +128,7 @@ def register():
         dsgraph.add((agn_uri, FOAF.name, agn_name))
         dsgraph.add((agn_uri, DSO.Address, agn_add))
         dsgraph.add((agn_uri, DSO.AgentType, agn_type))
+        dsgraph.add((agn_uri,ECSDI.CodigoPostal,agn_cp))
 
         logger.info('Registrado agente: ' + agn_name + ' - tipus:' + agn_type)
 
@@ -165,11 +167,13 @@ def register():
             agn_uri2 = agn_uri[0]
             agn_add = dsgraph.value(subject=agn_uri2, predicate=DSO.Address)
             agn_name = dsgraph.value(subject=agn_uri2, predicate=FOAF.name)
+            agn_cp = abs(int(dsgraph.value(subject=agn_uri2, predicate= ECSDI.CodigoPostal)) - int(cp))
 
             rsp_obj = agn['Directory-response' + str(i)]
             graph.add((rsp_obj, DSO.Address, agn_add))
             graph.add((rsp_obj, DSO.Uri, agn_uri2))
             graph.add((rsp_obj, FOAF.name, agn_name))
+            graph.add((rsp_obj,ECSDI.DiferenciaCodigoPostal,agn_cp))
             graph.add((bag, URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#_') + str(i), rsp_obj))
             logger.info("Agente encontrado: " + agn_name)
             i += 1
