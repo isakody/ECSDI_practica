@@ -12,7 +12,13 @@
     :EnviarA :Direccion23 ;
     :Nombre "Mouse"^^xsd:string ;
     :Peso "1.0"^^xsd:float ;
-    :Prioridad "12"^^xsd:int .
+    :Prioridad "6"^^xsd:int,
+        "7"^^xsd:int,
+        "8"^^xsd:int,
+        "9"^^xsd:int,
+        "10"^^xsd:int,
+        "11"^^xsd:int,
+        "12"^^xsd:int .
 
 ns1:ProductoPendiente2 a ns1:ProductoPendiente ;
     ns1:EnviarA ns1:Direccion5 ;
