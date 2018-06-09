@@ -211,22 +211,24 @@ def comprobarYValorar():
     productList = []
     for a, b,c in graph2:
         productList.append(a)
+    contador = 0
     for g in resultadoConsulta:
         if g.Producto not in productList:
+            contador = contador + 1
             grafoConsulta.add((g.Producto,RDF.type,ECSDI.Producto))
             grafoConsulta.add((accion,ECSDI.Valora,URIRef(g.Producto)))
+    if contador != 0:
+        agente = getAgentInfo(agn.UserPersonalAgent, DirectoryAgent, PromotorDeProductosAgent, getMessageCount())
+        resultadoComunicacion = send_message(build_message(grafoConsulta,
+                                                           perf=ACL.request, sender=PromotorDeProductosAgent.uri,
+                                                           receiver=agente.uri,
+                                                           msgcnt=getMessageCount(), content=accion), agente.address)
 
-    agente = getAgentInfo(agn.UserPersonalAgent, DirectoryAgent, PromotorDeProductosAgent, getMessageCount())
-    resultadoComunicacion = send_message(build_message(grafoConsulta,
-                                                       perf=ACL.request, sender=PromotorDeProductosAgent.uri,
-                                                       receiver=agente.uri,
-                                                       msgcnt=getMessageCount(), content=accion), agente.address)
+        for s, o, p in resultadoComunicacion:
+            if o == ECSDI.Valoracion:
+                graph2.add((s,o,p))
 
-    for s, o, p in resultadoComunicacion:
-        if o == ECSDI.Valoracion:
-            graph2.add((s,o,p))
-
-    graph2.serialize(destination='../data/ValoracionesDB', format='turtle')
+        graph2.serialize(destination='../data/ValoracionesDB', format='turtle')
 
 
 def solicitarValoraciones():
