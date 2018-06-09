@@ -4,48 +4,39 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-
-default:Stock1 a default:Stock;
+default:Stock1 a default:Stock ;
     default:Tiene default:Producto1 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
-
-default:Stock2 a default:Stock;
+default:Stock2 a default:Stock ;
     default:Tiene default:Producto2 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
-
-default:Stock3 a default:Stock;
+default:Stock3 a default:Stock ;
     default:Tiene default:Producto3 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
-
-default:Stock4 a default:Stock;
+default:Stock4 a default:Stock ;
     default:Tiene default:Producto4 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
-
-default:Stock5 a default:Stock;
+default:Stock5 a default:Stock ;
     default:Tiene default:Producto5 ;
-    default:UnidadesEnStock "999999"^^xsd:int .
+    default:UnidadesEnStock "999998"^^xsd:int .
 
-
-default:Stock6 a default:Stock;
+default:Stock6 a default:Stock ;
     default:Tiene default:Producto6 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
-
-default:Stock7 a default:Stock;
+default:Stock7 a default:Stock ;
     default:Tiene default:Producto7 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
-
-default:Stock8 a default:Stock;
+default:Stock8 a default:Stock ;
     default:Tiene default:Producto8 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
-
-default:Stock9 a default:Stock;
+default:Stock9 a default:Stock ;
     default:Tiene default:Producto9 ;
     default:UnidadesEnStock "999999"^^xsd:int .
 
@@ -69,7 +60,6 @@ default:Producto3 a default:Producto ;
     default:Nombre "Teclado"^^xsd:string ;
     default:Peso "2.0"^^xsd:float ;
     default:Precio "55.0"^^xsd:float .
-
 
 default:Producto4 a default:Producto ;
     default:Descripcion "Esto es un Barco"^^xsd:string ;
@@ -112,6 +102,4 @@ default:Producto9 a default:Producto ;
     default:Nombre "Nuria Bruch"^^xsd:string ;
     default:Peso "55.0"^^xsd:float ;
     default:Precio "23000000.0"^^xsd:float .
-
-
 

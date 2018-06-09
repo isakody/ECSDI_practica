@@ -8,6 +8,14 @@ class Agent:
         self.address = address
         self.stop = stop
 
+class Agent2:
+    def __init__(self, name, uri, address, diference, stop):
+        self.name = name
+        self.uri = uri
+        self.address = address
+        self.diference = diference
+        self.stop = stop
+
 
 
 

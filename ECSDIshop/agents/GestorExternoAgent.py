@@ -10,6 +10,7 @@ Asume que el agente de registro esta en el puerto 9000
 import argparse
 import socket
 import sys
+import threading
 from multiprocessing import Queue, Process
 
 from flask import Flask, request
@@ -39,7 +40,7 @@ args = parser.parse_args()
 
 # Configuration stuff
 if args.port is None:
-    port = 9005
+    port = 90087
 else:
     port = args.port
 
@@ -68,8 +69,8 @@ mss_cnt = 0
 
 # Data Agent
 # Datos del Agente
-TransportistaDevolucionesAgent = Agent('TransportistaDevolucionesAgent',
-                    agn.TransportistaDevolucionesAgent,
+GestorExternoAgent = Agent('GestorExterno',
+                    agn.GestorExterno,
                     'http://%s:%d/comm' % (hostname, port),
                     'http://%s:%d/Stop' % (hostname, port))
 
@@ -100,6 +101,7 @@ def communication():
     message = request.args['content']
     grafoEntrada = Graph()
     grafoEntrada.parse(data=message)
+
     messageProperties = get_message_properties(grafoEntrada)
 
     resultadoComunicacion = None
@@ -107,7 +109,7 @@ def communication():
     if messageProperties is None:
         # Respondemos que no hemos entendido el mensaje
         resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                              sender=TransportistaDevolucionesAgent.uri, msgcnt=getMessageCount())
+                                              sender=GestorExternoAgent.uri, msgcnt=getMessageCount())
     else:
         # Obtenemos la performativa
         if messageProperties['performative'] != ACL.request:
@@ -115,30 +117,66 @@ def communication():
             resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
                                                   sender=DirectoryAgent.uri, msgcnt=getMessageCount())
         else:
+            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
             content = messageProperties['content']
-
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-            if accion == ECSDI.PeticionRecogerDevolucion:
-                direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
-                direccionRetorno = None;
-                for d in direccion:
-                    direccionRetorno = d;
-                codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
-                codigoPostal = None;
-                for c in codigo:
-                    codigoPostal = c;
-                logger.info("Registrada petición de recogida en "+str(direccionRetorno)+". Con Codigo Postal: "+ str(codigoPostal))
 
-                resultadoComunicacion = Graph()
+            # Si la acción es de tipo busqueda emprendemos las acciones consequentes
+            if accion == ECSDI.PeticionAgregarProducto:
+                logger.info("Peticion recibida")
+                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+                    grafoEntrada.remove((item, None, None))
+
+                thread  = threading.Thread(target=procesarProductoExterno,args=(grafoEntrada, content))
+                thread.start()
+                resultadoComunicacion = Graph();
 
 
 
-
-
-    #no retronamos nada
-    logger.info('Respondemos a la petición de envio')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
+
+def procesarProductoExterno(graph,content):
+    nombre = None
+    peso = None
+    tarjeta = None
+    precio= None
+    unidadesEnStock = None
+    descripcion = None
+    desdeCentros = False
+    for a,b,c in graph:
+        if b == ECSDI.Nombre:
+            nombre = c
+        elif b == ECSDI.Descripcion:
+            descripcion = c
+        elif b == ECSDI.UnidadesEnStock:
+            unidadesEnStock = c
+        elif b == ECSDI.Peso:
+            peso = c
+        elif b == ECSDI.DesdeCentros:
+            desdeCentros = c
+        elif b == ECSDI.Precio:
+            precio = c
+        elif b == ECSDI.Tarjeta:
+            tarjeta = c
+
+    print(nombre,descripcion,unidadesEnStock,peso,desdeCentros,precio,tarjeta)
+
+    graph = Graph()
+    ontologyFile = open('../data/ProductsDB.owl')
+    graph.parse(ontologyFile, format='turtle')
+    graph.bind("default", ECSDI)
+    sujeto = ECSDI['ProductoExterno' + str(getMessageCount())]
+    graph.add((sujeto, RDF.type, ECSDI.ProductoExterno))
+    graph.add((sujeto, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
+    graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
+    graph.add((sujeto, ECSDI.UnidadesEnStrock, Literal(unidadesEnStock, datatype=XSD.int)))
+    graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
+
+    graph.serialize(destination='../data/ProductsDB', format='turtle')
 
 @app.route("/Stop")
 def stop():
@@ -151,26 +189,6 @@ def stop():
     shutdown_server()
     return "Stopping server"
 
-#funcion llamada al principio de un agente
-def enviadorBehavior(queue):
-
-    """
-    Agent Behaviour in a concurrent thread.
-    :param queue: the queue
-    :return: something
-    """
-    gr = register_message()
-
-#función llamada antes de cerrar el servidor
-def tidyUp():
-    """
-    Previous actions for the agent.
-    """
-
-    global queue
-    queue.put(0)
-
-    pass
 #función para registro de agente en el servicio de directorios
 def register_message():
     """
@@ -184,13 +202,34 @@ def register_message():
 
     logger.info('Nos registramos')
 
-    gr = registerAgent(TransportistaDevolucionesAgent, DirectoryAgent, TransportistaDevolucionesAgent.uri, getMessageCount())
+    gr = registerAgent(GestorExternoAgent, DirectoryAgent, GestorExternoAgent.uri, getMessageCount())
     return gr
+
+#función llamada antes de cerrar el servidor
+def tidyUp():
+    """
+    Previous actions for the agent.
+    """
+
+    global queue
+    queue.put(0)
+
+    pass
+
+#funcion llamada al principio de un agente
+def filterBehavior(queue):
+
+    """
+    Agent Behaviour in a concurrent thread.
+    :param queue: the queue
+    :return: something
+    """
+    gr = register_message()
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
-    ab1 = Process(target=enviadorBehavior, args=(queue,))
+    ab1 = Process(target=filterBehavior, args=(queue,))
     ab1.start()
 
     # Run server

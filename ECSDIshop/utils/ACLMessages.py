@@ -8,7 +8,7 @@ Created on 08/02/2014
 
 @author: javier
 """
-from utils.Agent import Agent
+from utils.Agent import *
 
 __author__ = 'amazdonde'
 
@@ -145,10 +145,8 @@ def getCentroLogisticoPorProximidad(agentType, directoryAgent, sender, messageCo
     gmess.add((ask_obj, RDF.type, DSO.Search))
     gmess.add((ask_obj, DSO.AgentType, agentType))
     gmess.add((ask_obj, ECSDI.CodigoPostal,Literal(postCode,datatype=XSD.int)))
-    gr = send_message(
-        build_message(gmess, perf=ACL.request, sender=sender.uri, receiver=directoryAgent.uri, msgcnt=messageCount,
-                      content=ask_obj),
-        directoryAgent.address
+    gr = send_message(build_message(gmess, perf=ACL.request, sender=sender.uri, receiver=directoryAgent.uri, msgcnt=messageCount,
+                      content=ask_obj),directoryAgent.address
     )
     dic = get_message_properties(gr)
     content = dic['content']
@@ -158,10 +156,11 @@ def getCentroLogisticoPorProximidad(agentType, directoryAgent, sender, messageCo
             address = gr.value(subject=o, predicate=DSO.Address)
             url = gr.value(subject=o, predicate=DSO.Uri)
             name = gr.value(subject=o, predicate=FOAF.name)
-            agent = Agent(name, url, address, None)
+            dif = gr.value(subject=o, predicate=ECSDI.DiferenciaCodigoPostal)
+            agent = Agent2(name, url, address, dif, None)
             agents += [agent]
 
-    return agents
+    return sorted(agents, key=lambda agent2: agent2.diference)
 
 
 def getTransportistas(agentType, directoryAgent, sender, messageCount):

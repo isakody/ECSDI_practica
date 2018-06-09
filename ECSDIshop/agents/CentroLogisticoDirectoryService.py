@@ -174,7 +174,7 @@ def register():
             graph.add((rsp_obj, DSO.Address, agn_add))
             graph.add((rsp_obj, DSO.Uri, agn_uri2))
             graph.add((rsp_obj, FOAF.name, agn_name))
-            graph.add((rsp_obj,ECSDI.DiferenciaCodigoPostal,agn_cp))
+            graph.add((rsp_obj,ECSDI.DiferenciaCodigoPostal,Literal(agn_cp, datatype=XSD.int)))
             graph.add((bag, URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#_') + str(i), rsp_obj))
             logger.info("Agente encontrado: " + agn_name)
             i += 1
@@ -287,7 +287,7 @@ if __name__ == '__main__':
     ab1.start()
 
     # Ponemos en marcha el servidor Flask
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     ab1.join()
     logger.info('The End')

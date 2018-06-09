@@ -153,6 +153,10 @@ def solicitarEnvio(grafo,contenido):
     prioridad = grafo.value(subject=contenido,predicate=ECSDI.Prioridad)
     if codigoPostal is not None:
         agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), int(codigoPostal))
+
+        for a in agentes:
+            print(a)
+
         grafoCopia.remove((contenido,ECSDI.Tarjeta,None))
         grafoCopia.remove((contenido,RDF.type,ECSDI.PeticionEnvio))
         sujeto = ECSDI['PeticionEnvioACentroLogistico' + str(getMessageCount())]
@@ -170,6 +174,7 @@ def solicitarEnvio(grafo,contenido):
 
 
         for ag in agentes:
+            print(ag)
             logger.info("Solicitando peticion de envio a centro logistico")
             respuesta = send_message(
                 build_message(grafoCopia, perf=ACL.request, sender=EnviadorAgent.uri, receiver=ag.uri,

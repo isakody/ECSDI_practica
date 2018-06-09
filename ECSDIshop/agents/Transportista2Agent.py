@@ -10,8 +10,8 @@ Asume que el agente de registro esta en el puerto 9000
 import argparse
 import socket
 import sys
-import threading
 from multiprocessing import Queue, Process
+from datetime import datetime, timedelta
 
 from flask import Flask, request
 from rdflib import URIRef, XSD
@@ -40,7 +40,7 @@ args = parser.parse_args()
 
 # Configuration stuff
 if args.port is None:
-    port = 90087
+    port = 9021
 else:
     port = args.port
 
@@ -50,7 +50,7 @@ else:
     hostname = socket.gethostname()
 
 if args.dport is None:
-    dport = 9000
+    dport = 9020
 else:
     dport = args.dport
 
@@ -69,14 +69,14 @@ mss_cnt = 0
 
 # Data Agent
 # Datos del Agente
-GestorExternoAgent = Agent('GestorExterno',
-                    agn.GestorExterno,
+Transportista2Agent = Agent('Transportista2Agent',
+                    agn.Transportista2Agent,
                     'http://%s:%d/comm' % (hostname, port),
                     'http://%s:%d/Stop' % (hostname, port))
 
 # Directory agent address
-DirectoryAgent = Agent('DirectoryAgent',
-                       agn.Directory,
+TransportistaDirectoryAgent = Agent('TransportistaDirectoryAgent',
+                       agn.TransportistaDirectory,
                        'http://%s:%d/Register' % (dhostname, dport),
                        'http://%s:%d/Stop' % (dhostname, dport))
 
@@ -95,88 +95,71 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
-#funcion llamada en /comm
+
 @app.route("/comm")
 def communication():
     message = request.args['content']
     grafoEntrada = Graph()
     grafoEntrada.parse(data=message)
-
     messageProperties = get_message_properties(grafoEntrada)
 
-    resultadoComunicacion = None
+    resultadoComunicacion = Graph()
 
     if messageProperties is None:
         # Respondemos que no hemos entendido el mensaje
         resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                              sender=GestorExternoAgent.uri, msgcnt=getMessageCount())
+                                              sender=Transportista2Agent.uri, msgcnt=getMessageCount())
     else:
         # Obtenemos la performativa
         if messageProperties['performative'] != ACL.request:
             # Si no es un request, respondemos que no hemos entendido el mensaje
             resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
+                                                  sender=TransportistaDirectoryAgent.uri, msgcnt=getMessageCount())
         else:
-            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
             content = messageProperties['content']
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
 
-            # Si la acción es de tipo busqueda emprendemos las acciones consequentes
-            if accion == ECSDI.PeticionAgregarProducto:
-                logger.info("Peticion recibida")
+            if accion == ECSDI.PeticionOfertaTransporte:
+                logger.info('Peticion Oferta Transporte')
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
                     grafoEntrada.remove((item, None, None))
 
-                thread  = threading.Thread(target=procesarProductoExterno,args=(grafoEntrada, content))
-                thread.start()
-                resultadoComunicacion = Graph();
+                oferta = prepararOferta(grafoEntrada, content)
 
+                resultadoComunicacion = oferta
 
+            elif accion == ECSDI.PeticionEnvioLote:
+                logger.info('Peticion Envio Lote')
+                logger.info('Su pedido llegara el dia:')
+                logger.info(str(datetime.now() + timedelta(days=1)))
+                logger.info('Soy el transportista:')
+                logger.info(Transportista2Agent.name)
 
+    logger.info('Respondemos a la petición de oferta')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 
-def procesarProductoExterno(graph,content):
-    nombre = None
-    peso = None
-    tarjeta = None
-    precio= None
-    unidadesEnStock = None
-    descripcion = None
-    desdeCentros = False
-    for a,b,c in graph:
-        if b == ECSDI.Nombre:
-            nombre = c
-        elif b == ECSDI.Descripcion:
-            descripcion = c
-        elif b == ECSDI.UnidadesEnStock:
-            unidadesEnStock = c
-        elif b == ECSDI.Peso:
-            peso = c
-        elif b == ECSDI.DesdeCentros:
-            desdeCentros = c
-        elif b == ECSDI.Precio:
-            precio = c
-        elif b == ECSDI.Tarjeta:
-            tarjeta = c
+#funcion llamada en /comm
+def prepararOferta(grafoEntrada, content):
+    lote = grafoEntrada.value(subject=content, predicate=ECSDI.Para)
+    peso = grafoEntrada.value(subject=lote, predicate=ECSDI.Peso)
+    print("Peso lote")
+    print peso
 
-    print(nombre,descripcion,unidadesEnStock,peso,desdeCentros,precio,tarjeta)
+    precio = calcularOferta(float(peso))
 
-    graph = Graph()
-    ontologyFile = open('../data/ProductsDB.owl')
-    graph.parse(ontologyFile, format='turtle')
-    graph.bind("default", ECSDI)
-    sujeto = ECSDI['ProductoExterno' + str(getMessageCount())]
-    graph.add((sujeto, RDF.type, ECSDI.ProductoExterno))
-    graph.add((sujeto, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
-    graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
-    graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
-    graph.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.string)))
-    graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
-    graph.add((sujeto, ECSDI.UnidadesEnStrock, Literal(unidadesEnStock, datatype=XSD.int)))
-    graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
+    grafoOferta = Graph()
+    grafoOferta.bind('default', ECSDI)
+    contentOferta = ECSDI['RespuestaOfertaTransporte'+ str(getMessageCount())]
+    grafoOferta.add((contentOferta, RDF.type, ECSDI.RespuestaOfertaTransporte))
+    grafoOferta.add((contentOferta, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
 
-    graph.serialize(destination='../data/ProductsDB', format='turtle')
+
+    return grafoOferta
+
+def calcularOferta(peso):
+    oferta = 15 + peso
+    return oferta
 
 @app.route("/Stop")
 def stop():
@@ -189,6 +172,26 @@ def stop():
     shutdown_server()
     return "Stopping server"
 
+#funcion llamada al principio de un agente
+def transportistaBehavior(queue):
+
+    """
+    Agent Behaviour in a concurrent thread.
+    :param queue: the queue
+    :return: something
+    """
+    gr = register_message()
+
+#función llamada antes de cerrar el servidor
+def tidyUp():
+    """
+    Previous actions for the agent.
+    """
+
+    global queue
+    queue.put(0)
+
+    pass
 #función para registro de agente en el servicio de directorios
 def register_message():
     """
@@ -202,38 +205,17 @@ def register_message():
 
     logger.info('Nos registramos')
 
-    gr = registerAgent(GestorExternoAgent, DirectoryAgent, GestorExternoAgent.uri, getMessageCount())
+    gr = registerAgent(Transportista2Agent, TransportistaDirectoryAgent, Transportista2Agent.uri, getMessageCount())
     return gr
-
-#función llamada antes de cerrar el servidor
-def tidyUp():
-    """
-    Previous actions for the agent.
-    """
-
-    global queue
-    queue.put(0)
-
-    pass
-
-#funcion llamada al principio de un agente
-def filterBehavior(queue):
-
-    """
-    Agent Behaviour in a concurrent thread.
-    :param queue: the queue
-    :return: something
-    """
-    gr = register_message()
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
-    ab1 = Process(target=filterBehavior, args=(queue,))
+    ab1 = Process(target=transportistaBehavior, args=(queue,))
     ab1.start()
 
     # Run server
-    app.run(host=hostname, port=port, debug=True)
+    app.run(host=hostname, port=port, debug=False)
 
     # Wait behaviors
     ab1.join()
