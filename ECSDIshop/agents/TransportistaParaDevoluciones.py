@@ -94,6 +94,21 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
+# Función que atiende a la petición de registrar una petición de recogida en una dirección
+def atenderPeticionRecogerDevolucion(grafoEntrada):
+    direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
+    direccionRetorno = None;
+    for d in direccion:
+        direccionRetorno = d;
+    codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
+    codigoPostal = None;
+    for c in codigo:
+        codigoPostal = c;
+    logger.info(
+        "Registrada petición de recogida en " + str(direccionRetorno) + ". Con Codigo Postal: " + str(codigoPostal))
+    resultadoComunicacion = Graph()
+    return resultadoComunicacion
+
 #funcion llamada en /comm
 @app.route("/comm")
 def communication():
@@ -119,17 +134,7 @@ def communication():
 
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
             if accion == ECSDI.PeticionRecogerDevolucion:
-                direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
-                direccionRetorno = None;
-                for d in direccion:
-                    direccionRetorno = d;
-                codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
-                codigoPostal = None;
-                for c in codigo:
-                    codigoPostal = c;
-                logger.info("Registrada petición de recogida en "+str(direccionRetorno)+". Con Codigo Postal: "+ str(codigoPostal))
-
-                resultadoComunicacion = Graph()
+                resultadoComunicacion = atenderPeticionRecogerDevolucion(grafoEntrada)
 
 
 
@@ -171,6 +176,7 @@ def tidyUp():
     queue.put(0)
 
     pass
+
 #función para registro de agente en el servicio de directorios
 def register_message():
     """
