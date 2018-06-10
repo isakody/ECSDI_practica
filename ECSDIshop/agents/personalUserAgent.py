@@ -141,11 +141,14 @@ def enviarPeticionBusqueda(request):
     listaDeProductos = []
     posicionDeSujetos = {}
     indice = 0
+
+    sujetos = grafoBusqueda.objects(predicate=ECSDI.Muestra)
+    for s in sujetos:
+        posicionDeSujetos[s] = indice
+        indice += 1
+        listaDeProductos.append({})
+
     for s, p, o in grafoBusqueda:
-        if s not in posicionDeSujetos:
-            posicionDeSujetos[s] = indice
-            indice += 1
-            listaDeProductos.append({})
         if s in posicionDeSujetos:
             producto = listaDeProductos[posicionDeSujetos[s]]
             if p == ECSDI.Nombre:

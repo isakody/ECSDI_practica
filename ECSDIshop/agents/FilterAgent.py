@@ -161,6 +161,8 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     graph_query = graph.query(query)
     products_graph = Graph()
     products_graph.bind('ECSDI', ECSDI)
+    sujetoRespuesta = ECSDI['RespuestaDeBusqueda' + str(getMessageCount())]
+    products_graph.add((sujetoRespuesta, RDF.type, ECSDI.RespuestaDeBusqueda))
     products_filtro = Graph()
     # Añadimos los productos resultantes de la búsqueda
     for product in graph_query:
@@ -174,6 +176,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
         products_graph.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
         products_graph.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
         products_graph.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
+        products_graph.add((sujetoRespuesta, ECSDI.Muestra, URIRef(sujeto)))
 
         # Generamos el grafo de los filtros
         sujetofiltrado = ECSDI['ProductoFiltrado' + str(getMessageCount())]
@@ -186,6 +189,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     thread.start()
 
     logger.info("Respondiendo peticion de busqueda")
+    products_graph.serialize(destination='../data/filtrat', format='turtle')
     return products_graph
 
 # Función que registra en la base de datos el filtro solicitado por el usuario
