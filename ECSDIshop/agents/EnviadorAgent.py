@@ -98,44 +98,6 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
-#funcion llamada en /comm
-@app.route("/comm")
-def communication():
-    message = request.args['content']
-    grafoEntrada = Graph()
-    grafoEntrada.parse(data=message)
-
-    messageProperties = get_message_properties(grafoEntrada)
-
-    resultadoComunicacion = Graph()
-
-    if messageProperties is None:
-        # Respondemos que no hemos entendido el mensaje
-        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                              sender=EnviadorAgent.uri, msgcnt=getMessageCount())
-    else:
-        # Obtenemos la performativa
-        if messageProperties['performative'] != ACL.request:
-            # Si no es un request, respondemos que no hemos entendido el mensaje
-            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
-        else:
-            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
-            content = messageProperties['content']
-            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-            # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
-            if accion == ECSDI.PeticionEnvio:
-                logger.info("Procesando peticion de envio")
-                # Eliminar los ACLMessage
-                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
-                    grafoEntrada.remove((item, None, None))
-
-                procesarEnvio(grafoEntrada, content)
-
-    logger.info('Respondemos a la petición de venta')
-    serialize = resultadoComunicacion.serialize(format='xml')
-    return serialize, 200
-
 def procesarEnvio(grafo, contenido):
     thread1 = threading.Thread(target=registrarEnvio,args=(grafo,contenido))
     thread1.start()
@@ -210,8 +172,46 @@ def solicitarEnvio(grafo,contenido):
             if not contiene:
                 break
 
+def comprobarYCobrar():
+    logger.info("Realizando cobros rutinarios")
+    ontologyFile = open('../data/ComprasDB')
+
+    grafoCompras = Graph()
+    grafoCompras.parse(ontologyFile, format='turtle')
+    compras = grafoCompras.subjects(object=ECSDI.PeticionCompra)
+    for compra in compras:
+        pagado = grafoCompras.value(subject=compra,predicate=ECSDI.Pagado)
+        if not pagado:
+            pedirCobro(grafoCompras.value(subject=compra,predicate=ECSDI.Tarjeta),
+                       grafoCompras.value(subject=compra,predicate=ECSDI.PrecioTotal))
+            grafoCompras.remove((compra,ECSDI.Pagado,None))
+            grafoCompras.add((compra,ECSDI.Pagado,Literal(True,datatype=XSD.boolean)))
+            grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
 
 
+    return
+
+def pedirCobro(tarjeta,cantidad):
+    peticion = Graph()
+    peticion.bind('ECSDI',ECSDI)
+    sujeto = ECSDI['PeticionTransferencia'+str(getMessageCount())]
+    peticion.add((sujeto,RDF.type,ECSDI.PeticionTransferencia))
+    peticion.add((sujeto,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
+    peticion.add((sujeto,ECSDI.PrecioTotal,Literal(cantidad,datatype=XSD.float)))
+    logger.info("Solicitando cobro")
+    agenteCobrador = getAgentInfo(agn.TesoreroAgent,DirectoryAgent,EnviadorAgent,getMessageCount())
+    if agenteCobrador is not None:
+        resultado = send_message(build_message(peticion,perf=ACL.request, sender=EnviadorAgent.uri,receiver=agenteCobrador.uri,
+                               msgcnt=getMessageCount(),content=sujeto),agenteCobrador.address)
+    return
+
+def cobrar():
+    thread = threading.Thread(target=comprobarYCobrar)
+    thread.start()
+    thread.join()
+    sleep(10)
+
+    cobrar()
 
 def registrarEnvio(grafo, contenido):
     envio = grafo.value(predicate=RDF.type,object=ECSDI.PeticionEnvio)
@@ -229,6 +229,44 @@ def registrarEnvio(grafo, contenido):
 
     # Guardem el graf
     grafoEnvios.serialize(destination='../data/EnviosDB', format='turtle')
+
+#funcion llamada en /comm
+@app.route("/comm")
+def communication():
+    message = request.args['content']
+    grafoEntrada = Graph()
+    grafoEntrada.parse(data=message)
+
+    messageProperties = get_message_properties(grafoEntrada)
+
+    resultadoComunicacion = Graph()
+
+    if messageProperties is None:
+        # Respondemos que no hemos entendido el mensaje
+        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                              sender=EnviadorAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProperties['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
+        else:
+            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
+            content = messageProperties['content']
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
+            # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
+            if accion == ECSDI.PeticionEnvio:
+                logger.info("Procesando peticion de envio")
+                # Eliminar los ACLMessage
+                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+                    grafoEntrada.remove((item, None, None))
+
+                procesarEnvio(grafoEntrada, content)
+
+    logger.info('Respondemos a la petición de venta')
+    serialize = resultadoComunicacion.serialize(format='xml')
+    return serialize, 200
 
 @app.route("/Stop")
 def stop():
@@ -277,49 +315,6 @@ def register_message():
 
     gr = registerAgent(EnviadorAgent, DirectoryAgent, EnviadorAgent.uri, getMessageCount())
     return gr
-
-def comprobarYCobrar():
-    logger.info("Realizando cobros rutinarios")
-    ontologyFile = open('../data/ComprasDB')
-
-    grafoCompras = Graph()
-    grafoCompras.parse(ontologyFile, format='turtle')
-    compras = grafoCompras.subjects(object=ECSDI.PeticionCompra)
-    for compra in compras:
-        pagado = grafoCompras.value(subject=compra,predicate=ECSDI.Pagado)
-        if not pagado:
-            pedirCobro(grafoCompras.value(subject=compra,predicate=ECSDI.Tarjeta),
-                       grafoCompras.value(subject=compra,predicate=ECSDI.PrecioTotal))
-            grafoCompras.remove((compra,ECSDI.Pagado,None))
-            grafoCompras.add((compra,ECSDI.Pagado,Literal(True,datatype=XSD.boolean)))
-            grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
-
-
-    return
-
-def pedirCobro(tarjeta,cantidad):
-    peticion = Graph()
-    peticion.bind('ECSDI',ECSDI)
-    sujeto = ECSDI['PeticionTransferencia'+str(getMessageCount())]
-    peticion.add((sujeto,RDF.type,ECSDI.PeticionTransferencia))
-    peticion.add((sujeto,ECSDI.Tarjeta,Literal(tarjeta,datatype=XSD.int)))
-    peticion.add((sujeto,ECSDI.PrecioTotal,Literal(cantidad,datatype=XSD.float)))
-    logger.info("Solicitando cobro")
-    agenteCobrador = getAgentInfo(agn.TesoreroAgent,DirectoryAgent,EnviadorAgent,getMessageCount())
-    if agenteCobrador is not None:
-        resultado = send_message(build_message(peticion,perf=ACL.request, sender=EnviadorAgent.uri,receiver=agenteCobrador.uri,
-                               msgcnt=getMessageCount(),content=sujeto),agenteCobrador.address)
-    return
-
-def cobrar():
-    thread = threading.Thread(target=comprobarYCobrar)
-    thread.start()
-    thread.join()
-    sleep(10)
-
-    cobrar()
-
-
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
