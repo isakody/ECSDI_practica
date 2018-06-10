@@ -95,48 +95,18 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
-#funcion llamada en /comm
-@app.route("/comm")
-def communication():
-    message = request.args['content']
-    grafoEntrada = Graph()
-    grafoEntrada.parse(data=message)
+# Función que agrega un Producto Externo a la base de datos
+def agregarProducto(content, grafoEntrada):
+    logger.info("Peticion recibida")
+    for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+        grafoEntrada.remove((item, None, None))
+    thread = threading.Thread(target=procesarProductoExterno, args=(grafoEntrada))
+    thread.start()
+    resultadoComunicacion = Graph();
+    return resultadoComunicacion
 
-    messageProperties = get_message_properties(grafoEntrada)
-
-    resultadoComunicacion = None
-
-    if messageProperties is None:
-        # Respondemos que no hemos entendido el mensaje
-        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                              sender=GestorExternoAgent.uri, msgcnt=getMessageCount())
-    else:
-        # Obtenemos la performativa
-        if messageProperties['performative'] != ACL.request:
-            # Si no es un request, respondemos que no hemos entendido el mensaje
-            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
-        else:
-            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
-            content = messageProperties['content']
-            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-
-            # Si la acción es de tipo busqueda emprendemos las acciones consequentes
-            if accion == ECSDI.PeticionAgregarProducto:
-                logger.info("Peticion recibida")
-                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
-                    grafoEntrada.remove((item, None, None))
-
-                thread  = threading.Thread(target=procesarProductoExterno,args=(grafoEntrada, content))
-                thread.start()
-                resultadoComunicacion = Graph();
-
-
-
-    serialize = resultadoComunicacion.serialize(format='xml')
-    return serialize, 200
-
-def procesarProductoExterno(graph,content):
+# Función que procesa un producto externo
+def procesarProductoExterno(graph):
     nombre = None
     peso = None
     tarjeta = None
@@ -177,6 +147,41 @@ def procesarProductoExterno(graph,content):
     graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
 
     graph.serialize(destination='../data/ProductsDB', format='turtle')
+
+#funcion llamada en /comm
+@app.route("/comm")
+def communication():
+    message = request.args['content']
+    grafoEntrada = Graph()
+    grafoEntrada.parse(data=message)
+
+    messageProperties = get_message_properties(grafoEntrada)
+
+    resultadoComunicacion = None
+
+    if messageProperties is None:
+        # Respondemos que no hemos entendido el mensaje
+        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                              sender=GestorExternoAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProperties['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
+        else:
+            # Extraemos el contenido que ha de ser una accion de la ontologia definida en Protege
+            content = messageProperties['content']
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
+
+            # Si la acción es de tipo busqueda emprendemos las acciones consequentes
+            if accion == ECSDI.PeticionAgregarProducto:
+                resultadoComunicacion = agregarProducto(content, grafoEntrada)
+
+
+
+    serialize = resultadoComunicacion.serialize(format='xml')
+    return serialize, 200
 
 @app.route("/Stop")
 def stop():
