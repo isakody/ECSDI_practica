@@ -94,6 +94,36 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
+# Función que añade un producto externo a la base de datos de la tienda
+def addProducto(request):
+    logger.info("Atendiendo petición de ingreso de producto")
+    nombreProducto = request.form['nombreProducto']
+    tarjeta = request.form['tarjeta']
+    descripcion = request.form['descripcionProducto']
+    peso = request.form['peso']
+    numeroUnidades = request.form['numeroUnidades']
+    precio = request.form['precio']
+    desdeCentros = False
+    if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
+        desdeCentros = True
+    sujeto = ECSDI["PeticionAgregarProducto" + str(getMessageCount())]
+    graph = Graph()
+    graph.add((sujeto, RDF.type, ECSDI.PeticionAgregarProducto))
+    graph.add((sujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
+    graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.string)))
+    graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
+    graph.add((sujeto, ECSDI.UnidadesEnStock, Literal(numeroUnidades, datatype=XSD.int)))
+    graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
+    agente = getAgentInfo(agn.GestorExterno, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
+    # Enviamos petición de filtrado al agente filtrador
+    grafoBusqueda = send_message(
+        build_message(graph, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
+                      msgcnt=getMessageCount(),
+                      content=sujeto), agente.address)
+    return render_template('procesandoArticulo.html')
+
 # Función que devuelve la página principal de ECSDIstore
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -101,39 +131,7 @@ def index():
         return render_template('vendedorIndex.html')
     else:
         if request.form['submit'] == 'Submit':
-            logger.info("Atendiendo petición de ingreso de producto")
-            nombreProducto = request.form['nombreProducto']
-            tarjeta = request.form['tarjeta']
-            descripcion = request.form['descripcionProducto']
-            peso = request.form['peso']
-            numeroUnidades = request.form['numeroUnidades']
-            precio = request.form['precio']
-            desdeCentros = False
-            if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
-                desdeCentros = True
-
-            sujeto = ECSDI["PeticionAgregarProducto"+str(getMessageCount())]
-            graph = Graph()
-            graph.add((sujeto, RDF.type, ECSDI.PeticionAgregarProducto))
-            graph.add((sujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
-            graph.add((sujeto, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
-            graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
-            graph.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.string)))
-            graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
-            graph.add((sujeto,ECSDI.UnidadesEnStock,Literal(numeroUnidades,datatype=XSD.int)))
-            graph.add((sujeto,ECSDI.Peso,Literal(peso,datatype=XSD.float)))
-
-            agente = getAgentInfo(agn.GestorExterno, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
-            # Enviamos petición de filtrado al agente filtrador
-            grafoBusqueda = send_message(
-                build_message(graph, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
-                              msgcnt=getMessageCount(),
-                              content=sujeto), agente.address)
-
-
-            return render_template('procesandoArticulo.html')
-
-
+            return addProducto(request)
 
 # Función de parado del agente
 @app.route("/Stop")
