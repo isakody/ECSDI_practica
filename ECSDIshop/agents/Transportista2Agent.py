@@ -95,6 +95,26 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
+def prepararOferta(grafoEntrada, content):
+    lote = grafoEntrada.value(subject=content, predicate=ECSDI.Para)
+    peso = grafoEntrada.value(subject=lote, predicate=ECSDI.Peso)
+    print("Peso lote")
+    print peso
+
+    precio = calcularOferta(float(peso))
+
+    grafoOferta = Graph()
+    grafoOferta.bind('default', ECSDI)
+    contentOferta = ECSDI['RespuestaOfertaTransporte'+ str(getMessageCount())]
+    grafoOferta.add((contentOferta, RDF.type, ECSDI.RespuestaOfertaTransporte))
+    grafoOferta.add((contentOferta, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
+
+
+    return grafoOferta
+
+def calcularOferta(peso):
+    oferta = 15 + peso
+    return oferta
 
 @app.route("/comm")
 def communication():
@@ -139,28 +159,6 @@ def communication():
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 
-#funcion llamada en /comm
-def prepararOferta(grafoEntrada, content):
-    lote = grafoEntrada.value(subject=content, predicate=ECSDI.Para)
-    peso = grafoEntrada.value(subject=lote, predicate=ECSDI.Peso)
-    print("Peso lote")
-    print peso
-
-    precio = calcularOferta(float(peso))
-
-    grafoOferta = Graph()
-    grafoOferta.bind('default', ECSDI)
-    contentOferta = ECSDI['RespuestaOfertaTransporte'+ str(getMessageCount())]
-    grafoOferta.add((contentOferta, RDF.type, ECSDI.RespuestaOfertaTransporte))
-    grafoOferta.add((contentOferta, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
-
-
-    return grafoOferta
-
-def calcularOferta(peso):
-    oferta = 15 + peso
-    return oferta
-
 @app.route("/Stop")
 def stop():
     """
@@ -192,6 +190,7 @@ def tidyUp():
     queue.put(0)
 
     pass
+
 #función para registro de agente en el servicio de directorios
 def register_message():
     """
