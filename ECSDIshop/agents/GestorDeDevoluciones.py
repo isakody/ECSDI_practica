@@ -91,65 +91,41 @@ queue = Queue()
 # Flask app
 app = Flask(__name__)
 
-#función inclremental de numero de mensajes
+# Función inclremental de numero de mensajes
 def getMessageCount():
     global mss_cnt
     mss_cnt += 1
     return mss_cnt
 
-def register_message():
-    """
-    Envia un mensaje de registro al servicio de registro
-    usando una performativa Request y una accion Register del
-    servicio de directorio
-    :param gmess:
-    :return:
-    """
+# Función encargada del retorno de productos distribuyendo el trabajo en diversos threads
+def retornarProductos(content, grafoEntrada):
+    direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
+    direccionRetorno = None
+    for d in direccion:
+        direccionRetorno = d
+    codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
+    codigoPostal = None
+    for c in codigo:
+        codigoPostal = c
+    print(codigoPostal, direccionRetorno)
+    thread1 = threading.Thread(target=solicitarRecogida, args=(direccionRetorno, codigoPostal))
+    thread1.start()
+    thread2 = threading.Thread(target=borrarProductosRetornados, args=(grafoEntrada, content))
+    thread2.start()
+    logger.info("Solicitando envio")
+    resultadoComunicacion = Graph()
+    return resultadoComunicacion
 
-    logger.info('Nos registramos')
-    gr = registerAgent(GestorDeDevolucionesAgent, DirectoryAgent, GestorDeDevolucionesAgent.uri, getMessageCount())
-    return gr
-
-@app.route("/comm")
-def communication():
-    """
-    Communication Entrypoint
-    """
-    message = request.args['content']
-    grafoEntrada = Graph()
-    grafoEntrada.parse(data=message)
-    message = request.args['content']
-    grafoEntrada = Graph()
-    grafoEntrada.parse(data=message)
-
-    messageProperties = get_message_properties(grafoEntrada)
-
-    resultadoComunicacion = None
-
-    if messageProperties is None:
-        # Respondemos que no hemos entendido el mensaje
-        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                              sender=GestorDeDevolucionesAgent.uri, msgcnt=getMessageCount())
-    else:
-        # Obtenemos la performativa
-        if messageProperties['performative'] != ACL.request:
-            # Si no es un request, respondemos que no hemos entendido el mensaje
-            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
-                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
-        else:
-            content = messageProperties['content']
-            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-            # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
-            if accion == ECSDI.PeticionProductosEnviados:
-                graph = Graph()
-                ontologyFile = open('../data/EnviosDB')
-                tarjeta = None
-                tarjetaObjects = grafoEntrada.objects(subject=content, predicate=ECSDI.Tarjeta)
-                for t in tarjetaObjects:
-                    tarjeta = t
-
-                graph.parse(ontologyFile, format='turtle')
-                query =  """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+# Función que atiende la petición de retorno de todos los productos enviados por un usuario con una tarjeta
+def solicitarProductosEnviados(content, grafoEntrada):
+    graph = Graph()
+    ontologyFile = open('../data/EnviosDB')
+    tarjeta = None
+    tarjetaObjects = grafoEntrada.objects(subject=content, predicate=ECSDI.Tarjeta)
+    for t in tarjetaObjects:
+        tarjeta = t
+    graph.parse(ontologyFile, format='turtle')
+    query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -165,55 +141,31 @@ def communication():
                                 ?Producto default:Descripcion ?Descripcion .
                                 ?Producto default:Peso ?Peso .
                                 FILTER("""
+    query += """?Tarjeta = """ + str(tarjeta)
+    query += """ && ?FechaEntrega > '""" + str(datetime.now() - timedelta(days=15)) + """'^^xsd:date"""
+    query += """ && ?FechaEntrega < '""" + str(datetime.now() + timedelta(days=1)) + """'^^xsd:date"""
+    query += """)}"""
+    resultadoConsulta = graph.query(query)
+    resultadoComunicacion = Graph()
+    for product in resultadoConsulta:
+        product_nombre = product.Nombre
+        product_precio = product.Precio
+        product_descripcion = product.Descripcion
+        product_peso = product.Peso
+        sujeto = ECSDI['ProductoEnviado' + str(getMessageCount())]
+        resultadoComunicacion.add((sujeto, RDF.type, ECSDI.ProductoEnviado))
+        resultadoComunicacion.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
+        resultadoComunicacion.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
+        resultadoComunicacion.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
+        resultadoComunicacion.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
+        resultadoComunicacion.add((sujeto, ECSDI.EsDe, product.Compra))
+    return resultadoComunicacion
 
-                query += """?Tarjeta = """ + str(tarjeta)
-                query += """ && ?FechaEntrega > '""" + str(datetime.now() - timedelta(days=15)) + """'^^xsd:date"""
-                query += """ && ?FechaEntrega < '""" + str(datetime.now() + timedelta(days=1)) + """'^^xsd:date"""
-                query += """)}"""
-
-
-                resultadoConsulta = graph.query(query)
-                resultadoComunicacion = Graph()
-
-
-                for product in resultadoConsulta:
-                    product_nombre = product.Nombre
-                    product_precio = product.Precio
-                    product_descripcion = product.Descripcion
-                    product_peso = product.Peso
-                    sujeto =  ECSDI['ProductoEnviado' + str(getMessageCount())]
-                    resultadoComunicacion.add((sujeto, RDF.type, ECSDI.ProductoEnviado))
-                    resultadoComunicacion.add((sujeto, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
-                    resultadoComunicacion.add((sujeto, ECSDI.Precio, Literal(product_precio, datatype=XSD.float)))
-                    resultadoComunicacion.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
-                    resultadoComunicacion.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
-                    resultadoComunicacion.add((sujeto, ECSDI.EsDe, product.Compra))
-            elif accion == ECSDI.RetornarProductos:
-                direccion= grafoEntrada.objects(predicate=ECSDI.Direccion)
-                direccionRetorno = None
-                for d in direccion:
-                    direccionRetorno = d
-                codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
-                codigoPostal = None
-                for c in codigo:
-                    codigoPostal = c
-                print(codigoPostal, direccionRetorno)
-                thread1 = threading.Thread(target=solicitarEnvio,args=(direccionRetorno,codigoPostal))
-                thread1.start()
-                thread2 = threading.Thread(target=borrarProductosRetornados, args=(grafoEntrada,content))
-                thread2.start()
-                logger.info("Solicitando envio")
-                resultadoComunicacion = Graph()
-
-    logger.info('Respondemos a la petición de devolucion')
-    serialize = resultadoComunicacion.serialize(format='xml')
-    return serialize, 200
-
+# Función que elimina productos disponibles de devolución de la base de datos
 def borrarProductosRetornados(grafo, content):
     ontologyFile = open('../data/EnviosDB')
 
     products = grafo.objects(subject=content, predicate= ECSDI.Auna)
-    print("entro")
 
     for a, b, c in grafo:
         print a, b, c
@@ -223,8 +175,6 @@ def borrarProductosRetornados(grafo, content):
     grafoEnvios.parse(ontologyFile, format='turtle')
 
     for product in products:
-        print("entro2")
-        print(product)
         compra = grafo.value(subject=product, predicate=ECSDI.EsDe)
         print(compra)
         nombre = grafo.value(subject=product, predicate=ECSDI.Nombre)
@@ -258,8 +208,8 @@ def borrarProductosRetornados(grafo, content):
     # Guardem el graf
     grafoEnvios.serialize(destination='../data/EnviosDB', format='turtle')
 
-def solicitarEnvio(direccionRetorno,codigoPostal):
-    #TODO pedir un transportista qualquiera y enviar la petición de recodiga
+# Función que solicita a un Transportista prefijado la recogida de un conjunto de productos a una dirección determinada
+def solicitarRecogida(direccionRetorno,codigoPostal):
     logger.info("need to implement ask for transport")
 
     peticion = Graph()
@@ -278,6 +228,42 @@ def solicitarEnvio(direccionRetorno,codigoPostal):
                       msgcnt=getMessageCount(),
                       content=accion), agente.address)
 
+@app.route("/comm")
+def communication():
+    """
+    Communication Entrypoint
+    """
+    message = request.args['content']
+    grafoEntrada = Graph()
+    grafoEntrada.parse(data=message)
+
+    messageProperties = get_message_properties(grafoEntrada)
+
+    resultadoComunicacion = None
+
+    if messageProperties is None:
+        # Respondemos que no hemos entendido el mensaje
+        resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                              sender=GestorDeDevolucionesAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProperties['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            resultadoComunicacion = build_message(Graph(), ACL['not-understood'],
+                                                  sender=DirectoryAgent.uri, msgcnt=getMessageCount())
+        else:
+            content = messageProperties['content']
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
+            # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
+            if accion == ECSDI.PeticionProductosEnviados:
+                resultadoComunicacion = solicitarProductosEnviados(content, grafoEntrada)
+            elif accion == ECSDI.RetornarProductos:
+                resultadoComunicacion = retornarProductos(content, grafoEntrada)
+
+    logger.info('Respondemos a la petición de devolucion')
+    serialize = resultadoComunicacion.serialize(format='xml')
+    return serialize, 200
+
 @app.route("/Stop")
 def stop():
     """
@@ -289,7 +275,6 @@ def stop():
     shutdown_server()
     return "Stopping server"
 
-
 def tidyUp():
     """
     Previous actions for the agent.
@@ -300,6 +285,19 @@ def tidyUp():
 
     pass
 
+def register_message():
+    """
+    Envia un mensaje de registro al servicio de registro
+    usando una performativa Request y una accion Register del
+    servicio de directorio
+    :param gmess:
+    :return:
+    """
+
+    logger.info('Nos registramos')
+    gr = registerAgent(GestorDeDevolucionesAgent, DirectoryAgent, GestorDeDevolucionesAgent.uri, getMessageCount())
+    return gr
+
 def DevolvedorBehaviour(queue):
 
     """
@@ -308,7 +306,6 @@ def DevolvedorBehaviour(queue):
     :return: something
     """
     gr = register_message()
-
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
