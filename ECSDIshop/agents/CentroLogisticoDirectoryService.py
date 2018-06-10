@@ -156,7 +156,7 @@ def register():
         logger.info('Peticion de busqueda')
 
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
-        rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
+        rsearch = dsgraph.triples((None, DSO.AgentType, None))
 
         i = 0
         graph = Graph()
@@ -164,8 +164,8 @@ def register():
         bag = BNode()
         graph.add((bag, RDF.type, RDF.Bag))
 
-        for agn_uri in rsearch:
-            agn_uri2 = agn_uri[0]
+        for a, b, c in rsearch:
+            agn_uri2 = a
             agn_add = dsgraph.value(subject=agn_uri2, predicate=DSO.Address)
             agn_name = dsgraph.value(subject=agn_uri2, predicate=FOAF.name)
             agn_cp = abs(int(dsgraph.value(subject=agn_uri2, predicate= ECSDI.CodigoPostal)) - int(cp))
