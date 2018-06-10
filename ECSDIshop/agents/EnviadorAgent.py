@@ -172,29 +172,45 @@ def solicitarEnvio(grafo,contenido):
                     grafoCopia.remove((a,b,c))
                     grafoCopia.add((sujeto,b,c))
 
-
         for ag in agentes:
-            print(ag)
+            print("holi agente")
             logger.info("Solicitando peticion de envio a centro logistico")
             respuesta = send_message(
                 build_message(grafoCopia, perf=ACL.request, sender=EnviadorAgent.uri, receiver=ag.uri,
                               msgcnt=getMessageCount(),
                               content=sujeto), ag.address)
 
+            accion = respuesta.subjects(predicate=RDF.type, object=ECSDI.RespuestaEnvioDesdeCentroLogistico)
+            contenido = None
+
+            for a in accion:
+                contenido = a
+
             for item in respuesta.subjects(RDF.type, ACL.FipaAclMessage):
                 respuesta.remove((item, None, None))
+            respuesta.remove((None, RDF.type, ECSDI.RespuestaEnvioDesdeCentroLogistico))
+            respuesta.add((sujeto, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
 
             grafoCopia = respuesta
-            # coger de respuesta los productos que faltan y enviarselo al siguiente.
+
+            contiene = False
             for a, b, c in grafoCopia:
-                print a, b, c
                 if a == contenido:
-                    if b == ECSDI.Falta:  # Compra
+                    if b == ECSDI.Faltan:  # Compra
                         grafoCopia.remove((a, b, c))
                         grafoCopia.add((sujeto, ECSDI.EnvioDe, c))
+
+                    elif b == ECSDI.Contiene:
+                        contiene = True
                     else:
                         grafoCopia.remove((a, b, c))
                         grafoCopia.add((sujeto, b, c))
+                print a, b, c
+
+            if not contiene:
+                break
+
+
 
 
 def registrarEnvio(grafo, contenido):

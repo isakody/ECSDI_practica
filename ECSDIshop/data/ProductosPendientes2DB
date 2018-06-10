@@ -4,13 +4,3 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-default:ProductoPendiente3 a default:ProductoPendiente ;
-    default:EnviarA default:Direccion135 ;
-    default:Nombre "Ordenador"^^xsd:string ;
-    default:Peso "2.0"^^xsd:float ;
-    default:Prioridad "4"^^xsd:int .
-
-default:Direccion135 a default:Direccion ;
-    default:CodigoPostal "123"^^xsd:int ;
-    default:Direccion "1234"^^xsd:string .
-

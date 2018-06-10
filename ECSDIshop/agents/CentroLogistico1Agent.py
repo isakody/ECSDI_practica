@@ -127,6 +127,7 @@ def communication():
     grafoEntrada.parse(data=message)
 
     messageProp = get_message_properties(grafoEntrada)
+    res = Graph()
 
     if messageProp is None:
         # Si no es, respondemos que no hemos entendido el mensaje
@@ -173,8 +174,19 @@ def responderPeticionEnvio(grafoEntrada, content):
     grafoFaltan = Graph()
     grafoFaltan.bind('default', ECSDI)
     contentR = ECSDI['RespuestaEnvioDesdeCentroLogistico' + str(getMessageCount())]
+
     grafoFaltan.add((contentR, RDF.type, ECSDI.RespuestaEnvioDesdeCentroLogistico))
     grafoFaltan.add((contentR, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
+
+    sujetoCompra = ECSDI['Compra' + str(getMessageCount())]
+
+    grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(sujetoCompra)))
+    grafoFaltan.add((sujetoCompra, RDF.type, ECSDI.Compra))
+    grafoFaltan.add((sujetoCompra, ECSDI.Destino, URIRef(direccion)))
+
+    grafoFaltan.add((direccion, RDF.type, ECSDI.Direccion))
+    grafoFaltan.add((direccion, ECSDI.Direccion, Literal(direccion2, datatype=XSD.string)))
+    grafoFaltan.add((direccion, ECSDI.CodigoPostal, Literal(codigopostal, datatype=XSD.int)))
 
     graph = Graph()
     ontologyFile = open('../data/Stock1DB')
@@ -229,7 +241,7 @@ def responderPeticionEnvio(grafoEntrada, content):
                 grafoFaltan.add((producto, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
                 grafoFaltan.add((producto, ECSDI.Precio, Literal(precio, datatype=XSD.string)))
                 grafoFaltan.add((producto, ECSDI.Peso, Literal(peso, datatype=XSD.string)))
-                grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(producto)))
+                grafoFaltan.add((sujetoCompra, ECSDI.Contiene, URIRef(producto)))
 
             else:
                 print("Tenim stock amics!")
@@ -259,7 +271,7 @@ def responderPeticionEnvio(grafoEntrada, content):
             grafoFaltan.add((producto, ECSDI.Nombre, Literal(nombre, datatype=XSD.string)))
             grafoFaltan.add((producto, ECSDI.Precio, Literal(precio, datatype=XSD.string)))
             grafoFaltan.add((producto, ECSDI.Peso, Literal(peso, datatype=XSD.string)))
-            grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(producto)))
+            grafoFaltan.add((sujetoCompra, ECSDI.Contiene, URIRef(producto)))
 
     grafoPendientes += grafoEnviar
     grafoPendientes.serialize(destination="../data/ProductosPendientes1DB", format='turtle')
@@ -304,7 +316,7 @@ def crearLotes():
             nouLote.add((producto_pendiente, ECSDI.EnviarA, producto_direccion))
             nouLote.add((contentLote, ECSDI.CompuestoPor, producto_pendiente))
 
-            pesoLote = peso + pesoLote
+            pesoLote = float(peso) + pesoLote
 
             for item in graph.objects(subject=producto_pendiente):
                 graph.remove((producto_pendiente, None, item))

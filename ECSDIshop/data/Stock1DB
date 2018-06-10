@@ -21,7 +21,7 @@ default:Stock2 a default:Stock ;
 
 default:Stock3 a default:Stock ;
     default:Tiene default:Producto3 ;
-    default:UnidadesEnStock "999999"^^xsd:int .
+    default:UnidadesEnStock "999984"^^xsd:int .
 
 default:Stock4 a default:Stock ;
     default:Tiene default:Producto4 ;
