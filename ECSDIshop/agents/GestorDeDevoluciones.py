@@ -263,7 +263,6 @@ def communication():
             elif accion == ECSDI.PeticionRetorno:
                 resultadoComunicacion = retornarProductos(content, grafoEntrada)
 
-    logger.info('Respondemos a la petición de devolucion')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 

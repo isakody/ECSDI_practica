@@ -152,7 +152,6 @@ def getCentroLogisticoPorProximidad(agentType, directoryAgent, sender, messageCo
     content = dic['content']
     agents = []
     for (s, p, o) in gr.triples((content, None, None)):
-        print("HOLA")
         if str(p).startswith('http://www.w3.org/1999/02/22-rdf-syntax-ns#_'):
             address = gr.value(subject=o, predicate=DSO.Address)
             url = gr.value(subject=o, predicate=DSO.Uri)
