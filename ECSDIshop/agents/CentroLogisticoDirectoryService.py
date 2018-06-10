@@ -129,7 +129,7 @@ def register():
         dsgraph.add((agn_uri, FOAF.name, agn_name))
         dsgraph.add((agn_uri, DSO.Address, agn_add))
         dsgraph.add((agn_uri, DSO.AgentType, agn_type))
-        dsgraph.add((agn_uri,ECSDI.CodigoPostal,agn_cp))
+        dsgraph.add((agn_uri, ECSDI.CodigoPostal,agn_cp))
 
         logger.info('Registrado agente: ' + agn_name + ' - tipus:' + agn_type)
 
@@ -155,7 +155,6 @@ def register():
 
         logger.info('Peticion de busqueda')
 
-        agn_type = gm.value(subject=content, predicate=DSO.AgentType)
         rsearch = dsgraph.triples((None, DSO.AgentType, None))
 
         i = 0

@@ -3,20 +3,3 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-default:Producto1 default:Valoracion "4"^^xsd:int .
-
-default:Producto2 default:Valoracion "4"^^xsd:int .
-
-default:Producto3 default:Valoracion "3"^^xsd:int .
-
-default:Producto5 default:Valoracion "2"^^xsd:int .
-
-default:Producto6 default:Valoracion "3"^^xsd:int .
-
-default:Producto7 default:Valoracion "0"^^xsd:int .
-
-default:Producto8 default:Valoracion "4"^^xsd:int .
-
-default:Producto9 default:Valoracion "5"^^xsd:int .
-

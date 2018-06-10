@@ -96,7 +96,6 @@ def getMessageCount():
 
 # Función que añade un producto externo a la base de datos de la tienda
 def addProducto(request):
-    logger.info("Atendiendo petición de ingreso de producto")
     nombreProducto = request.form['nombreProducto']
     tarjeta = request.form['tarjeta']
     descripcion = request.form['descripcionProducto']
@@ -106,6 +105,7 @@ def addProducto(request):
     desdeCentros = False
     if len(request.form.getlist('lugarEnvio')) > 0 and request.form.getlist('lugarEnvio')[0] == 'envio':
         desdeCentros = True
+    logger.info("Haciendo petición de agregar producto")
     sujeto = ECSDI["PeticionAgregarProducto" + str(getMessageCount())]
     graph = Graph()
     graph.add((sujeto, RDF.type, ECSDI.PeticionAgregarProducto))
@@ -116,12 +116,15 @@ def addProducto(request):
     graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
     graph.add((sujeto, ECSDI.UnidadesEnStock, Literal(numeroUnidades, datatype=XSD.int)))
     graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
+    # Obtenemos la información del gestor externo
     agente = getAgentInfo(agn.GestorExterno, DirectoryAgent, VendedorPersonalAgent, getMessageCount())
-    # Enviamos petición de filtrado al agente filtrador
+    # Enviamos petición de agregar producto al gestor externo
+    logger.info("Enviando petición de agregar producto")
     grafoBusqueda = send_message(
         build_message(graph, perf=ACL.request, sender=VendedorPersonalAgent.uri, receiver=agente.uri,
                       msgcnt=getMessageCount(),
                       content=sujeto), agente.address)
+    logger.info("Enviada petición de agregar producto")
     return render_template('procesandoArticulo.html')
 
 # Función que devuelve la página principal de ECSDIstore

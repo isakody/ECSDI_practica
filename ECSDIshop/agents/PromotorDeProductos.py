@@ -193,6 +193,7 @@ def stop():
 def comprobarYValorar():
     graph = Graph()
     ontologyFile = open('../data/EnviosDB')
+    logger.info("Comprobando productos recibidos")
     graph.parse(ontologyFile, format='turtle')
     query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
@@ -214,6 +215,7 @@ def comprobarYValorar():
 
     resultadoConsulta = graph.query(query)
     grafoConsulta = Graph()
+    logger.info("Haciendo petición de valoracion")
     accion = ECSDI["PeticionValoracion"+str(getMessageCount())]
     grafoConsulta.add((accion,RDF.type,ECSDI.PeticionValoracion))
     graph2 = Graph()
@@ -229,22 +231,28 @@ def comprobarYValorar():
             grafoConsulta.add((g.Producto,RDF.type,ECSDI.Producto))
             grafoConsulta.add((accion,ECSDI.Valora,URIRef(g.Producto)))
     if contador != 0:
+        # Obtenemos información del usuario
         agente = getAgentInfo(agn.UserPersonalAgent, DirectoryAgent, PromotorDeProductosAgent, getMessageCount())
+        # Obtenemos las valoraciones del usuario
+        logger.info("Enviando petición de valoracion")
         resultadoComunicacion = send_message(build_message(grafoConsulta,
                                                            perf=ACL.request, sender=PromotorDeProductosAgent.uri,
                                                            receiver=agente.uri,
                                                            msgcnt=getMessageCount(), content=accion), agente.address)
-
+        logger.info("Recibido resultado de valoracion")
         for s, o, p in resultadoComunicacion:
             if o == ECSDI.Valoracion:
                 graph2.add((s,o,p))
-
+        logger.info("Registrando valoraciones")
         graph2.serialize(destination='../data/ValoracionesDB', format='turtle')
+        logger.info("Registro valoraciones finalizada")
 
 
 def solicitarValoraciones():
+    logger.info("Iniciando petición rutinaria de valoraciones")
     thread = threading.Thread(target=comprobarYValorar)
     thread.start()
+    logger.info("Petición rutinaria de valoraciones finalizada")
     thread.join()
     sleep(120)
 

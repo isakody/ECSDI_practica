@@ -96,14 +96,15 @@ def getMessageCount():
 
 # Función que atiende a la petición de registrar una petición de recogida en una dirección
 def atenderPeticionRecogerDevolucion(grafoEntrada):
+    logger.info('Recibida Peticion Recoger Devolucion')
     direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
-    direccionRetorno = None;
+    direccionRetorno = None
     for d in direccion:
-        direccionRetorno = d;
+        direccionRetorno = d
     codigo = grafoEntrada.objects(predicate=ECSDI.CodigoPostal)
-    codigoPostal = None;
+    codigoPostal = None
     for c in codigo:
-        codigoPostal = c;
+        codigoPostal = c
     logger.info(
         "Registrada petición de recogida en " + str(direccionRetorno) + ". Con Codigo Postal: " + str(codigoPostal))
     resultadoComunicacion = Graph()
@@ -136,12 +137,6 @@ def communication():
             if accion == ECSDI.PeticionRecogerDevolucion:
                 resultadoComunicacion = atenderPeticionRecogerDevolucion(grafoEntrada)
 
-
-
-
-
-    #no retronamos nada
-    logger.info('Respondemos a la petición de envio')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 

@@ -129,8 +129,6 @@ def register():
         dsgraph.add((agn_uri, DSO.Address, agn_add))
         dsgraph.add((agn_uri, DSO.AgentType, agn_type))
 
-        for a, b, c in dsgraph:
-            print a, b, c
 
         logger.info('Registrado agente: ' + agn_name + ' - tipus:' + agn_type)
 
@@ -167,7 +165,6 @@ def register():
         g.add((bag,RDF.type, RDF.Bag))
 
         for a, b, c in rsearch:
-            print "entro"
             agn_uri2 = a
             agn_add = dsgraph.value(subject=agn_uri2, predicate=DSO.Address)
             agn_name = dsgraph.value(subject=agn_uri2, predicate=FOAF.name)

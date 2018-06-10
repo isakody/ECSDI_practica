@@ -98,7 +98,7 @@ def getMessageCount():
 # Función que llama al agente correspondiedte para solicitar el envio de una compra
 def enviarCompra(grafoEntrada,content):
     # Enviar mensaje con la compra a enviador
-
+    logger.info("Haciendo peticion envio")
     grafoEntrada.remove((content, RDF.type, ECSDI.PeticionCompra))
     sujeto = ECSDI['PeticionEnvio' + str(getMessageCount())]
     grafoEntrada.add((sujeto, RDF.type, ECSDI.PeticionEnvio))
@@ -107,15 +107,17 @@ def enviarCompra(grafoEntrada,content):
         if a == content:
             grafoEntrada.remove((a, b, c))
             grafoEntrada.add((sujeto, b, c))
-
+    logger.info("Enviando peticion envio")
     enviador = getAgentInfo(agn.EnviadorAgent, DirectoryAgent, VendedorAgent, getMessageCount())
     resultadoComunicacion = send_message(build_message(grafoEntrada,
                                                        perf=ACL.request, sender=VendedorAgent.uri,
                                                        receiver=enviador.uri,
                                                        msgcnt=getMessageCount(), content=sujeto), enviador.address)
+    logger.info("Enviada peticion envio")
 
 # Función para registrar la compra realizada en la base de datos
 def registrarCompra(grafoEntrada):
+    logger.info("Registrando la compra")
     ontologyFile = open('../data/ComprasDB')
 
     grafoCompras = Graph()
@@ -125,10 +127,11 @@ def registrarCompra(grafoEntrada):
 
     # Guardem el graf
     grafoCompras.serialize(destination='../data/ComprasDB', format='turtle')
+    logger.info("Registro de compra finalizado")
 
 # Función que efectua y organiza en threads el proceso de vender
 def vender(grafoEntrada, content):
-
+    logger.info("Recibida peticion de compra")
     # Guardar Compra
     thread = Thread(target=registrarCompra, args=(grafoEntrada,))
     thread.start()
@@ -138,6 +141,7 @@ def vender(grafoEntrada, content):
     grafoFactura = Graph()
     grafoFactura.bind('default', ECSDI)
 
+    logger.info("Haciendo factura")
     # Crear factura
     sujeto = ECSDI['Factura' + str(getMessageCount())]
     grafoFactura.add((sujeto, RDF.type, ECSDI.Factura))
@@ -167,8 +171,7 @@ def vender(grafoEntrada, content):
     thread = Thread(target=enviarCompra, args=(grafoEntrada, content))
     thread.start()
 
-
-
+    logger.info("Devolviendo factura")
     return grafoFactura
 
 #funcion llamada en /comm
@@ -177,8 +180,6 @@ def communication():
     message = request.args['content']
     grafoEntrada = Graph()
     grafoEntrada.parse(data=message)
-
-
 
     messageProperties = get_message_properties(grafoEntrada)
 
@@ -210,9 +211,6 @@ def communication():
 
                 resultadoComunicacion =  vender(grafoEntrada, content)
 
-
-    #no retronamos nada
-    logger.info('Respondemos a la petición de compra')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 

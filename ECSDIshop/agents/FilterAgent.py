@@ -236,7 +236,6 @@ def communication():
             if accion == ECSDI.BuscarProducto:
                 resultadoComunicacion = buscarProducto(content, grafoEntrada)
 
-    logger.info('Respondemos a la petición de busqueda')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 
