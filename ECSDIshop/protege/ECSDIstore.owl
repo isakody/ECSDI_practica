@@ -65,9 +65,6 @@
         <Class IRI="#PeticionOfertaTransporte"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PeticionProductosComprados"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#PeticionProductosEnviados"/>
     </Declaration>
     <Declaration>
@@ -313,10 +310,6 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#PeticionOfertaTransporte"/>
-        <Class IRI="#Accion"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#PeticionProductosComprados"/>
         <Class IRI="#Accion"/>
     </SubClassOf>
     <SubClassOf>
