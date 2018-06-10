@@ -99,6 +99,7 @@ def getMessageCount():
 def buscarProducto(content, grafoEntrada):
     # Extraemos las restricciones de busqueda que se nos pasan y creamos un contenedor de las restriciones
     # para su posterior procesamiento
+    logger.info("Recibida peticion de busqueda")
     restricciones = grafoEntrada.objects(content, ECSDI.RestringidaPor)
     directivasRestrictivas = {}
     for restriccion in restricciones:
@@ -116,12 +117,13 @@ def buscarProducto(content, grafoEntrada):
 
 # Función que busca productos en la base de datos acorde a los filtros establecidos con anterioriad
 def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max):
+    logger.info("Haciendo resultado de busqueda")
     graph = Graph()
     ontologyFile = open('../data/ProductsDB.owl')
     graph.parse(ontologyFile, format='turtle')
 
     addAnd = False;
-
+    logger.info("Buscando productos")
     query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX owl: <http://www.w3.org/2002/07/owl#>
     PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
@@ -160,6 +162,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     products_graph = Graph()
     products_graph.bind('ECSDI', ECSDI)
     products_filtro = Graph()
+    # Añadimos los productos resultantes de la búsqueda
     for product in graph_query:
         product_nombre = product.Nombre
         product_precio = product.Precio
@@ -172,6 +175,7 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
         products_graph.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
         products_graph.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
 
+        # Generamos el grafo de los filtros
         sujetofiltrado = ECSDI['ProductoFiltrado' + str(getMessageCount())]
         products_filtro.add((sujetofiltrado, RDF.type, ECSDI.Producto))
         products_filtro.add((sujetofiltrado, ECSDI.Nombre, Literal(product_nombre, datatype=XSD.string)))
@@ -181,10 +185,12 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     thread = Thread(target=registrarFiltro, args=(products_filtro,))
     thread.start()
 
+    logger.info("Respondiendo peticion de busqueda")
     return products_graph
 
 # Función que registra en la base de datos el filtro solicitado por el usuario
 def registrarFiltro(grafo):
+    logger.info("Registrando los productos filtrados")
     ontologyFile = open('../data/FiltrosDB')
 
     grafoFiltros = Graph()
@@ -194,6 +200,7 @@ def registrarFiltro(grafo):
 
     # Guardem el graf
     grafoFiltros.serialize(destination='../data/FiltrosDB', format='turtle')
+    logger.info("Registro de filtros finalizado")
 
 #funcion llamada en /comm
 @app.route("/comm")

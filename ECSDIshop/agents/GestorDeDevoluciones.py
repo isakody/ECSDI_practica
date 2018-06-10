@@ -257,7 +257,7 @@ def communication():
             # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
             if accion == ECSDI.PeticionProductosEnviados:
                 resultadoComunicacion = solicitarProductosEnviados(content, grafoEntrada)
-            elif accion == ECSDI.RetornarProductos:
+            elif accion == ECSDI.PeticionRetorno:
                 resultadoComunicacion = retornarProductos(content, grafoEntrada)
 
     logger.info('Respondemos a la petición de devolucion')

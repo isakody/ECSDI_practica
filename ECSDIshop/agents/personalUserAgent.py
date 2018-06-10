@@ -97,7 +97,9 @@ def getMessageCount():
 # Función que solicita una petición de busqueda al agente correspondiente
 def enviarPeticionBusqueda(request):
     global listaDeProductos
-    logger.info("Enviando petición de busqueda")
+    logger.info("Haciendo petición de busqueda")
+
+    # ACCION -> BuscarProducto
     contenido = ECSDI['BuscarProducto' + str(getMessageCount())]
     grafoDeContenido = Graph()
     grafoDeContenido.add((contenido, RDF.type, ECSDI.BuscarProducto))
@@ -125,14 +127,17 @@ def enviarPeticionBusqueda(request):
             grafoDeContenido.add((precioSujeto, ECSDI.PrecioMaximo, Literal(precioMax)))
         grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
 
-    # Pedimos que nos se nos busque la información del agente filtrador
+    # Pedimos información del agente filtrador
     agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, UserPersonalAgent, getMessageCount())
-    # Enviamos petición de filtrado al agente filtrador
+
+    # Enviamos petición de busqueda al agente filtrador
+    logger.info("Enviando petición de busqueda")
     grafoBusqueda = send_message(
         build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
                       msgcnt=getMessageCount(),
                       content=contenido), agente.address)
-    # Falta mostrar el restultado de busqueda en el html
+
+    logger.info("Recibido resultado de busqueda")
     listaDeProductos = []
     posicionDeSujetos = {}
     indice = 0
@@ -156,11 +161,13 @@ def enviarPeticionBusqueda(request):
             elif p == RDF.type:
                 producto["Sujeto"] = s
             listaDeProductos[posicionDeSujetos[s]] = producto
+    # Mostramos productos filtrados
     return render_template('search.html', products=listaDeProductos)
 
 # Función que renderiza los productos comprados
 def buy(request):
     global listaDeProductos
+    logger.info("Haciendo petición de compra")
     listaDeCompra = []
     for producto in request.form.getlist("checkbox"):
         listaDeCompra.append(listaDeProductos[int(producto)])
@@ -180,13 +187,15 @@ def buy(request):
                    respuestaVenta.value(subject=producto, predicate=ECSDI.Precio)]
         productosEnFactura.append(product)
 
+    # Mostramos la factura
     return render_template('ventaRealizada.html', products=productosEnFactura, tarjeta=tarjeta, total=total)
 
 # Función que procesa una venta y la envía el grafo resultado de haber hablado con el agente correspondiente
 def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal):
-    logger.info("Procesando compra")
+    #Creamos la compra
     grafoCompra = Graph()
 
+    # ACCION -> PeticionCompra
     content = ECSDI['PeticionCompra' + str(getMessageCount())]
     grafoCompra.add((content,RDF.type,ECSDI.PeticionCompra))
     grafoCompra.add((content,ECSDI.Prioridad,Literal(prioridad, datatype=XSD.int)))
@@ -201,7 +210,7 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
     grafoCompra.add((sujetoCompra, RDF.type, ECSDI.Compra))
     grafoCompra.add((sujetoCompra, ECSDI.Destino, URIRef(sujetoDireccion)))
 
-
+    # Añadimos los productos
     for producto in listaDeCompra:
         sujetoProducto = producto['Sujeto']
         grafoCompra.add((sujetoProducto, RDF.type, ECSDI.Producto))
@@ -213,31 +222,42 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
     grafoCompra.add((content,ECSDI.De,URIRef(sujetoCompra)))
 
+    # Pedimos información del agente vendedor
     vendedor = getAgentInfo(agn.VendedorAgent, DirectoryAgent, UserPersonalAgent,getMessageCount())
 
+    # Enviamos petición de compra al agente vendedor
+    logger.info("Enviando petición de compra")
     respuestaVenta = send_message(
         build_message(grafoCompra, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=vendedor.uri,
                       msgcnt=getMessageCount(),
                       content=content), vendedor.address)
 
-
+    logger.info("Recibido resultado de compra")
     return respuestaVenta
 
 # Función que solizita los productos que un usuario con una tarjeta ha comprado y están disponibles para su devolución
 def procesarRetorno(request):
     global listaDeProductos
+    logger.info("Haciendo petición de productos enviados")
     grafoDeContenido = Graph()
+
+    # ACCION -> PeticionProductosEnviados
     accion = ECSDI["PeticionProductosEnviados" + str(getMessageCount())]
     grafoDeContenido.add((accion, RDF.type, ECSDI.PeticionProductosEnviados))
     tarjeta = request.form['tarjeta']
     grafoDeContenido.add((accion, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.int)))
+
+    # Pedimos información del Gestor de Devoluciones
     agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
-    # Enviamos petición de filtrado al agente filtrador
+
+    logger.info("Enviando petición de productos enviados")
+    # Enviamos petición de productos enviados al agente Gestor de Devoluciones
     grafoBusqueda = send_message(
         build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
                       msgcnt=getMessageCount(),
                       content=accion), agente.address)
 
+    logger.info("Recibido resultado de productos enviados")
     listaDeProductos = []
     posicionDeSujetos = {}
     indice = 0
@@ -263,20 +283,26 @@ def procesarRetorno(request):
             elif p == ECSDI.EsDe:
                 producto["Compra"] = o
             listaDeProductos[posicionDeSujetos[s]] = producto
+
+    # Mostramos la lista de productos enviados
     return render_template('return.html', products=listaDeProductos)
 
 # Función que procesa el retorno de los productos que el usuario ha solicitado para retornar contactando con el agente pertinente
 def submitReturn(request):
     global listaDeProductos
+    logger.info("Haciendo petición de retorno")
     listaDeDevoluciones = []
     for producto in request.form.getlist("checkbox"):
         listaDeDevoluciones.append(listaDeProductos[int(producto)])
-    accion = ECSDI["RetornarProductos" + str(getMessageCount())]
+
+    # ACCION -> Peticion Retorno
+    accion = ECSDI["PeticionRetorno" + str(getMessageCount())]
     grafoDeContenido = Graph()
-    grafoDeContenido.add((accion, RDF.type, ECSDI.RetornarProductos))
+    grafoDeContenido.add((accion, RDF.type, ECSDI.PeticionRetorno))
     direccion = request.form['direccion']
     codigoPostal = int(request.form['codigoPostal'])
 
+    # Añadimos los productos a devolver
     for producto in listaDeDevoluciones:
         sujetoProducto = producto['Sujeto']
         grafoDeContenido.add((sujetoProducto, RDF.type, ECSDI.ProductoEnviado))
@@ -292,27 +318,37 @@ def submitReturn(request):
     grafoDeContenido.add((sujetoDireccion, ECSDI.Direccion, Literal(direccion, datatype=XSD.string)))
     grafoDeContenido.add((sujetoDireccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
     grafoDeContenido.add((accion, ECSDI.DireccionadoA, URIRef(sujetoDireccion)))
+
+    # Pedimos informacion del Gestor de Devoluciones
     agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
 
+    # Enviamos la peticion de retorno al Gestor de Devoluciones
+    logger.info("Enviando petición de retorno")
     grafoBusqueda = send_message(
         build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
                       msgcnt=getMessageCount(),
                       content=accion), agente.address)
-
+    logger.info("Recibido resultado de retorno")
     return render_template('procesandoRetorno.html')
 
 #Función que solicita el conjunto de productos recomendables para el usuario al agente pertinente
 def pedirRecomendacion():
+    # ACCION -> Peticion Recomendación
+    logger.info("Recibido petición de recomendacion")
     sujetoRecomendacion = ECSDI["PeticionRecomendacion" + str(getMessageCount())]
     grafo = Graph();
     grafo.add((sujetoRecomendacion, RDF.type, ECSDI.PeticionRecomendacion))
+
+    # Pedimos información del promotor de productos
     agente = getAgentInfo(agn.PromotorDeProductos, DirectoryAgent, UserPersonalAgent, getMessageCount())
-    # Enviamos petición de filtrado al agente filtrador
+
+    # Enviamos petición de recomendacion al agente promotor
+    logger.info("Enviando peticion de recomendacion")
     grafoBusqueda = send_message(
         build_message(grafo, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
                       msgcnt=getMessageCount(),
                       content=sujetoRecomendacion), agente.address)
-
+    logger.info("Recibido resultado de recomendacion")
     listaDeProductos = []
     posicionDeSujetos = {}
     indice = 0
@@ -336,6 +372,7 @@ def pedirRecomendacion():
             elif p == RDF.type:
                 producto["Sujeto"] = s
             listaDeProductos[posicionDeSujetos[s]] = producto
+    # Mostramos los productos recomendados
     return listaDeProductos
 
 # Función que devuelve la página principal de ECSDIstore
@@ -420,17 +457,22 @@ def comunicacion():
             content = messageProperties['content']
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
             if accion == ECSDI.PeticionValoracion :
+                logger.info("Recibida peticion de valoracion")
                 productos = grafoEntrada.objects(predicate=ECSDI.Valora)
                 grafoValoraciones = Graph()
+                # ACCION -> Respuesta Valoracion
+                logger.info("Haciendo respuesta de valoracion")
                 accion2 = ECSDI['RespuestaValoracion'+str(getMessageCount())]
                 grafoValoraciones.add((accion2,RDF.type,ECSDI.RespuestaValoracion))
+                # Añadimos las valoraciones
                 for p in productos:
                     randomNumber = random.randint(0, 5)
                     grafoValoraciones.add((p,RDF.type,ECSDI.Producto))
                     grafoValoraciones.add((p,ECSDI.Valoracion,Literal(randomNumber,datatype=XSD.int)))
                     grafoValoraciones.add((accion2,ECSDI.Valora,URIRef(p)))
+                    logger.info("Valoro el " + p + " con " + str(randomNumber) + " puntos")
 
-
+                logger.info("Responiendo a peticion de valoracion")
                 resultadoComunicacion = grafoValoraciones;
     logger.info('Respondemos a la petición de envio')
     serialize = resultadoComunicacion.serialize(format='xml')
