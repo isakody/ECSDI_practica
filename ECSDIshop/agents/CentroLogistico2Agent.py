@@ -113,54 +113,6 @@ def register_message():
     gr = registerAgent(CentroLogisticoAgent, DirectoryAgent, CentroLogisticoAgent.uri, getMessageCount())
     return gr
 
-@app.route("/comm")
-def communication():
-    """
-    Communication Entrypoint
-    """
-
-    logger.info('Peticion de envio recibida')
-    global dsGraph
-
-    message = request.args['content']
-    grafoEntrada = Graph()
-    grafoEntrada.parse(data=message)
-    res = Graph()
-
-    messageProp = get_message_properties(grafoEntrada)
-
-    if messageProp is None:
-        # Si no es, respondemos que no hemos entendido el mensaje
-        res = build_message(Graph(), ACL['not-understood'], sender=CentroLogisticoAgent.uri, msgcnt=getMessageCount())
-    else:
-        # Obtenemos la performativa
-        if messageProp['performative'] != ACL.request:
-            # Si no es un request, respondemos que no hemos entendido el mensaje
-            res = build_message(Graph(),
-                               ACL['not-understood'],
-                               sender=CentroLogisticoDirectoryAgent.uri,
-                               msgcnt=getMessageCount())
-        else:
-            content = messageProp['content']
-            # Averiguamos el tipo de la accion
-            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
-
-            if accion == ECSDI.PeticionEnvioACentroLogistico:
-
-                logger.info('Peticion Envio A Centro Logistico')
-
-                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
-                    grafoEntrada.remove((item, None, None))
-
-                faltan = responderPeticionEnvio(grafoEntrada, content)
-                res = faltan
-
-    logger.info('Respondemos a la petición de envio')
-    serialize = res.serialize(format='xml')
-    return serialize, 200
-
-
-
 def responderPeticionEnvio(grafoEntrada, content):
 
     prioritat = grafoEntrada.value(subject=content, predicate=ECSDI.Prioridad)
@@ -279,8 +231,6 @@ def responderPeticionEnvio(grafoEntrada, content):
 
     return grafoFaltan
 
-
-# Aixo servira per agafar els productes pendents i ordenar-los en lots
 def crearLotes():
     graph = Graph()
 
@@ -414,6 +364,51 @@ def crearLotesThread():
 
     crearLotesThread()
 
+@app.route("/comm")
+def communication():
+    """
+    Communication Entrypoint
+    """
+
+    logger.info('Peticion de envio recibida')
+    global dsGraph
+
+    message = request.args['content']
+    grafoEntrada = Graph()
+    grafoEntrada.parse(data=message)
+    res = Graph()
+
+    messageProp = get_message_properties(grafoEntrada)
+
+    if messageProp is None:
+        # Si no es, respondemos que no hemos entendido el mensaje
+        res = build_message(Graph(), ACL['not-understood'], sender=CentroLogisticoAgent.uri, msgcnt=getMessageCount())
+    else:
+        # Obtenemos la performativa
+        if messageProp['performative'] != ACL.request:
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            res = build_message(Graph(),
+                               ACL['not-understood'],
+                               sender=CentroLogisticoDirectoryAgent.uri,
+                               msgcnt=getMessageCount())
+        else:
+            content = messageProp['content']
+            # Averiguamos el tipo de la accion
+            accion = grafoEntrada.value(subject=content, predicate=RDF.type)
+
+            if accion == ECSDI.PeticionEnvioACentroLogistico:
+
+                logger.info('Peticion Envio A Centro Logistico')
+
+                for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
+                    grafoEntrada.remove((item, None, None))
+
+                faltan = responderPeticionEnvio(grafoEntrada, content)
+                res = faltan
+
+    logger.info('Respondemos a la petición de envio')
+    serialize = res.serialize(format='xml')
+    return serialize, 200
 
 @app.route("/Stop")
 def stop():
@@ -425,7 +420,6 @@ def stop():
     tidyUp()
     shutdown_server()
     return "Stopping server"
-
 
 def tidyUp():
     """
@@ -445,7 +439,6 @@ def centroLogistico1Behaviour(queue):
     :return: something
     """
     gr = register_message()
-
 
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
