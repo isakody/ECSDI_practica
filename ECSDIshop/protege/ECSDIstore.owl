@@ -1,20 +1,10 @@
 <?xml version="1.0"?>
-
-
-<!DOCTYPE Ontology [
-    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
-    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-]>
-
-
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
      xml:base="http://www.owl-ontologies.com/ECSDIstore"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="http://www.owl-ontologies.com/ECSDIstore">
     <Prefix name="" IRI="http://www.owl-ontologies.com/ECSDIstore#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
@@ -23,223 +13,82 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
-        <Class IRI="#Accion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#BuscarProducto"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Compra"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Direccion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Envio"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Factura"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#LoteProductos"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionAgregarProducto"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionAgregarStock"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionCompra"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionEnvio"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionEnvioACentroLogístico"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionEnvioLote"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionOfertaTransporte"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionProductosComprados"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionProductosEnviados"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionRecogerDevolucion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionRecomendacion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionRegistroProductos"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionRetorno"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionTransferencia"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PeticionValoracion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Producto"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ProductoEnviado"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ProductoExterno"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ProductoPendiente"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Respuesta"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaDeBusqueda"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaEnvioDesdeCentroLogistico"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaOfertaTransporte"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaProductosEnviados"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaRecomendacion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RespuestaValoracion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RestriccionDeNombre"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RestriccionDePrecio"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#RestriccionDeValoracion"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Restricciones"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Stock"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Auna"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#CompuestoPor"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Contiene"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#De"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Desde"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#DestinadaA"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Destino"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#DireccionadoA"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#EnviarA"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#EnvioDe"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#EsDe"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Faltan"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#FormadaPor"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Incorpora"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Muestra"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Para"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#PendienteDeSerEnviado"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#PerteneceA"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#ProductoADevolver"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#ProductoEnviado"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Productos"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#Recomienda"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#RespuestaEnvioDesdeCentroLogistico"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Producto"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Puntuacion"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Producto3"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Compra"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Auna"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionAgregarProducto"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionRecomendacion"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Valoracion"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Destino"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Envio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionAgregarStock"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Direccion"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#RestringidaPor"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ProductoExterno1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Factura"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaValoracion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProductoExterno"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#RetornaUn"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#Tiene"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#TieneUn"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#Valora"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#VendidoPor"/>
+        <ObjectProperty IRI="#Contiene"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#CodigoPostal"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#Descripcion"/>
+        <ObjectProperty IRI="#DireccionadoA"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#DiferenciaCodigoPostal"/>
+        <DataProperty IRI="#Prioridad"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#Direccion"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#EnviadoPorTienda"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#FechaEntrega"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Id"/>
+        <NamedIndividual IRI="#Vendedor1"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#Nombre"/>
@@ -248,55 +97,184 @@
         <DataProperty IRI="#Pagado"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#RestriccionDePrecio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Stock"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaOfertaTransporte"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#TieneUn"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Restricciones"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Desde"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Productos"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaRecomendacion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaDeBusqueda"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#Peso"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#Precio"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PrecioMaximo"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PrecioMinimo"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PrecioTotal"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Prioridad"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Puntuacion"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PuntuacionMaxima"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#PuntuacionMinima"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#Tarjeta"/>
+        <Class IRI="#PeticionEnvioACentroLogístico"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#UnidadesEnStock"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#Valoracion"/>
+        <ObjectProperty IRI="#ProductoEnviado"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#FechaEntrega"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Precio"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PuntuacionMaxima"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Faltan"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#Producto1"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#FormadaPor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BuscarProducto"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionRegistroProductos"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Muestra"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RestriccionDeNombre"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionTransferencia"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionRetorno"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Valora"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Respuesta"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionProductosComprados"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Direccion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RespuestaProductosEnviados"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PrecioMinimo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Para"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LoteProductos"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionValoracion"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#PendienteDeSerEnviado"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Descripcion"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#EnviadoPorTienda"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProductoEnviado"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PrecioTotal"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PrecioMaximo"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionProductosEnviados"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#EsDe"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#EnvioDe"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#Tarjeta"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#CompuestoPor"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#Producto2"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Producto3"/>
+        <DataProperty IRI="#PuntuacionMinima"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#ProductoExterno1"/>
+        <Class IRI="#Accion"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Vendedor1"/>
+        <ObjectProperty IRI="#Tiene"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionOfertaTransporte"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#DiferenciaCodigoPostal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionEnvioLote"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#De"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionCompra"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Incorpora"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionEnvio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProductoPendiente"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#EnviarA"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PeticionRecogerDevolucion"/>
     </Declaration>
     <SubClassOf>
         <Class IRI="#BuscarProducto"/>
@@ -426,115 +404,110 @@
         <Class IRI="#ProductoExterno"/>
         <NamedIndividual IRI="#ProductoExterno1"/>
     </ClassAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#VendidoPor"/>
-        <NamedIndividual IRI="#ProductoExterno1"/>
-        <NamedIndividual IRI="#Vendedor1"/>
-    </ObjectPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Descripcion"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;string">Esto son Patatas</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Esto son Patatas</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Id"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;int">1</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">1</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Nombre"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;string">Patatas</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Patatas</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Peso"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;float">23.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">23.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Precio"/>
         <NamedIndividual IRI="#Producto1"/>
-        <Literal datatypeIRI="&xsd;float">308.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">308.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Descripcion"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;string">Esto es un Mouse</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Esto es un Mouse</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Id"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;int">2</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">2</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Nombre"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;string">Mouse</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Mouse</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Peso"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;float">1.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">1.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Precio"/>
         <NamedIndividual IRI="#Producto2"/>
-        <Literal datatypeIRI="&xsd;float">32.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">32.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Descripcion"/>
         <NamedIndividual IRI="#Producto3"/>
-        <Literal datatypeIRI="&xsd;string">Esto es un Teclado</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Esto es un Teclado</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Id"/>
         <NamedIndividual IRI="#Producto3"/>
-        <Literal datatypeIRI="&xsd;int">3</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">3</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Nombre"/>
         <NamedIndividual IRI="#Producto3"/>
-        <Literal datatypeIRI="&xsd;string">Teclado</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Teclado</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Peso"/>
         <NamedIndividual IRI="#Producto3"/>
-        <Literal datatypeIRI="&xsd;float">2.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">2.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Precio"/>
         <NamedIndividual IRI="#Producto3"/>
-        <Literal datatypeIRI="&xsd;float">55.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">55.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Id"/>
         <NamedIndividual IRI="#ProductoExterno1"/>
-        <Literal datatypeIRI="&xsd;int">6</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">6</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Nombre"/>
         <NamedIndividual IRI="#ProductoExterno1"/>
-        <Literal datatypeIRI="&xsd;string">Boli</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Boli</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Peso"/>
         <NamedIndividual IRI="#ProductoExterno1"/>
-        <Literal datatypeIRI="&xsd;float">2.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">2.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Precio"/>
         <NamedIndividual IRI="#ProductoExterno1"/>
-        <Literal datatypeIRI="&xsd;float">100.0</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">100.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Id"/>
         <NamedIndividual IRI="#Vendedor1"/>
-        <Literal datatypeIRI="&xsd;int">74</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">74</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#Tarjeta"/>
         <NamedIndividual IRI="#Vendedor1"/>
-        <Literal datatypeIRI="&xsd;int">12345</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">12345</Literal>
     </DataPropertyAssertion>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Auna"/>
@@ -682,7 +655,7 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#Faltan"/>
-        <Class IRI="#Producto"/>
+        <Class IRI="#Compra"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#FormadaPor"/>
@@ -991,56 +964,56 @@
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#BuscarProducto</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Petición de búsqueda de productos.</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Petición de búsqueda de productos.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionAgregarProducto</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Petición agregar un producto externo</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Petición agregar un producto externo</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionCompra</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Peticion Compra de unos Productos</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Peticion Compra de unos Productos</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionEnvio</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Peticion Envio de una Compra de Productos</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Peticion Envio de una Compra de Productos</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionEnvioACentroLogístico</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Peticion Envio de una Compra</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Peticion Envio de una Compra</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionEnvioLote</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Peticion Envio Lote</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Peticion Envio Lote</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionOfertaTransporte</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Peticion de Oferta de un Lote</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Peticion de Oferta de un Lote</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionRegistroProductos</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Petición de registro de producto externo desde Empresa Externa a Gestor Externo.</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Petición de registro de producto externo desde Empresa Externa a Gestor Externo.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionRetorno</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Petición de devolución de producto desde Usuario a Gestor Devoluciones.</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Petición de devolución de producto desde Usuario a Gestor Devoluciones.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#PeticionTransferencia</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Petición de cobro desde Enviador a Tesorero.</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Petición de cobro desde Enviador a Tesorero.</Literal>
     </AnnotationAssertion>
 </Ontology>
 
 
 
-<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
 
