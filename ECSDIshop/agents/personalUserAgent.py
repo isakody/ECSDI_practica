@@ -94,104 +94,95 @@ def getMessageCount():
     mss_cnt += 1
     return mss_cnt
 
-# Función que devuelve la página principal de ECSDIstore
-@app.route("/")
-def index():
-
-    return render_template('indexAgentePersonal.html',products=pedirRecomendacion())
-
-# Función que atiende a peticiones GET Y POST de busqueda, GET para coger la página que nos permite ver el filtro
-# y post para procesar las peticiones de filtrado
-@app.route("/search", methods=['GET', 'POST'])
-def search():
+# Función que solicita una petición de busqueda al agente correspondiente
+def enviarPeticionBusqueda(request):
     global listaDeProductos
-    if request.method == 'GET':
-        return render_template('search.html', products = None)
-    elif request.method == 'POST':
-        if request.form['submit'] == 'Search':
-            logger.info("Enviando petición de busqueda")
-            contenido = ECSDI['BuscarProducto'+ str(getMessageCount())]
-            grafoDeContenido = Graph()
-            grafoDeContenido.add((contenido,RDF.type,ECSDI.BuscarProducto))
-            nombreProducto = request.form['nombre']
+    logger.info("Enviando petición de busqueda")
+    contenido = ECSDI['BuscarProducto' + str(getMessageCount())]
+    grafoDeContenido = Graph()
+    grafoDeContenido.add((contenido, RDF.type, ECSDI.BuscarProducto))
+    nombreProducto = request.form['nombre']
 
-            # Añadimos el nombre del producto por el que filtraremos
-            if nombreProducto :
-                print(nombreProducto)
-                nombreSujeto = ECSDI['RestriccionDeNombre' + str(getMessageCount())]
-                grafoDeContenido.add((nombreSujeto, RDF.type, ECSDI.RestriccionDeNombre))
-                grafoDeContenido.add((nombreSujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
-                grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(nombreSujeto)))
+    # Añadimos el nombre del producto por el que filtraremos
+    if nombreProducto:
+        print(nombreProducto)
+        nombreSujeto = ECSDI['RestriccionDeNombre' + str(getMessageCount())]
+        grafoDeContenido.add((nombreSujeto, RDF.type, ECSDI.RestriccionDeNombre))
+        grafoDeContenido.add((nombreSujeto, ECSDI.Nombre, Literal(nombreProducto, datatype=XSD.string)))
+        grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(nombreSujeto)))
 
-            precioMin = request.form['minPrecio']
-            precioMax = request.form['maxPrecio']
-            # Añadimos el rango de precios por el que buscaremos
-            if precioMax or precioMin:
-                print(precioMax)
-                print(precioMin)
-                precioSujeto = ECSDI['RestriccionDePrecio' + str(getMessageCount())]
-                grafoDeContenido.add((precioSujeto, RDF.type, ECSDI.RestriccionDePrecio))
-                if precioMin:
-                    grafoDeContenido.add((precioSujeto, ECSDI.PrecioMinimo, Literal(precioMin)))
-                if precioMax:
-                    grafoDeContenido.add((precioSujeto, ECSDI.PrecioMaximo, Literal(precioMax)))
-                grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
+    precioMin = request.form['minPrecio']
+    precioMax = request.form['maxPrecio']
+    # Añadimos el rango de precios por el que buscaremos
+    if precioMax or precioMin:
+        print(precioMax)
+        print(precioMin)
+        precioSujeto = ECSDI['RestriccionDePrecio' + str(getMessageCount())]
+        grafoDeContenido.add((precioSujeto, RDF.type, ECSDI.RestriccionDePrecio))
+        if precioMin:
+            grafoDeContenido.add((precioSujeto, ECSDI.PrecioMinimo, Literal(precioMin)))
+        if precioMax:
+            grafoDeContenido.add((precioSujeto, ECSDI.PrecioMaximo, Literal(precioMax)))
+        grafoDeContenido.add((contenido, ECSDI.RestringidaPor, URIRef(precioSujeto)))
 
-            # Pedimos que nos se nos busque la información del agente filtrador
-            agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, UserPersonalAgent, getMessageCount())
-            # Enviamos petición de filtrado al agente filtrador
-            grafoBusqueda = send_message(
-                build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
-                              msgcnt=getMessageCount(),
-                              content=contenido), agente.address)
-            # Falta mostrar el restultado de busqueda en el html
-            listaDeProductos = []
-            posicionDeSujetos = {}
-            indice = 0
-            for s, p, o in grafoBusqueda:
-                if s not in posicionDeSujetos:
-                    posicionDeSujetos[s] = indice
-                    indice += 1
-                    listaDeProductos.append({})
-                if s in posicionDeSujetos :
-                    producto = listaDeProductos[posicionDeSujetos[s]]
-                    if p == ECSDI.Nombre:
-                        producto["Nombre"] = o
-                    elif p == ECSDI.Precio:
-                        producto["Precio"] = o
-                    elif p == ECSDI.Descripcion:
-                        producto["Descripcion"] = o
-                    elif p == ECSDI.Id:
-                        producto["Id"] = o
-                    elif p == ECSDI.Peso:
-                        producto["Peso"] = o
-                    elif p == RDF.type:
-                        producto["Sujeto"] = s
-                    listaDeProductos[posicionDeSujetos[s]] = producto
-            return render_template('search.html', products = listaDeProductos)
+    # Pedimos que nos se nos busque la información del agente filtrador
+    agente = getAgentInfo(agn.FilterAgent, DirectoryAgent, UserPersonalAgent, getMessageCount())
+    # Enviamos petición de filtrado al agente filtrador
+    grafoBusqueda = send_message(
+        build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                      msgcnt=getMessageCount(),
+                      content=contenido), agente.address)
+    # Falta mostrar el restultado de busqueda en el html
+    listaDeProductos = []
+    posicionDeSujetos = {}
+    indice = 0
+    for s, p, o in grafoBusqueda:
+        if s not in posicionDeSujetos:
+            posicionDeSujetos[s] = indice
+            indice += 1
+            listaDeProductos.append({})
+        if s in posicionDeSujetos:
+            producto = listaDeProductos[posicionDeSujetos[s]]
+            if p == ECSDI.Nombre:
+                producto["Nombre"] = o
+            elif p == ECSDI.Precio:
+                producto["Precio"] = o
+            elif p == ECSDI.Descripcion:
+                producto["Descripcion"] = o
+            elif p == ECSDI.Id:
+                producto["Id"] = o
+            elif p == ECSDI.Peso:
+                producto["Peso"] = o
+            elif p == RDF.type:
+                producto["Sujeto"] = s
+            listaDeProductos[posicionDeSujetos[s]] = producto
+    return render_template('search.html', products=listaDeProductos)
 
-        elif request.form['submit'] == 'Buy':
-            listaDeCompra = []
-            for producto in request.form.getlist("checkbox"):
-                listaDeCompra.append(listaDeProductos[int(producto)])
+# Función que renderiza los productos comprados
+def buy(request):
+    global listaDeProductos
+    listaDeCompra = []
+    for producto in request.form.getlist("checkbox"):
+        listaDeCompra.append(listaDeProductos[int(producto)])
 
-            numTarjeta = int(request.form['numeroTarjeta'])
-            prioridad = int(request.form['prioridad'])
-            direccion = request.form['direccion']
-            codigoPostal = int(request.form['codigoPostal'])
-            respuestaVenta = procesarVenta(listaDeCompra,prioridad,numTarjeta,direccion,codigoPostal)
-            factura = respuestaVenta.value(predicate=RDF.type,object=ECSDI.Factura)
-            tarjeta = respuestaVenta.value(subject=factura,predicate=ECSDI.Tarjeta)
-            total = respuestaVenta.value(subject=factura,predicate=ECSDI.PrecioTotal)
-            productos = respuestaVenta.subjects(object=ECSDI.Producto)
-            productosEnFactura = []
-            for producto in productos:
-                product = [respuestaVenta.value(subject=producto, predicate=ECSDI.Nombre),
-                           respuestaVenta.value(subject=producto, predicate=ECSDI.Precio)]
-                productosEnFactura.append(product)
+    numTarjeta = int(request.form['numeroTarjeta'])
+    prioridad = int(request.form['prioridad'])
+    direccion = request.form['direccion']
+    codigoPostal = int(request.form['codigoPostal'])
+    respuestaVenta = procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
+    factura = respuestaVenta.value(predicate=RDF.type, object=ECSDI.Factura)
+    tarjeta = respuestaVenta.value(subject=factura, predicate=ECSDI.Tarjeta)
+    total = respuestaVenta.value(subject=factura, predicate=ECSDI.PrecioTotal)
+    productos = respuestaVenta.subjects(object=ECSDI.Producto)
+    productosEnFactura = []
+    for producto in productos:
+        product = [respuestaVenta.value(subject=producto, predicate=ECSDI.Nombre),
+                   respuestaVenta.value(subject=producto, predicate=ECSDI.Precio)]
+        productosEnFactura.append(product)
 
-            return render_template('ventaRealizada.html',products=productosEnFactura,tarjeta=tarjeta,total=total)
+    return render_template('ventaRealizada.html', products=productosEnFactura, tarjeta=tarjeta, total=total)
 
+# Función que procesa una venta y la envía el grafo resultado de haber hablado con el agente correspondiente
 def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal):
     logger.info("Procesando compra")
     grafoCompra = Graph()
@@ -232,90 +223,85 @@ def procesarVenta(listaDeCompra, prioridad, numTarjeta, direccion, codigoPostal)
 
     return respuestaVenta
 
-@app.route("/recommend")
-def recommend():
-
-    return render_template('showRecommendations.html', products=pedirRecomendacion())
-
-@app.route("/purchased",methods=['GET', 'POST'])
-def getProductsToReturn():
+# Función que solizita los productos que un usuario con una tarjeta ha comprado y están disponibles para su devolución
+def procesarRetorno(request):
     global listaDeProductos
-    if request.method == 'POST':
-        if request.form['return'] == 'submit':
-            grafoDeContenido = Graph()
-            accion = ECSDI["PeticionProductosEnviados"+str(getMessageCount())]
-            grafoDeContenido.add((accion,RDF.type,ECSDI.PeticionProductosEnviados))
-            tarjeta = request.form['tarjeta']
-            grafoDeContenido.add((accion, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.int)))
-            agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
-            # Enviamos petición de filtrado al agente filtrador
-            grafoBusqueda = send_message(
-                build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
-                              msgcnt=getMessageCount(),
-                              content=accion), agente.address)
+    grafoDeContenido = Graph()
+    accion = ECSDI["PeticionProductosEnviados" + str(getMessageCount())]
+    grafoDeContenido.add((accion, RDF.type, ECSDI.PeticionProductosEnviados))
+    tarjeta = request.form['tarjeta']
+    grafoDeContenido.add((accion, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.int)))
+    agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
+    # Enviamos petición de filtrado al agente filtrador
+    grafoBusqueda = send_message(
+        build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                      msgcnt=getMessageCount(),
+                      content=accion), agente.address)
 
-            listaDeProductos = []
-            posicionDeSujetos = {}
-            indice = 0
-            for s, p, o in grafoBusqueda:
-                if s not in posicionDeSujetos:
-                    posicionDeSujetos[s] = indice
-                    indice += 1
-                    listaDeProductos.append({})
-                if s in posicionDeSujetos:
-                    producto = listaDeProductos[posicionDeSujetos[s]]
-                    if p == ECSDI.Nombre:
-                        producto["Nombre"] = o
-                    elif p == ECSDI.Precio:
-                        producto["Precio"] = o
-                    elif p == ECSDI.Descripcion:
-                        producto["Descripcion"] = o
-                    elif p == ECSDI.Id:
-                        producto["Id"] = o
-                    elif p == ECSDI.Peso:
-                        producto["Peso"] = o
-                    elif p == RDF.type:
-                        producto["Sujeto"] = s
-                    elif p == ECSDI.EsDe:
-                        producto["Compra"] = o
-                    listaDeProductos[posicionDeSujetos[s]] = producto
-            return render_template('return.html', products=listaDeProductos)
-        elif request.form['return'] == 'Submit':
-            listaDeDevoluciones = []
-            for producto in request.form.getlist("checkbox"):
-                listaDeDevoluciones.append(listaDeProductos[int(producto)])
-            accion = ECSDI["RetornarProductos"+str(getMessageCount())]
-            grafoDeContenido = Graph()
-            grafoDeContenido.add((accion,RDF.type,ECSDI.RetornarProductos))
-            direccion = request.form['direccion']
-            codigoPostal = int(request.form['codigoPostal'])
+    listaDeProductos = []
+    posicionDeSujetos = {}
+    indice = 0
+    for s, p, o in grafoBusqueda:
+        if s not in posicionDeSujetos:
+            posicionDeSujetos[s] = indice
+            indice += 1
+            listaDeProductos.append({})
+        if s in posicionDeSujetos:
+            producto = listaDeProductos[posicionDeSujetos[s]]
+            if p == ECSDI.Nombre:
+                producto["Nombre"] = o
+            elif p == ECSDI.Precio:
+                producto["Precio"] = o
+            elif p == ECSDI.Descripcion:
+                producto["Descripcion"] = o
+            elif p == ECSDI.Id:
+                producto["Id"] = o
+            elif p == ECSDI.Peso:
+                producto["Peso"] = o
+            elif p == RDF.type:
+                producto["Sujeto"] = s
+            elif p == ECSDI.EsDe:
+                producto["Compra"] = o
+            listaDeProductos[posicionDeSujetos[s]] = producto
+    return render_template('return.html', products=listaDeProductos)
 
-            for producto in listaDeDevoluciones :
-                sujetoProducto = producto['Sujeto']
-                grafoDeContenido.add((sujetoProducto, RDF.type, ECSDI.ProductoEnviado))
-                grafoDeContenido.add((sujetoProducto, ECSDI.Descripcion, producto['Descripcion']))
-                grafoDeContenido.add((sujetoProducto, ECSDI.Nombre, producto['Nombre']))
-                grafoDeContenido.add((sujetoProducto, ECSDI.Precio, producto['Precio']))
-                grafoDeContenido.add((sujetoProducto, ECSDI.Peso, producto['Peso']))
-                grafoDeContenido.add((sujetoProducto, ECSDI.EsDe, producto['Compra']))
-                grafoDeContenido.add((accion, ECSDI.Auna, URIRef(sujetoProducto)))
+# Función que procesa el retorno de los productos que el usuario ha solicitado para retornar contactando con el agente pertinente
+def submitReturn(request):
+    global listaDeProductos
+    listaDeDevoluciones = []
+    for producto in request.form.getlist("checkbox"):
+        listaDeDevoluciones.append(listaDeProductos[int(producto)])
+    accion = ECSDI["RetornarProductos" + str(getMessageCount())]
+    grafoDeContenido = Graph()
+    grafoDeContenido.add((accion, RDF.type, ECSDI.RetornarProductos))
+    direccion = request.form['direccion']
+    codigoPostal = int(request.form['codigoPostal'])
 
+    for producto in listaDeDevoluciones:
+        sujetoProducto = producto['Sujeto']
+        grafoDeContenido.add((sujetoProducto, RDF.type, ECSDI.ProductoEnviado))
+        grafoDeContenido.add((sujetoProducto, ECSDI.Descripcion, producto['Descripcion']))
+        grafoDeContenido.add((sujetoProducto, ECSDI.Nombre, producto['Nombre']))
+        grafoDeContenido.add((sujetoProducto, ECSDI.Precio, producto['Precio']))
+        grafoDeContenido.add((sujetoProducto, ECSDI.Peso, producto['Peso']))
+        grafoDeContenido.add((sujetoProducto, ECSDI.EsDe, producto['Compra']))
+        grafoDeContenido.add((accion, ECSDI.Auna, URIRef(sujetoProducto)))
 
-            sujetoDireccion = ECSDI['Direccion' + str(getMessageCount())]
-            grafoDeContenido.add((sujetoDireccion, RDF.type, ECSDI.Direccion))
-            grafoDeContenido.add((sujetoDireccion, ECSDI.Direccion, Literal(direccion, datatype=XSD.string)))
-            grafoDeContenido.add((sujetoDireccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
-            grafoDeContenido.add((accion,ECSDI.DireccionadoA,URIRef(sujetoDireccion)))
-            agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
+    sujetoDireccion = ECSDI['Direccion' + str(getMessageCount())]
+    grafoDeContenido.add((sujetoDireccion, RDF.type, ECSDI.Direccion))
+    grafoDeContenido.add((sujetoDireccion, ECSDI.Direccion, Literal(direccion, datatype=XSD.string)))
+    grafoDeContenido.add((sujetoDireccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
+    grafoDeContenido.add((accion, ECSDI.DireccionadoA, URIRef(sujetoDireccion)))
+    agente = getAgentInfo(agn.GestorDeDevoluciones, DirectoryAgent, UserPersonalAgent, getMessageCount())
 
-            grafoBusqueda = send_message(
-                build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
-                              msgcnt=getMessageCount(),
-                              content=accion), agente.address)
+    grafoBusqueda = send_message(
+        build_message(grafoDeContenido, perf=ACL.request, sender=UserPersonalAgent.uri, receiver=agente.uri,
+                      msgcnt=getMessageCount(),
+                      content=accion), agente.address)
 
-            return render_template('procesandoRetorno.html')
+    return render_template('procesandoRetorno.html')
 
-
+#Función que solicita el conjunto de productos recomendables para el usuario al agente pertinente
 def pedirRecomendacion():
     sujetoRecomendacion = ECSDI["PeticionRecomendacion" + str(getMessageCount())]
     grafo = Graph();
@@ -351,6 +337,42 @@ def pedirRecomendacion():
                 producto["Sujeto"] = s
             listaDeProductos[posicionDeSujetos[s]] = producto
     return listaDeProductos
+
+# Función que devuelve la página principal de ECSDIstore
+@app.route("/")
+def index():
+
+    return render_template('indexAgentePersonal.html',products=pedirRecomendacion())
+
+# Función que atiende a peticiones GET Y POST de busqueda, GET para coger la página que nos permite ver el filtro
+# y post para procesar las peticiones de filtrado
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    global listaDeProductos
+    if request.method == 'GET':
+        return render_template('search.html', products = None)
+    elif request.method == 'POST':
+        if request.form['submit'] == 'Search':
+            return enviarPeticionBusqueda(request)
+        elif request.form['submit'] == 'Buy':
+            return buy(request)
+
+# Función que atiende a las peticiones de recomendación
+@app.route("/recommend")
+def recommend():
+
+    return render_template('showRecommendations.html', products=pedirRecomendacion())
+
+@app.route("/purchased",methods=['GET', 'POST'])
+def getProductsToReturn():
+    global listaDeProductos
+    if request.method == 'POST':
+        if request.form['return'] == 'submit':
+            return procesarRetorno(request)
+
+        elif request.form['return'] == 'Submit':
+            return submitReturn(request)
+
 # Función de parado del agente
 @app.route("/Stop")
 def stop():
@@ -433,6 +455,7 @@ def agentbehavior1():
     :return:
     """
     gr = register_message()
+
 def register_message():
     """
     Envia un mensaje de registro al servicio de registro
