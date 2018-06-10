@@ -39,7 +39,7 @@ args = parser.parse_args()
 
 # Configuration stuff
 if args.port is None:
-    port = 9011
+    port = 9012
 else:
     port = args.port
 
@@ -68,8 +68,8 @@ mss_cnt = 0
 
 # Data Agent
 # Datos del Agente
-CentroLogisticoAgent = Agent('CentroLogistico1Agent',
-                    agn.CentroLogistico1Agent,
+CentroLogisticoAgent = Agent('CentroLogistico2Agent',
+                    agn.CentroLogistico2Agent,
                     'http://%s:%d/comm' % (hostname, port),
                     'http://%s:%d/Stop' % (hostname, port))
 
@@ -109,7 +109,7 @@ def register_message():
     """
 
     logger.info('Nos registramos')
-    gr = registerCentroLogistico(CentroLogisticoAgent, CentroLogisticoDirectoryAgent, CentroLogisticoAgent.uri, getMessageCount(),8028)
+    gr = registerCentroLogistico(CentroLogisticoAgent, CentroLogisticoDirectoryAgent, CentroLogisticoAgent.uri, getMessageCount(),1234)
     gr = registerAgent(CentroLogisticoAgent, DirectoryAgent, CentroLogisticoAgent.uri, getMessageCount())
     return gr
 
@@ -177,10 +177,10 @@ def responderPeticionEnvio(grafoEntrada, content):
     grafoFaltan.add((contentR, ECSDI.Prioridad, Literal(prioritat, datatype=XSD.int)))
 
     graph = Graph()
-    ontologyFile = open('../data/Stock1DB')
+    ontologyFile = open('../data/Stock2DB')
     graph.parse(ontologyFile, format='turtle')
 
-    ontologyFile = open("../data/ProductosPendientes1DB")
+    ontologyFile = open("../data/ProductosPendientes2DB")
     grafoPendientes = Graph()
     grafoPendientes.parse(ontologyFile, format='turtle')
 
@@ -262,8 +262,8 @@ def responderPeticionEnvio(grafoEntrada, content):
             grafoFaltan.add((contentR, ECSDI.Faltan, URIRef(producto)))
 
     grafoPendientes += grafoEnviar
-    grafoPendientes.serialize(destination="../data/ProductosPendientes1DB", format='turtle')
-    graph.serialize(destination="../data/Stock1DB", format='turtle')
+    grafoPendientes.serialize(destination="../data/ProductosPendientes2DB", format='turtle')
+    graph.serialize(destination="../data/Stock2DB", format='turtle')
 
     return grafoFaltan
 
@@ -272,7 +272,7 @@ def responderPeticionEnvio(grafoEntrada, content):
 def crearLotes():
     graph = Graph()
 
-    ontologyFile = open("../data/ProductosPendientes1DB")
+    ontologyFile = open("../data/ProductosPendientes2DB")
     graph.parse(ontologyFile, format='turtle')
 
     graph_query = []
@@ -326,7 +326,7 @@ def crearLotes():
         thread = threading.Thread(target=enviarLote, args=(nouLote,contentLote,))
         thread.start()
 
-    graph.serialize(destination="../data/ProductosPendientes1DB", format='turtle')
+    graph.serialize(destination="../data/ProductosPendientes2DB", format='turtle')
 
     return
 
