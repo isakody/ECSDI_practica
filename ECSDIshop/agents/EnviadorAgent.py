@@ -92,13 +92,14 @@ queue = Queue()
 # Flask app
 app = Flask(__name__)
 
-#función inclremental de numero de mensajes
+#función incremental de numero de mensajes
 def getMessageCount():
     global mss_cnt
     mss_cnt += 1
     return mss_cnt
 
 def procesarEnvio(grafo, contenido):
+    logger.info("Recibida peticion de envio")
     thread1 = threading.Thread(target=registrarEnvio,args=(grafo,contenido))
     thread1.start()
     thread2 = threading.Thread(target=solicitarEnvio,args=(grafo,contenido))
@@ -106,18 +107,18 @@ def procesarEnvio(grafo, contenido):
 
 def solicitarEnvio(grafo,contenido):
     grafoCopia = grafo
-    grafoCopia.bind('default', ECSDI);
+    grafoCopia.bind('default', ECSDI)
     direccion = grafo.subjects(object=ECSDI.Direccion)
     codigoPostal = None
+    logger.info("Haciendo peticion envio a Centro Logistico")
     for d in direccion:
         codigoPostal = grafo.value(subject=d,predicate=ECSDI.CodigoPostal)
     centroLogisticoAgente = getAgentInfo(agn.CentroLogisticoDirectoryAgent, DirectoryAgent, EnviadorAgent, getMessageCount())
     prioridad = grafo.value(subject=contenido,predicate=ECSDI.Prioridad)
+    # solicitamos centros logisticos dependiendo del codigo postal
     if codigoPostal is not None:
         agentes = getCentroLogisticoPorProximidad(agn.CentroLogisticoAgent, centroLogisticoAgente, EnviadorAgent, getMessageCount(), int(codigoPostal))
 
-        for a in agentes:
-            print(a)
 
         grafoCopia.remove((contenido,ECSDI.Tarjeta,None))
         grafoCopia.remove((contenido,RDF.type,ECSDI.PeticionEnvio))
@@ -125,7 +126,6 @@ def solicitarEnvio(grafo,contenido):
         grafoCopia.add((sujeto, RDF.type, ECSDI.PeticionEnvioACentroLogistico))
 
         for a, b, c in grafoCopia:
-            print a, b, c
             if a == contenido:
                 if b == ECSDI.De: #Compra
                     grafoCopia.remove((a, b, c))
@@ -135,16 +135,14 @@ def solicitarEnvio(grafo,contenido):
                     grafoCopia.add((sujeto,b,c))
 
         for ag in agentes:
-            print("holi agente")
-            logger.info("Solicitando peticion de envio a centro logistico")
+            logger.info("Enviando peticion envio a Centro Logistico")
             respuesta = send_message(
                 build_message(grafoCopia, perf=ACL.request, sender=EnviadorAgent.uri, receiver=ag.uri,
                               msgcnt=getMessageCount(),
                               content=sujeto), ag.address)
-
+            logger.info("Recibida respuesta de envio a Centro Logistico")
             accion = respuesta.subjects(predicate=RDF.type, object=ECSDI.RespuestaEnvioDesdeCentroLogistico)
             contenido = None
-
             for a in accion:
                 contenido = a
 
@@ -167,12 +165,35 @@ def solicitarEnvio(grafo,contenido):
                     else:
                         grafoCopia.remove((a, b, c))
                         grafoCopia.add((sujeto, b, c))
-                print a, b, c
 
             if not contiene:
                 break
+            else:
+                logger.info("Faltan productos por enviar. Probamos con otro centro logístico")
+    logger.info("Enviada peticion envio a Centro Logistico")
 
-def comprobarYCobrar():
+
+def registrarEnvio(grafo, contenido):
+
+    envio = grafo.value(predicate=RDF.type,object=ECSDI.PeticionEnvio)
+    grafo.add((envio,ECSDI.Pagado,Literal(False,datatype=XSD.boolean)))
+    prioridad = grafo.value(subject=contenido, predicate=ECSDI.Prioridad)
+    fecha = datetime.now() + timedelta(days=int(prioridad))
+    grafo.add((envio,ECSDI.FechaEntrega,Literal(fecha, datatype=XSD.date)))
+    logger.info("Registrando el envio")
+    ontologyFile = open('../data/EnviosDB')
+
+    grafoEnvios = Graph()
+    grafoEnvios.bind('default', ECSDI)
+    grafoEnvios.parse(ontologyFile, format='turtle')
+    grafoEnvios += grafo
+
+    # Guardem el graf
+    grafoEnvios.serialize(destination='../data/EnviosDB', format='turtle')
+    logger.info("Registro de envio finalizado")
+
+# Funciones eliminadas al no implementar el tesorero
+"""def comprobarYCobrar():
     logger.info("Realizando cobros rutinarios")
     ontologyFile = open('../data/ComprasDB')
 
@@ -211,24 +232,9 @@ def cobrar():
     thread.join()
     sleep(10)
 
-    cobrar()
+    cobrar()"""
 
-def registrarEnvio(grafo, contenido):
-    envio = grafo.value(predicate=RDF.type,object=ECSDI.PeticionEnvio)
-    grafo.add((envio,ECSDI.Pagado,Literal(False,datatype=XSD.boolean)))
-    prioridad = grafo.value(subject=contenido, predicate=ECSDI.Prioridad)
-    fecha = datetime.now() + timedelta(days=int(prioridad))
-    grafo.add((envio,ECSDI.FechaEntrega,Literal(fecha, datatype=XSD.date)))
-    logger.info("Registrando el envio")
-    ontologyFile = open('../data/EnviosDB')
 
-    grafoEnvios = Graph()
-    grafoEnvios.bind('default', ECSDI)
-    grafoEnvios.parse(ontologyFile, format='turtle')
-    grafoEnvios += grafo
-
-    # Guardem el graf
-    grafoEnvios.serialize(destination='../data/EnviosDB', format='turtle')
 
 #funcion llamada en /comm
 @app.route("/comm")
@@ -319,8 +325,8 @@ def register_message():
 if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
-    #thread = threading.Thread(target=cobrar)
-    #thread.start()
+    """thread = threading.Thread(target=cobrar)
+    #thread.start()"""
     ab1 = Process(target=enviadorBehavior, args=(queue,))
     ab1.start()
 

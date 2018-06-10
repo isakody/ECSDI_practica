@@ -99,6 +99,7 @@ def getMessageCount():
 
 # Función encargada del retorno de productos distribuyendo el trabajo en diversos threads
 def retornarProductos(content, grafoEntrada):
+    logger.info("Recibida peticion de retorno")
     direccion = grafoEntrada.objects(predicate=ECSDI.Direccion)
     direccionRetorno = None
     for d in direccion:
@@ -112,12 +113,13 @@ def retornarProductos(content, grafoEntrada):
     thread1.start()
     thread2 = threading.Thread(target=borrarProductosRetornados, args=(grafoEntrada, content))
     thread2.start()
-    logger.info("Solicitando envio")
     resultadoComunicacion = Graph()
+    logger.info("Respondiendo peticion de retorno")
     return resultadoComunicacion
 
 # Función que atiende la petición de retorno de todos los productos enviados por un usuario con una tarjeta
 def solicitarProductosEnviados(content, grafoEntrada):
+    logger.info("Recibida peticion de productos enviados")
     graph = Graph()
     ontologyFile = open('../data/EnviosDB')
     tarjeta = None
@@ -125,6 +127,7 @@ def solicitarProductosEnviados(content, grafoEntrada):
     for t in tarjetaObjects:
         tarjeta = t
     graph.parse(ontologyFile, format='turtle')
+    logger.info("Buscamos productos comprados por " + tarjeta)
     query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
                             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -147,6 +150,7 @@ def solicitarProductosEnviados(content, grafoEntrada):
     query += """)}"""
     resultadoConsulta = graph.query(query)
     resultadoComunicacion = Graph()
+    # Añadimos los productos enviados que coincidan
     for product in resultadoConsulta:
         product_nombre = product.Nombre
         product_precio = product.Precio
@@ -159,16 +163,16 @@ def solicitarProductosEnviados(content, grafoEntrada):
         resultadoComunicacion.add((sujeto, ECSDI.Descripcion, Literal(product_descripcion, datatype=XSD.string)))
         resultadoComunicacion.add((sujeto, ECSDI.Peso, Literal(product_peso, datatype=XSD.float)))
         resultadoComunicacion.add((sujeto, ECSDI.EsDe, product.Compra))
+    logger.info("Respondiendo peticion de valoracion")
     return resultadoComunicacion
 
-# Función que elimina productos disponibles de devolución de la base de datos
+# Función que elimina productos devueltos de la base de datos
 def borrarProductosRetornados(grafo, content):
+    # Eliminamos los productos devueltos de envios
+    logger.info("Registramos la devolucion")
     ontologyFile = open('../data/EnviosDB')
 
     products = grafo.objects(subject=content, predicate= ECSDI.Auna)
-
-    for a, b, c in grafo:
-        print a, b, c
 
     grafoEnvios = Graph()
     grafoEnvios.bind('default', ECSDI)
@@ -176,9 +180,7 @@ def borrarProductosRetornados(grafo, content):
 
     for product in products:
         compra = grafo.value(subject=product, predicate=ECSDI.EsDe)
-        print(compra)
         nombre = grafo.value(subject=product, predicate=ECSDI.Nombre)
-        print(nombre)
 
         query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             PREFIX default: <http://www.owl-ontologies.com/ECSDIstore#>
@@ -198,20 +200,16 @@ def borrarProductosRetornados(grafo, content):
         producto = None
         for p in graph_query:
             producto = p.Producto
-        print(producto)
 
         grafoEnvios.remove((compra, None, producto))
 
-
-
-
     # Guardem el graf
     grafoEnvios.serialize(destination='../data/EnviosDB', format='turtle')
+    logger.info("Registro de devolucion finalizado")
 
 # Función que solicita a un Transportista prefijado la recogida de un conjunto de productos a una dirección determinada
 def solicitarRecogida(direccionRetorno,codigoPostal):
-    logger.info("need to implement ask for transport")
-
+    logger.info("Haciendo peticion de recoger devolucion")
     peticion = Graph()
     accion = ECSDI["PeticionRecogerDevolucion"+str(getMessageCount())]
     peticion.add((accion,RDF.type,ECSDI.PeticionRecogerDevolucion))
@@ -221,12 +219,17 @@ def solicitarRecogida(direccionRetorno,codigoPostal):
     peticion.add((sujetoDireccion, ECSDI.CodigoPostal, Literal(codigoPostal, datatype=XSD.int)))
     peticion.add((accion, ECSDI.Desde, URIRef(sujetoDireccion)))
 
+    # Solicitamos informacion del transportista de devoluciones
     agente = getAgentInfo(agn.TransportistaDevolucionesAgent, DirectoryAgent, GestorDeDevolucionesAgent, getMessageCount())
 
+    # Enviamos peticion de recoger devolucion al transportista
+    logger.info("Enviando peticion de recoger devolucion")
     grafoBusqueda = send_message(
         build_message(peticion, perf=ACL.request, sender=GestorDeDevolucionesAgent.uri, receiver=agente.uri,
                       msgcnt=getMessageCount(),
                       content=accion), agente.address)
+    logger.info("Enviada peticion de recoger devolucion")
+
 
 @app.route("/comm")
 def communication():

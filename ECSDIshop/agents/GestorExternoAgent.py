@@ -97,12 +97,13 @@ def getMessageCount():
 
 # Función que agrega un Producto Externo a la base de datos
 def agregarProducto(content, grafoEntrada):
-    logger.info("Peticion recibida")
+    logger.info("Recibida peticion de agregar productos")
     for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
         grafoEntrada.remove((item, None, None))
     thread = threading.Thread(target=procesarProductoExterno, args=(grafoEntrada))
     thread.start()
-    resultadoComunicacion = Graph();
+    resultadoComunicacion = Graph()
+    logger.info("Respondiendo peticion de agregar producto")
     return resultadoComunicacion
 
 # Función que procesa un producto externo
@@ -130,8 +131,8 @@ def procesarProductoExterno(graph):
         elif b == ECSDI.Tarjeta:
             tarjeta = c
 
-    print(nombre,descripcion,unidadesEnStock,peso,desdeCentros,precio,tarjeta)
-
+    logger.info("Registrando producto "+ nombre + " " + descripcion + " con " + unidadesEnStock + " que pesa " + peso + " con precio " + precio)
+    # Añadimos el producto externo a la base de datos de productos
     graph = Graph()
     ontologyFile = open('../data/ProductsDB.owl')
     graph.parse(ontologyFile, format='turtle')
@@ -147,6 +148,7 @@ def procesarProductoExterno(graph):
     graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
 
     graph.serialize(destination='../data/ProductsDB', format='turtle')
+    logger.info("Registro de nuevo producto finalizado")
 
 #funcion llamada en /comm
 @app.route("/comm")
