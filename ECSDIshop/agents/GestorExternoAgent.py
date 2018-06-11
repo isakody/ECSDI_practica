@@ -100,7 +100,7 @@ def agregarProducto(content, grafoEntrada):
     logger.info("Recibida peticion de agregar productos")
     for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
         grafoEntrada.remove((item, None, None))
-    thread = threading.Thread(target=procesarProductoExterno, args=(grafoEntrada))
+    thread = threading.Thread(target=procesarProductoExterno, args=(grafoEntrada,))
     thread.start()
     resultadoComunicacion = Graph()
     logger.info("Respondiendo peticion de agregar producto")
@@ -144,7 +144,7 @@ def procesarProductoExterno(graph):
     graph.add((sujeto, ECSDI.Descripcion, Literal(descripcion, datatype=XSD.string)))
     graph.add((sujeto, ECSDI.Tarjeta, Literal(tarjeta, datatype=XSD.string)))
     graph.add((sujeto, ECSDI.DesdeCentros, Literal(desdeCentros, datatype=XSD.boolean)))
-    graph.add((sujeto, ECSDI.UnidadesEnStrock, Literal(unidadesEnStock, datatype=XSD.int)))
+    graph.add((sujeto, ECSDI.UnidadesEnStock, Literal(unidadesEnStock, datatype=XSD.int)))
     graph.add((sujeto, ECSDI.Peso, Literal(peso, datatype=XSD.float)))
 
     graph.serialize(destination='../data/ProductsDB', format='turtle')
