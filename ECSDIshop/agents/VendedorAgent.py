@@ -202,7 +202,6 @@ def communication():
 
             # Si la acción es de tipo peticiónCompra emprendemos las acciones consequentes
             if accion == ECSDI.PeticionCompra:
-                logger.info('Recibimos petición de compra')
 
                 # Eliminar los ACLMessage
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):

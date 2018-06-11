@@ -189,7 +189,6 @@ def findProductsByFilter(Nombre=None,PrecioMin=0.0,PrecioMax=sys.float_info.max)
     thread.start()
 
     logger.info("Respondiendo peticion de busqueda")
-    products_graph.serialize(destination='../data/filtrat', format='turtle')
     return products_graph
 
 # Función que registra en la base de datos el filtro solicitado por el usuario

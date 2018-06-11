@@ -326,7 +326,7 @@ if __name__ == '__main__':
     # ------------------------------------------------------------------------------------------------------
     # Run behaviors
     """thread = threading.Thread(target=cobrar)
-    #thread.start()"""
+    thread.start()"""
     ab1 = Process(target=enviadorBehavior, args=(queue,))
     ab1.start()
 
