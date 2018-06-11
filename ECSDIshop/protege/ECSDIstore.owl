@@ -35,9 +35,6 @@
         <Class IRI="#Direccion"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Envio"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Factura"/>
     </Declaration>
     <Declaration>
@@ -120,9 +117,6 @@
     </Declaration>
     <Declaration>
         <Class IRI="#RestriccionDePrecio"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RestriccionDeValoracion"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Restricciones"/>
@@ -380,10 +374,6 @@
         <Class IRI="#RestriccionDePrecio"/>
         <Class IRI="#Restricciones"/>
     </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#RestriccionDeValoracion"/>
-        <Class IRI="#Restricciones"/>
-    </SubClassOf>
     <ClassAssertion>
         <Class IRI="#Producto"/>
         <NamedIndividual IRI="#Producto1"/>
@@ -596,10 +586,6 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Tiene"/>
         <Class IRI="#Stock"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#TieneUn"/>
-        <Class IRI="#Envio"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Valora"/>
@@ -828,14 +814,6 @@
     <DataPropertyDomain>
         <DataProperty IRI="#Prioridad"/>
         <Class IRI="#RespuestaEnvioDesdeCentroLogistico"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#PuntuacionMaxima"/>
-        <Class IRI="#RestriccionDeValoracion"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#PuntuacionMinima"/>
-        <Class IRI="#RestriccionDeValoracion"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#Tarjeta"/>
