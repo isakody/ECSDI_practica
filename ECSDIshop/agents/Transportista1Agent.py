@@ -96,24 +96,25 @@ def getMessageCount():
     return mss_cnt
 
 def prepararOferta(grafoEntrada, content):
+    logger.info("Recibida petición oferta")
     lote = grafoEntrada.value(subject=content, predicate=ECSDI.Para)
     peso = grafoEntrada.value(subject=lote, predicate=ECSDI.Peso)
-    print("Peso lote")
-    print peso
 
     precio = calcularOferta(float(peso))
 
     grafoOferta = Graph()
     grafoOferta.bind('default', ECSDI)
+    logger.info("Haciendo oferta de transporte")
     contentOferta = ECSDI['RespuestaOfertaTransporte'+ str(getMessageCount())]
     grafoOferta.add((contentOferta, RDF.type, ECSDI.RespuestaOfertaTransporte))
     grafoOferta.add((contentOferta, ECSDI.Precio, Literal(precio, datatype=XSD.float)))
-
-
+    logger.info("Devolvemos oferta de transporte")
     return grafoOferta
 
 def calcularOferta(peso):
+    logger.info("Calculando oferta")
     oferta = 5.0 + peso*2
+    logger.info("Oferta calculada: " + oferta)
     return oferta
 
 @app.route("/comm")
@@ -140,7 +141,6 @@ def communication():
             accion = grafoEntrada.value(subject=content, predicate=RDF.type)
 
             if accion == ECSDI.PeticionOfertaTransporte:
-                logger.info('Peticion Oferta Transporte')
                 for item in grafoEntrada.subjects(RDF.type, ACL.FipaAclMessage):
                     grafoEntrada.remove((item, None, None))
 
@@ -149,13 +149,10 @@ def communication():
                 resultadoComunicacion = oferta
 
             elif accion == ECSDI.PeticionEnvioLote:
-                logger.info('Peticion Envio Lote')
-                logger.info('Su pedido llegara el dia:')
-                logger.info(str(datetime.now() + timedelta(days=1)))
-                logger.info('Soy el transportista:')
-                logger.info(Transportista1Agent.name)
+                logger.info('Recibida Peticion Envio Lote')
+                logger.info('Su pedido llegara el dia:' + str(datetime.now() + timedelta(days=1)))
+                logger.info('Soy el transportista:' + Transportista1Agent.name)
 
-    logger.info('Respondemos a la petición de oferta')
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 

@@ -477,7 +477,7 @@ def comunicacion():
 
                 logger.info("Responiendo a peticion de valoracion")
                 resultadoComunicacion = grafoValoraciones;
-    logger.info('Respondemos a la petición de envio')
+
     serialize = resultadoComunicacion.serialize(format='xml')
     return serialize, 200
 
