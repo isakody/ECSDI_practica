@@ -1,5 +1,31 @@
 # ECSDI_practica
 
+## Introduction *in English*
+Assigment for ECSDI in FIB, UPC. A distributed shop system.\
+By Núria Bruch Tàrrega, Isabel Codina García and Borja Fernández Ruizdelgado.\
+*This assignment is in Spanish.*
+
+- Instructions on how to run the shop can be found below.
+- The first and second reports of the assignment are called __ECSDI_Practica_EntregaX_BruchCodinaFernandez.pdf__.
+- ~~The final report of the assignment is called __ECSDI_Practica_EntregaFinal_BruchCodinaFernandez.pdf__.
+- Prometheus diagrams are shown in the reports but can also be found in the file called __ECSDIShop/Prometheus/e-shop.pd__.
+- The ontologies described in Protégé can be found in the file called __ECSDIShop/Protege/ECSDIstore.owl__.
+- The agents can be found in the directory called __ECSDIShop/agents__.
+- The databases are located in the directory called __ECSDIShop/data__.
+
+## Introducción
+Práctica de ECSDI en la FIB, UPC. Una tienda distribuida. \
+Por Núria Bruch Tàrrega, Isabel Codina García and Borja Fernández Ruizdelgado.
+
+- Las instrucciones de como arrancar la tienda se encuentran más adelante.
+- La primera y segunda entrega de la documentación se llaman __ECSDI_Practica_EntregaX_BruchCodinaFernandez.pdf__.
+- ~~La entrega final de la documentación se llama __ECSDI_Practica_EntregaFinal_BruchCodinaFernandez.pdf__.
+- Los diagramas de Prometheus están añadidos en la documentación pero se pueden encontrar en el fichero llamado __ECSDIShop/Prometheus/e-shop.pd__.
+- Las ontologías descritas en Protégé se pueden encontrar en el fichero llamado __ECSDIShop/Protege/ECSDIstore.owl__.
+- Los agentes se encuentran en el directorio llamado __ECSDIShop/agents__.
+- Las bases de datos están en el directorio llamado __ECSDIShop/data__.
+
+
 ## Instrucciones para arrancar los agentes:
 #### 1) Arrancar SimpleDirectoryService
 #### 2) Arrancar TransportistaDirectoryService y CentroLogisticoDirectoryService
@@ -36,4 +62,4 @@
   
  #### 5) Recomendaciones:
  
-  1) Ver base de datos antes de realizar qualquier compra y ver que esta está vacía, mirar después de la demo y observar que esta ha sido rellenada con los productos comprados por el usuario y han sido valorados de manera aleatoria por el agente que representa al usuario.
+  1) Ver base de datos antes de realizar cualquier compra y ver que esta está vacía, mirar después de la demo y observar que esta ha sido rellenada con los productos comprados por el usuario y han sido valorados de manera aleatoria por el agente que representa al usuario.
