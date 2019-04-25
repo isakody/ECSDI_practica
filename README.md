@@ -7,7 +7,7 @@ By Núria Bruch Tàrrega, Isabel Codina García and Borja Fernández Ruizdelgado
 
 - Instructions on how to run the shop can be found below.
 - The first and second reports of the assignment are called __ECSDI_Practica_EntregaX_BruchCodinaFernandez.pdf__.
-- ~~The final report of the assignment is called __ECSDI_Practica_EntregaFinal_BruchCodinaFernandez.pdf__.
+- ~~The final report of the assignment is called __ECSDI_Practica_EntregaFinal_BruchCodinaFernandez.pdf__.~~
 - Prometheus diagrams are shown in the reports but can also be found in the file called __ECSDIShop/Prometheus/e-shop.pd__.
 - The ontologies described in Protégé can be found in the file called __ECSDIShop/Protege/ECSDIstore.owl__.
 - The agents can be found in the directory called __ECSDIShop/agents__.
@@ -19,7 +19,7 @@ Por Núria Bruch Tàrrega, Isabel Codina García and Borja Fernández Ruizdelgad
 
 - Las instrucciones de como arrancar la tienda se encuentran más adelante.
 - La primera y segunda entrega de la documentación se llaman __ECSDI_Practica_EntregaX_BruchCodinaFernandez.pdf__.
-- ~~La entrega final de la documentación se llama __ECSDI_Practica_EntregaFinal_BruchCodinaFernandez.pdf__.
+- ~~La entrega final de la documentación se llama __ECSDI_Practica_EntregaFinal_BruchCodinaFernandez.pdf__.~~
 - Los diagramas de Prometheus están añadidos en la documentación pero se pueden encontrar en el fichero llamado __ECSDIShop/Prometheus/e-shop.pd__.
 - Las ontologías descritas en Protégé se pueden encontrar en el fichero llamado __ECSDIShop/Protege/ECSDIstore.owl__.
 - Los agentes se encuentran en el directorio llamado __ECSDIShop/agents__.
